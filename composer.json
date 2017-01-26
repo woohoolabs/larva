@@ -1,6 +1,6 @@
 {
     "name": "woohoolabs/larva",
-    "description": "Woohoo Labs. Larva ORM",
+    "description": "Woohoo Labs. Larva Query Builder",
     "type": "library",
     "keywords": ["Woohoo Labs.", "Larva", "Query Builder", "MySQL", "Postgre SQL"],
     "license": "MIT",
