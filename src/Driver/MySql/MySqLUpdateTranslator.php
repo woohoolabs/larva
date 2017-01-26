@@ -54,7 +54,7 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
             $values .= "`$rowColumn` = $rowValue, ";
 
             if ($row["type"] === "value") {
-               $params[] = $row["value"];
+                $params[] = $row["value"];
             } else {
                 $params = array_merge($params, $row["params"]);
             }
