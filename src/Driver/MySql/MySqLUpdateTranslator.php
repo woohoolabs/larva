@@ -8,7 +8,7 @@ use WoohooLabs\Larva\Driver\TranslatedQuerySegment;
 use WoohooLabs\Larva\Driver\UpdateTranslatorInterface;
 use WoohooLabs\Larva\Query\Update\UpdateQueryInterface;
 
-class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTranslatorInterface
+class MySqLUpdateTranslator extends AbstractQueryTranslator implements UpdateTranslatorInterface
 {
     /**
      * @var MySqlConditionsTranslator
