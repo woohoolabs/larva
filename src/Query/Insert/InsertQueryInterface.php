@@ -10,6 +10,8 @@ interface InsertQueryInterface extends QueryInterface
 {
     public function getInto(): string;
 
+    public function getColumns(): array;
+
     public function getValues(): array;
 
     /**

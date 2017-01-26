@@ -14,10 +14,16 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
      * @var \WoohooLabs\Larva\Connection\ConnectionInterface
      */
     protected $connection;
+
     /**
      * @var string
      */
     protected $into;
+
+    /**
+     * @var array
+     */
+    protected $columns;
 
     /**
      * @var array
@@ -29,10 +35,16 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
      */
     protected $select;
 
+    public static function create(ConnectionInterface $connection): InsertQueryBuilderInterface
+    {
+        return new InsertQueryBuilder($connection);
+    }
+
     public function __construct(ConnectionInterface $connection)
     {
         $this->connection = $connection;
         $this->into = "";
+        $this->columns = [];
         $this->values = [];
     }
 
@@ -43,9 +55,23 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
         return $this;
     }
 
+    public function columns(array $columns): InsertQueryBuilderInterface
+    {
+        $this->columns = $columns;
+
+        return $this;
+    }
+
     public function values(array $values): InsertQueryBuilderInterface
     {
         $this->values[] = $values;
+
+        return $this;
+    }
+
+    public function multipleValues(array $values): InsertQueryBuilderInterface
+    {
+        $this->values = $values;
 
         return $this;
     }
@@ -86,12 +112,20 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
         return $this->into;
     }
 
+    public function getColumns(): array
+    {
+        return $this->columns;
+    }
+
     public function getValues(): array
     {
         return $this->values;
     }
 
-    public function getSelect(): SelectQueryInterface
+    /**
+     * @return SelectQueryInterface|null
+     */
+    public function getSelect()
     {
         return $this->select;
     }

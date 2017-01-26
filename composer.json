@@ -1,8 +1,8 @@
 {
     "name": "woohoolabs/larva",
-    "description": "Woohoo Labs. Larva Query Builder",
+    "description": "Woohoo Labs. Larva Database Abstraction",
     "type": "library",
-    "keywords": ["Woohoo Labs.", "Larva", "Query Builder", "MySQL", "Postgre SQL"],
+    "keywords": ["Woohoo Labs.", "Larva", "Database Abstraction", "Query Builder"],
     "license": "MIT",
     "authors": [
         {

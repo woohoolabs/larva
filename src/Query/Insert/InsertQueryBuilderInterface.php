@@ -9,7 +9,11 @@ interface InsertQueryBuilderInterface
 {
     public function into(string $table): InsertQueryBuilderInterface;
 
+    public function columns(array $columns): InsertQueryBuilderInterface;
+
     public function values(array $values): InsertQueryBuilderInterface;
+
+    public function multipleValues(array $values): InsertQueryBuilderInterface;
 
     public function select(Closure $select): InsertQueryBuilderInterface;
 

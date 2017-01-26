@@ -8,6 +8,7 @@ use WoohooLabs\Larva\Driver\DriverInterface;
 use WoohooLabs\Larva\Driver\Mysql\MySqlConditionsTranslator;
 use WoohooLabs\Larva\Driver\Mysql\MySqlInsertTranslator;
 use WoohooLabs\Larva\Driver\Mysql\MySqlSelectTranslator;
+use WoohooLabs\Larva\Driver\Mysql\MySqlUpdateTranslator;
 
 class MySqlPdoConnection extends AbstractPdoConnection
 {
@@ -35,10 +36,12 @@ class MySqlPdoConnection extends AbstractPdoConnection
 
     public function getDriver(): DriverInterface
     {
-        $selectTranslator = new MySqlSelectTranslator(new MySqlConditionsTranslator());
+        $conditionsTranslator = new MySqlConditionsTranslator();
+        $selectTranslator = new MySqlSelectTranslator($conditionsTranslator);
         $insertTranslator = new MySqlInsertTranslator($selectTranslator);
+        $updateTranslator = new MySqlUpdateTranslator($conditionsTranslator);
 
-        return new Driver($selectTranslator, $insertTranslator);
+        return new Driver($selectTranslator, $insertTranslator, $updateTranslator);
     }
 
     private function setCharset(string $charset, string $collation)

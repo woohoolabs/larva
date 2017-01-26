@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Woohoo Labs. Larva is an efficient and minimal query builder.**
+**Woohoo Labs. Larva is an efficient and minimal database abstraction library.**
 
 ## Table of Contents
 

@@ -81,7 +81,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
      */
     protected $params = [];
 
-    public static function create(ConnectionInterface $connection): SelectQueryBuilder
+    public static function create(ConnectionInterface $connection): SelectQueryBuilderInterface
     {
         return new SelectQueryBuilder($connection);
     }
