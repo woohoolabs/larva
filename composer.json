@@ -1,0 +1,38 @@
+{
+    "name": "woohoolabs/larva",
+    "description": "Woohoo Labs. Larva ORM",
+    "type": "library",
+    "keywords": ["Woohoo Labs.", "Larva", "Query Builder", "MySQL", "Postgre SQL"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name":"Máté Kocsis",
+            "email":"kocsismate@woohoolabs.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/woohoolabs/larva/issues",
+        "source": "https://github.com/woohoolabs/larva"
+    },
+    "require": {
+        "php": "^7.0.0"
+    },
+    "require-dev": {
+        "phpunit/PHPUnit": "^5.4.0",
+        "squizlabs/php_codesniffer": "^2.1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "WoohooLabs\\Larva\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WoohooLabs\\Larva\\Examples\\": "examples/",
+            "WoohooLabs\\Larva\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

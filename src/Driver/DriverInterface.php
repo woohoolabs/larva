@@ -1,0 +1,14 @@
+<?php
+declare(strict_types=1);
+
+namespace WoohooLabs\Larva\Driver;
+
+use WoohooLabs\Larva\Query\Insert\InsertQueryInterface;
+use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
+
+interface DriverInterface
+{
+    public function translateSelectQuery(SelectQueryInterface $query): TranslatedQuerySegment;
+
+    public function translateInsertQuery(InsertQueryInterface $query): TranslatedQuerySegment;
+}
