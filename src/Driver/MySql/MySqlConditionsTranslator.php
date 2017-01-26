@@ -14,7 +14,6 @@ class MySqlConditionsTranslator
 
         $conditionArray = $conditions->getConditions();
         foreach ($conditionArray as $condition) {
-
             switch ($condition["type"]) {
                 case "column-value":
                     $this->translateColumnToValueCondition($querySegment, $condition);

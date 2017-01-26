@@ -83,8 +83,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         string $operator,
         string $function2,
         array $params = []
-    ): ConditionBuilderInterface
-    {
+    ): ConditionBuilderInterface {
         $this->conditions[] = [
             "type" => "function-function",
             "function1" => $function1,
