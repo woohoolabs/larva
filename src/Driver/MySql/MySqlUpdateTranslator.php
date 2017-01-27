@@ -74,8 +74,10 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
             return [];
         }
 
+        $querySegment = $this->conditionsTranslator->translateConditions($where);
+
         return [
-            $this->conditionsTranslator->translateConditions($where)
+            $this->createTranslatedClause("WHERE", $querySegment->getSql(), $querySegment->getParams())
         ];
     }
 }

@@ -5,6 +5,7 @@ require __DIR__ . "/../vendor/autoload.php";
 
 use WoohooLabs\Larva\Connection\MySqlPdoConnection;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
+use WoohooLabs\Larva\Query\Delete\DeleteQueryBuilder;
 use WoohooLabs\Larva\Query\Insert\InsertQueryBuilder;
 use WoohooLabs\Larva\Query\Select\SelectQueryBuilder;
 use WoohooLabs\Larva\Query\Update\UpdateQueryBuilder;
@@ -22,31 +23,6 @@ $connection = MySqlPdoConnection::create(
     [],
     true
 );
-
-$query = InsertQueryBuilder::create($connection)
-    ->into("students")
-    ->columns(["first_name", "last_name", "birthday"])
-    ->values(["John", "Snow", "1970-01-01"]);
-
-echo "Query:<br/>";
-echo "<pre>";
-print_r($query->getSql());
-echo "</pre>";
-
-$query = UpdateQueryBuilder::create($connection)
-    ->table("students")
-    ->setValues(
-        [
-            "first_name" => "John",
-            "last_name" => "Snow",
-            "birthday" => "1970-01-01",
-        ]
-    );
-
-echo "Query:<br/>";
-echo "<pre>";
-print_r($query->getSql());
-echo "</pre>";
 
 $query = SelectQueryBuilder::create($connection)
     ->from("students", "s")
@@ -125,4 +101,44 @@ echo "</pre>";
 echo "Result Set:<br/>";
 echo "<pre>";
 print_r($query->fetchAll());
+echo "</pre>";
+
+
+$query = InsertQueryBuilder::create($connection)
+    ->into("students")
+    ->columns(["first_name", "last_name", "birthday"])
+    ->values(["John", "Snow", "1970-01-01"]);
+
+echo "Query:<br/>";
+echo "<pre>";
+print_r($query->getSql());
+echo "</pre>";
+
+$query = UpdateQueryBuilder::create($connection)
+    ->table("students")
+    ->setValues(
+        [
+            "first_name" => "John",
+            "last_name" => "Snow",
+            "birthday" => "1970-01-01",
+        ]
+    )
+    ->where(function(ConditionBuilderInterface $where) {
+        $where->raw("id = ?", [1]);
+    });
+
+echo "Query:<br/>";
+echo "<pre>";
+print_r($query->getSql());
+echo "</pre>";
+
+$query = DeleteQueryBuilder::create($connection)
+    ->from("students")
+    ->where(function (ConditionBuilderInterface $where) {
+        $where->raw("id = 1");
+    });
+
+echo "Query:<br/>";
+echo "<pre>";
+print_r($query->getSql());
 echo "</pre>";

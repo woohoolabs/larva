@@ -6,6 +6,7 @@ namespace WoohooLabs\Larva\Connection;
 use PDO;
 use PDOStatement;
 use Traversable;
+use WoohooLabs\Larva\Driver\DriverInterface;
 
 abstract class AbstractPdoConnection implements ConnectionInterface
 {
@@ -17,9 +18,16 @@ abstract class AbstractPdoConnection implements ConnectionInterface
     private $fetchStyle = PDO::FETCH_ASSOC;
 
     /**
+     * @var DriverInterface
+     */
+    private $driver;
+
+    /**
      * @var Logger
      */
     private $logger;
+
+    protected abstract function createDriver(): DriverInterface;
 
     protected function __construct(
         string $dsn,
@@ -34,6 +42,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
             $this->pdo->setAttribute($key, $option);
         }
 
+        $this->driver = $this->createDriver();
         $this->logger = new Logger($isLogging);
     }
 
@@ -100,6 +109,11 @@ abstract class AbstractPdoConnection implements ConnectionInterface
     public function getLastInsertedId($name = null)
     {
         return $this->pdo->lastInsertId($name);
+    }
+
+    public function getDriver(): DriverInterface
+    {
+        return $this->driver;
     }
 
     public function getLog(): array

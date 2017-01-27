@@ -6,6 +6,7 @@ namespace WoohooLabs\Larva\Connection;
 use WoohooLabs\Larva\Driver\Driver;
 use WoohooLabs\Larva\Driver\DriverInterface;
 use WoohooLabs\Larva\Driver\Mysql\MySqlConditionsTranslator;
+use WoohooLabs\Larva\Driver\Mysql\MySqlDeleteTranslator;
 use WoohooLabs\Larva\Driver\Mysql\MySqlInsertTranslator;
 use WoohooLabs\Larva\Driver\Mysql\MySqlSelectTranslator;
 use WoohooLabs\Larva\Driver\Mysql\MySqlUpdateTranslator;
@@ -34,14 +35,15 @@ class MySqlPdoConnection extends AbstractPdoConnection
         return $self;
     }
 
-    public function getDriver(): DriverInterface
+    protected function createDriver(): DriverInterface
     {
         $conditionsTranslator = new MySqlConditionsTranslator();
         $selectTranslator = new MySqlSelectTranslator($conditionsTranslator);
         $insertTranslator = new MySqlInsertTranslator($selectTranslator);
         $updateTranslator = new MySqlUpdateTranslator($conditionsTranslator);
+        $deleteTranslator = new MySqlDeleteTranslator($conditionsTranslator);
 
-        return new Driver($selectTranslator, $insertTranslator, $updateTranslator);
+        return new Driver($selectTranslator, $insertTranslator, $updateTranslator, $deleteTranslator);
     }
 
     private function setCharset(string $charset, string $collation)
