@@ -103,7 +103,6 @@ echo "<pre>";
 print_r($query->fetchAll());
 echo "</pre>";
 
-
 $query = InsertQueryBuilder::create($connection)
     ->into("students")
     ->columns(["first_name", "last_name", "birthday"])
@@ -123,7 +122,7 @@ $query = UpdateQueryBuilder::create($connection)
             "birthday" => "1970-01-01",
         ]
     )
-    ->where(function(ConditionBuilderInterface $where) {
+    ->where(function (ConditionBuilderInterface $where) {
         $where->raw("id = ?", [1]);
     });
 

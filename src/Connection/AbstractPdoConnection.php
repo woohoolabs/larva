@@ -27,7 +27,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
      */
     private $logger;
 
-    protected abstract function createDriver(): DriverInterface;
+    abstract protected function createDriver(): DriverInterface;
 
     protected function __construct(
         string $dsn,
