@@ -1,6 +1,12 @@
 <?php
 declare(strict_types=1);
 
+error_reporting(E_ALL);
+ini_set("display_errors", "1");
+header('Content-Type: text/html; charset=utf-8');
+mb_internal_encoding("UTF-8");
+mb_http_output('UTF-8');
+
 require __DIR__ . "/../vendor/autoload.php";
 
 use WoohooLabs\Larva\Connection\MySqlPdoConnection;
@@ -106,7 +112,8 @@ echo "</pre>";
 $query = InsertQueryBuilder::create($connection)
     ->into("students")
     ->columns(["first_name", "last_name", "birthday"])
-    ->values(["John", "Snow", "1970-01-01"]);
+    ->values(["John", "Snow", "1970-01-01"])
+    ->values(["John", "Connor", "1971-01-01"]);
 
 echo "Query:<br/>";
 echo "<pre>";

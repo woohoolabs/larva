@@ -29,8 +29,8 @@ class MySqlPdoConnection extends AbstractPdoConnection
         $dsn = "$driver:host=$host;dbname=$database;port=$port;charset=$charset";
 
         $self = new MySqlPdoConnection($dsn, $username, $password, $options, $isLogging);
-        $self->setCharset($charset, $collation);
         $self->setModes($modes);
+        $self->setCharset($charset, $collation);
 
         return $self;
     }

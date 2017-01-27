@@ -51,7 +51,7 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
 
     private function translateValues(InsertQueryInterface $query)
     {
-        $values = "(";
+        $values = "";
         $params = [];
 
         foreach ($query->getValues() as $row) {
@@ -59,7 +59,6 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
             $params = array_merge($params, array_values($row));
         }
         $values = rtrim($values, ",");
-        $values .= ")";
 
         return [
             $this->createTranslatedClause("VALUES", $values, $params)

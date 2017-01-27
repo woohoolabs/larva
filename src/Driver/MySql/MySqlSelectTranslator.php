@@ -89,7 +89,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $segments = [];
         $params = [];
         foreach ($joins as $join) {
-            if ($join["on"]) {
+            if (isset($join["on"])) {
                 $conditionSegment = $this->conditionsTranslator->translateConditions($join["on"]);
                 $params = $conditionSegment->getParams();
 
