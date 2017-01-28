@@ -24,7 +24,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     /**
      * @var array
      */
-    protected $select = [];
+    protected $fields = [];
 
     /**
      * @var array
@@ -93,9 +93,9 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         $this->having = new ConditionBuilder($this->connection);
     }
 
-    public function select(array $fields): SelectQueryBuilderInterface
+    public function fields(array $fields): SelectQueryBuilderInterface
     {
-        $this->select = $fields;
+        $this->fields = $fields;
 
         return $this;
     }
@@ -248,9 +248,9 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->connection->getDriver()->translateSelectQuery($this)->getParams();
     }
 
-    public function getSelect(): array
+    public function getFields(): array
     {
-        return $this->select;
+        return $this->fields;
     }
 
     public function isDistinct(): bool

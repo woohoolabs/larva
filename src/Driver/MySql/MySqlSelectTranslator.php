@@ -41,11 +41,11 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
     {
         $distinct = $query->isDistinct() ? " DISTINCT" : "";
 
-        if (empty($query->getSelect())) {
+        if (empty($query->getFields())) {
             return $this->createTranslatedClause("SELECT$distinct", "*");
         }
 
-        return $this->createTranslatedClause("SELECT$distinct", implode(",", $query->getSelect()));
+        return $this->createTranslatedClause("SELECT$distinct", implode(",", $query->getFields()));
     }
 
     private function translateFrom(SelectQueryInterface $query): array

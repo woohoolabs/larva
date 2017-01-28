@@ -8,7 +8,7 @@ use WoohooLabs\Larva\Query\QueryInterface;
 
 interface SelectQueryInterface extends QueryInterface
 {
-    public function getSelect(): array;
+    public function getFields(): array;
 
     public function isDistinct(): bool;
 

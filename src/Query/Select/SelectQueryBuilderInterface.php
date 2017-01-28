@@ -8,7 +8,7 @@ use Traversable;
 
 interface SelectQueryBuilderInterface
 {
-    public function select(array $fields): SelectQueryBuilderInterface;
+    public function fields(array $fields): SelectQueryBuilderInterface;
 
     public function distinct(bool $isDistinct = true): SelectQueryBuilderInterface;
 

@@ -64,7 +64,7 @@ print_r($query->fetchAll());
 echo "</pre>";
 
 $query = SelectQueryBuilder::create($connection)
-    ->select(["s.*"])
+    ->fields(["s.*"])
     ->distinct()
     ->from("courses", "c")
     ->join("classes", "cl")
