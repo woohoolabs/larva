@@ -28,7 +28,7 @@ $connection = MySqlPdoConnection::create(
     true
 );
 
-$query = SelectQueryBuilder::create($connection)
+$result1 = SelectQueryBuilder::create($connection)
     ->from("students", "s")
     ->where(
         function (ConditionBuilderInterface $where) {
@@ -46,24 +46,10 @@ $query = SelectQueryBuilder::create($connection)
         }
     )
     ->limit(10)
-    ->offset(0);
+    ->offset(0)
+    ->fetchAll();
 
-echo "Query:<br/>";
-echo "<pre>";
-print_r($query->getSql());
-echo "</pre>";
-
-echo "Params:<br/>";
-echo "<pre>";
-print_r($query->getParams());
-echo "</pre>";
-
-echo "Result Set:<br/>";
-echo "<pre>";
-print_r($query->fetchAll());
-echo "</pre>";
-
-$query = SelectQueryBuilder::create($connection)
+$result2 = SelectQueryBuilder::create($connection)
     ->fields(["s.*"])
     ->distinct()
     ->from("courses", "c")
@@ -90,35 +76,17 @@ $query = SelectQueryBuilder::create($connection)
             $on->raw("c.id = ?", [2]);
         }
     )
-    ->orderBy("s.id", "ASC");
+    ->orderBy("s.id", "ASC")
+    ->fetchAll();
 
-echo "Query:<br/>";
-echo "<pre>";
-print_r($query->getSql());
-echo "</pre>";
-
-echo "Params:<br/>";
-echo "<pre>";
-print_r($query->getParams());
-echo "</pre>";
-
-echo "Result Set:<br/>";
-echo "<pre>";
-print_r($query->fetchAll());
-echo "</pre>";
-
-$query = InsertQueryBuilder::create($connection)
+InsertQueryBuilder::create($connection)
     ->into("students")
-    ->columns(["first_name", "last_name", "birthday"])
-    ->values(["John", "Snow", "1970-01-01"])
-    ->values(["John", "Connor", "1971-01-01"]);
+    ->columns(["first_name", "last_name", "birthday", "gender", "introduction"])
+    ->values(["John", "Snow", "1970-01-01", "MALE", ""])
+    ->values(["John", "Connor", "1971-01-01", "MALE", ""])
+    ->execute();
 
-echo "Query:<br/>";
-echo "<pre>";
-print_r($query->getSql());
-echo "</pre>";
-
-$query = UpdateQueryBuilder::create($connection)
+UpdateQueryBuilder::create($connection)
     ->table("students")
     ->setValues(
         [
@@ -129,20 +97,23 @@ $query = UpdateQueryBuilder::create($connection)
     )
     ->where(function (ConditionBuilderInterface $where) {
         $where->raw("id = ?", [1]);
-    });
+    })
+    ->execute();
 
-echo "Query:<br/>";
-echo "<pre>";
-print_r($query->getSql());
-echo "</pre>";
-
-$query = DeleteQueryBuilder::create($connection)
+DeleteQueryBuilder::create($connection)
     ->from("students")
     ->where(function (ConditionBuilderInterface $where) {
         $where->raw("id = 1");
-    });
+    })
+    ->execute();
 
-echo "Query:<br/>";
+echo "<h1>LOG:</h1>";
 echo "<pre>";
-print_r($query->getSql());
+print_r($connection->getLog());
+
+echo "<h1>RESULT SET 1:</h1>";
+print_r($result1);
+
+echo "<h1>RESULT SET 2:</h1>";
+print_r($result2);
 echo "</pre>";

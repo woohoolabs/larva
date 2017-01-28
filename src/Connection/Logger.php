@@ -20,7 +20,19 @@ class Logger
         $this->isEnabled = $isEnabled;
     }
 
-    public function log(string $query, bool $result, array $params = [])
+    /**
+     * @return float|null
+     */
+    public function getTime()
+    {
+        if ($this->isEnabled === false) {
+            return null;
+        }
+
+        return microtime(true);
+    }
+
+    public function log(string $sql, bool $result, array $params = [], float $started = null, float $ended = null)
     {
         if ($this->isEnabled === false) {
             return;
@@ -28,14 +40,20 @@ class Logger
 
         $this->log[] = [
             "time" => date("Y-m-d H:i:s"),
-            "query" => "$query",
-            "params" => $params,
+            "duration" => $started && $ended ? ($ended - $started) * 1000 : null,
             "result" => $result,
+            "sql" => "$sql",
+            "params" => $params,
         ];
     }
 
     public function getLog(): array
     {
         return $this->log;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->isEnabled;
     }
 }

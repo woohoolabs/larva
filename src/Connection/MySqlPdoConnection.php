@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Connection;
 
+use PDO;
 use WoohooLabs\Larva\Driver\Driver;
 use WoohooLabs\Larva\Driver\DriverInterface;
 use WoohooLabs\Larva\Driver\Mysql\MySqlConditionsTranslator;
@@ -27,12 +28,9 @@ class MySqlPdoConnection extends AbstractPdoConnection
         bool $isLogging
     ): ConnectionInterface {
         $dsn = "$driver:host=$host;dbname=$database;port=$port;charset=$charset";
+        $options[PDO::MYSQL_ATTR_INIT_COMMAND] = self::getInitCommand($charset, $collation, $modes);
 
-        $self = new MySqlPdoConnection($dsn, $username, $password, $options, $isLogging);
-        $self->setModes($modes);
-        $self->setCharset($charset, $collation);
-
-        return $self;
+        return new MySqlPdoConnection($dsn, $username, $password, $options, $isLogging);
     }
 
     protected function createDriver(): DriverInterface
@@ -46,31 +44,20 @@ class MySqlPdoConnection extends AbstractPdoConnection
         return new Driver($selectTranslator, $insertTranslator, $updateTranslator, $deleteTranslator);
     }
 
-    private function setCharset(string $charset, string $collation)
+    private static function getInitCommand(string $charset, string $collation, array $modes)
     {
-        if (empty($charset)) {
-            return;
-        }
+        // Setup modes
+        $defaultModes = [
+            "ONLY_FULL_GROUP_BY",
+            "STRICT_TRANS_TABLES",
+            "NO_ZERO_IN_DATE",
+            "NO_ZERO_DATE",
+            "ERROR_FOR_DIVISION_BY_ZERO",
+            "NO_AUTO_CREATE_USER",
+            "NO_ENGINE_SUBSTITUTION",
+        ];
+        $modesString = implode(",", $modes + $defaultModes);
 
-        $collation = $collation ? $collation : "";
-        $this->execute("SET NAMES '$charset' COLLATE '$collation'");
-    }
-
-    private function setModes(array $modes)
-    {
-        if (empty($modes)) {
-            $modes = [
-                "ONLY_FULL_GROUP_BY",
-                "STRICT_TRANS_TABLES",
-                "NO_ZERO_IN_DATE",
-                "NO_ZERO_DATE",
-                "ERROR_FOR_DIVISION_BY_ZERO",
-                "NO_AUTO_CREATE_USER",
-                "NO_ENGINE_SUBSTITUTION",
-            ];
-        }
-
-        $modesString = implode(",", $modes);
-        $this->execute("SET SESSION SQL_MODE='$modesString'");
+        return "SET SESSION SQL_MODE='$modesString', NAMES '$charset' COLLATE '$collation';";
     }
 }

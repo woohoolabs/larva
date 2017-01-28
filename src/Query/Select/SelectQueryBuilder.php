@@ -153,7 +153,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function on(Closure $on = null): SelectQueryBuilderInterface
+    public function on(Closure $on): SelectQueryBuilderInterface
     {
         $queryBuilder = new ConditionBuilder($this->connection);
         $on($queryBuilder);
@@ -166,16 +166,9 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function where(Closure $condition): SelectQueryBuilderInterface
+    public function where(Closure $where): SelectQueryBuilderInterface
     {
-        $condition($this->where);
-
-        return $this;
-    }
-
-    public function having(Closure $condition): SelectQueryBuilderInterface
-    {
-        $condition($this->having);
+        $where($this->where);
 
         return $this;
     }
@@ -192,6 +185,13 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         foreach ($attributes as $attribute) {
             $this->groupBy($attribute);
         }
+
+        return $this;
+    }
+
+    public function having(Closure $having): SelectQueryBuilderInterface
+    {
+        $having($this->having);
 
         return $this;
     }

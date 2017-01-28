@@ -16,21 +16,21 @@ interface SelectQueryBuilderInterface
 
     public function fromSubquery(Closure $subquery, string $alias): SelectQueryBuilderInterface;
 
-    public function where(Closure $condition): SelectQueryBuilderInterface;
-
     public function leftJoin(string $table, string $alias = ""): SelectQueryBuilderInterface;
 
     public function rightJoin(string $table, string $alias = ""): SelectQueryBuilderInterface;
 
     public function join(string $table, string $alias = "", string $type = ""): SelectQueryBuilderInterface;
 
-    public function on(Closure $condition): SelectQueryBuilderInterface;
+    public function on(Closure $on): SelectQueryBuilderInterface;
 
-    public function having(Closure $condition): SelectQueryBuilderInterface;
+    public function where(Closure $where): SelectQueryBuilderInterface;
 
     public function groupBy(string $attribute): SelectQueryBuilderInterface;
 
     public function groupByAttributes(array $attributes): SelectQueryBuilderInterface;
+
+    public function having(Closure $having): SelectQueryBuilderInterface;
 
     public function orderBy(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface;
 

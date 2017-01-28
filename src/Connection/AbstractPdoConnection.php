@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Connection;
 
+use Closure;
 use PDO;
 use PDOStatement;
 use Traversable;
@@ -11,11 +12,14 @@ use WoohooLabs\Larva\Driver\DriverInterface;
 abstract class AbstractPdoConnection implements ConnectionInterface
 {
     /**
+     * @var array
+     */
+    protected $settings;
+
+    /**
      * @var \PDO
      */
     private $pdo;
-
-    private $fetchStyle = PDO::FETCH_ASSOC;
 
     /**
      * @var DriverInterface
@@ -36,37 +40,37 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         array $options,
         bool $isLogging
     ) {
-        $this->pdo = new PDO($dsn, $username, $password, $options);
-
-        foreach ($options as $key => $option) {
-            $this->pdo->setAttribute($key, $option);
-        }
-
+        $this->settings = [
+            "dsn" => $dsn,
+            "username" => $username,
+            "password" => $password,
+            "options" => $options,
+        ];
         $this->driver = $this->createDriver();
         $this->logger = new Logger($isLogging);
     }
 
     public function fetchAll(string $sql, array $params = []): array
     {
-        $statement = $this->pdo->prepare($sql);
+        $statement = $this->getPdo()->prepare($sql);
         $this->executePreparedStatement($statement, $sql, $params);
 
-        return $statement->fetchAll($this->fetchStyle);
+        return $statement->fetchAll();
     }
 
     public function fetch(string $sql, array $params = []): Traversable
     {
-        $statement = $this->pdo->prepare($sql);
+        $statement = $this->getPdo()->prepare($sql);
         $this->executePreparedStatement($statement, $sql, $params);
 
         while ($statement->nextRowset()) {
-            yield $statement->fetch($this->fetchStyle);
+            yield $statement->fetch();
         }
     }
 
     public function fetchColumn(string $sql, array $params = []): string
     {
-        $statement = $this->pdo->prepare($sql);
+        $statement = $this->getPdo()->prepare($sql);
         $this->executePreparedStatement($statement, $sql, $params);
 
         return $statement->fetchColumn();
@@ -74,41 +78,47 @@ abstract class AbstractPdoConnection implements ConnectionInterface
 
     public function execute(string $sql, array $params = []): bool
     {
-        $statement = $this->pdo->prepare($sql);
+        $statement = $this->getPdo()->prepare($sql);
 
         return $this->executePreparedStatement($statement, $sql, $params);
     }
 
     public function beginTransaction(): bool
     {
-        $result = $this->pdo->beginTransaction();
-
-        $this->logger->log("BEGIN", $result);
-
-        return $result;
+        return $this->executeSql(
+            "BEGIN",
+            [],
+            function () {
+                return $this->getPdo()->beginTransaction();
+            }
+        );
     }
 
     public function commit(): bool
     {
-        $result = $this->pdo->commit();
-
-        $this->logger->log("COMMIT", $result);
-
-        return $result;
+        return $this->executeSql(
+            "COMMIT",
+            [],
+            function () {
+                return $this->getPdo()->beginTransaction();
+            }
+        );
     }
 
     public function rollback(): bool
     {
-        $result = $this->pdo->rollBack();
-
-        $this->logger->log("ROLLBACK", $result);
-
-        return $result;
+        return $this->executeSql(
+            "ROLLBACK",
+            [],
+            function () {
+                return $this->getPdo()->beginTransaction();
+            }
+        );
     }
 
     public function getLastInsertedId($name = null)
     {
-        return $this->pdo->lastInsertId($name);
+        return $this->getPdo()->lastInsertId($name);
     }
 
     public function getDriver(): DriverInterface
@@ -121,7 +131,21 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         return $this->logger->getLog();
     }
 
-    protected function getDefaultAttributes(): array
+    public function getPdo(): PDO
+    {
+        if ($this->pdo === null) {
+            $this->pdo = new PDO(
+                $this->settings["dsn"],
+                $this->settings["username"],
+                $this->settings["password"],
+                $this->settings["options"] + $this->getDefaultAttributes()
+            );
+        }
+
+        return $this->pdo;
+    }
+
+    private function getDefaultAttributes(): array
     {
         return [
             PDO::ATTR_CASE => PDO::CASE_NATURAL,
@@ -129,6 +153,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
             PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
             PDO::ATTR_STRINGIFY_FETCHES => false,
             PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ];
     }
 
@@ -148,9 +173,24 @@ abstract class AbstractPdoConnection implements ConnectionInterface
             $statement->bindValue($bindKey, $value, $bindType);
         }
 
-        $result = $statement->execute();
+        return $this->executeSql(
+            $sql,
+            $params,
+            function () use ($statement) {
+                return $statement->execute();
+            }
+        );
+    }
 
-        $this->logger->log($sql, $result, $params);
+    private function executeSql(string $sql, array $params, Closure $query): bool
+    {
+        $t1 = $this->logger->getTime();
+
+        $result = $query();
+
+        $t2 = $this->logger->getTime();
+
+        $this->logger->log($sql, $result, $params, $t1, $t2);
 
         return $result;
     }
