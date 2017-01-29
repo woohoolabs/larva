@@ -42,7 +42,7 @@ class Logger
             "time" => date("Y-m-d H:i:s"),
             "duration" => $started && $ended ? ($ended - $started) * 1000 : null,
             "result" => $result,
-            "sql" => "$sql",
+            "sql" => $sql,
             "params" => $params,
         ];
     }
