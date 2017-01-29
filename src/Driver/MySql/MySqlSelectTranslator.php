@@ -95,7 +95,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
                 $on = $conditionSegment->getSql();
 
-                $segments[] = $this->createTranslatedClause("ON", "$on", $params);
+                $segments[] = $this->createTranslatedClause("ON", "($on)", $params);
             } else {
                 $type = $join["type"] ? $join["type"] : "";
                 $table = $join["table"];
