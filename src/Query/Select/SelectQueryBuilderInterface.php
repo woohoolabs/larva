@@ -5,6 +5,7 @@ namespace WoohooLabs\Larva\Query\Select;
 
 use Closure;
 use Traversable;
+use WoohooLabs\Larva\Connection\ConnectionInterface;
 
 interface SelectQueryBuilderInterface
 {
@@ -53,4 +54,6 @@ interface SelectQueryBuilderInterface
     public function getSql(): string;
 
     public function getParams(): array;
+
+    public function getConnection(): ConnectionInterface;
 }

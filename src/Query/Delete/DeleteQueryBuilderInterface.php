@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Delete;
 
 use Closure;
+use WoohooLabs\Larva\Connection\ConnectionInterface;
 
 interface DeleteQueryBuilderInterface
 {
@@ -16,4 +17,6 @@ interface DeleteQueryBuilderInterface
     public function getSql(): string;
 
     public function getParams(): array;
+
+    public function getConnection(): ConnectionInterface;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Update;
 
 use Closure;
+use WoohooLabs\Larva\Connection\ConnectionInterface;
 
 interface UpdateQueryBuilderInterface
 {
@@ -24,4 +25,6 @@ interface UpdateQueryBuilderInterface
     public function getSql(): string;
 
     public function getParams(): array;
+
+    public function getConnection(): ConnectionInterface;
 }
