@@ -22,7 +22,7 @@ interface ConnectionInterface
 
     public function rollback(): bool;
 
-    public function getLastInsertedId();
+    public function getLastInsertedId(string $name = null): string;
 
     public function getDriver(): DriverInterface;
 

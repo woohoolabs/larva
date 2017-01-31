@@ -243,9 +243,11 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function lock(string $mode)
+    public function lock(string $mode): SelectQueryBuilderInterface
     {
         $this->lock = $mode;
+
+        return $this;
     }
 
     public function fetchAll(): array

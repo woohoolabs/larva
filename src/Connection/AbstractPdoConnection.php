@@ -116,7 +116,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         );
     }
 
-    public function getLastInsertedId($name = null)
+    public function getLastInsertedId(string $name = null): string
     {
         return $this->getPdo()->lastInsertId($name);
     }
