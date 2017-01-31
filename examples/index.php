@@ -29,11 +29,12 @@ $connection = MySqlPdoConnection::create(
 );
 
 $result1 = SelectQueryBuilder::create($connection)
+    ->selectColumn("*", "s")
     ->from("students", "s")
     ->where(
         function (ConditionBuilderInterface $where) {
             $where
-                ->raw("last_name LIKE ?", ["%a%"])
+                ->raw("`last_name` LIKE ?", ["%a%"])
                 ->and()
                 ->nested(
                     function (ConditionBuilderInterface $where) {
@@ -50,7 +51,7 @@ $result1 = SelectQueryBuilder::create($connection)
     ->fetchAll();
 
 $result2 = SelectQueryBuilder::create($connection)
-    ->fields(["s.*"])
+    ->select(["s.*"])
     ->distinct()
     ->from("courses", "c")
     ->join("classes", "cl")

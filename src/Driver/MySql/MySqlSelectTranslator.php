@@ -42,11 +42,34 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
     {
         $distinct = $query->isDistinct() ? " DISTINCT" : "";
 
-        if (empty($query->getFields())) {
+        $selectExpressions = $this->getSelectExpressions($query);
+
+        if (empty($selectExpressions)) {
             return $this->createTranslatedClause("SELECT$distinct", "*");
         }
 
-        return $this->createTranslatedClause("SELECT$distinct", implode(",", $query->getFields()));
+        return $this->createTranslatedClause("SELECT$distinct", implode(",", $selectExpressions));
+    }
+
+    private function getSelectExpressions(SelectQueryInterface $query): array
+    {
+        $expressions = [];
+
+        foreach ($query->getSelectExpressions() as $item) {
+            $prefix = $item["prefix"] ? "`" . $item["prefix"] . "`." : "";
+
+            if ($item["type"] === "column" && $item["expression"] !== "*") {
+                $expression = "`" . $item["column"] . "`";
+            } else {
+                $expression = $item["expression"];
+            }
+
+            $alias = $item["alias"] ? " AS `" . $item["alias"] . "`" : "";
+
+            $expressions[] = "$prefix$expression$alias";
+        }
+
+        return $expressions;
     }
 
     private function translateFrom(SelectQueryInterface $query): array
@@ -57,7 +80,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
             return [];
         }
 
-        $alias = empty($from["alias"]) ? "" : " AS " . $from["alias"];
+        $alias = empty($from["alias"]) ? "" : " AS `" . $from["alias"] . "`";
 
         if ($from["type"] === "subquery") {
             $subselectSegment = $this->translateSelect($from["from"]);
@@ -100,7 +123,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
             } else {
                 $type = $join["type"] ? $join["type"] : "";
                 $table = $join["table"];
-                $alias = empty($join["alias"]) ? "" : " AS " . $join["alias"];
+                $alias = empty($join["alias"]) ? "" : " AS `" . $join["alias"] . "`";
 
                 $segments[] = $this->createTranslatedClause("${type}JOIN", "`${table}`${alias}", $params);
             }

@@ -13,22 +13,22 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
     /**
      * @var \WoohooLabs\Larva\Connection\ConnectionInterface
      */
-    protected $connection;
+    private $connection;
 
     /**
      * @var array
      */
-    protected $table;
+    private $table;
 
     /**
      * @var array
      */
-    protected $values;
+    private $values;
 
     /**
      * @var ConditionBuilder
      */
-    protected $where;
+    private $where;
 
     public static function create(ConnectionInterface $connection): UpdateQueryBuilderInterface
     {

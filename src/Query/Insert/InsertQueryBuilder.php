@@ -13,27 +13,27 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
     /**
      * @var \WoohooLabs\Larva\Connection\ConnectionInterface
      */
-    protected $connection;
+    private $connection;
 
     /**
      * @var string
      */
-    protected $into;
+    private $into;
 
     /**
      * @var array
      */
-    protected $columns;
+    private $columns;
 
     /**
      * @var array
      */
-    protected $values;
+    private $values;
 
     /**
      * @var SelectQueryInterface
      */
-    protected $select;
+    private $select;
 
     public static function create(ConnectionInterface $connection): InsertQueryBuilderInterface
     {

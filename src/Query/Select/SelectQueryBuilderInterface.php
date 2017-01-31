@@ -9,7 +9,11 @@ use WoohooLabs\Larva\Connection\ConnectionInterface;
 
 interface SelectQueryBuilderInterface
 {
-    public function fields(array $fields): SelectQueryBuilderInterface;
+    public function select(array $expressions): SelectQueryBuilderInterface;
+
+    public function selectExpression(string $expression, string $alias = ""): SelectQueryBuilderInterface;
+
+    public function selectColumn(string $column, string $prefix = "", string $alias = ""): SelectQueryBuilderInterface;
 
     public function distinct(bool $isDistinct = true): SelectQueryBuilderInterface;
 

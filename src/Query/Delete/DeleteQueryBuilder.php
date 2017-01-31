@@ -13,17 +13,17 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
     /**
      * @var \WoohooLabs\Larva\Connection\ConnectionInterface
      */
-    protected $connection;
+    private $connection;
 
     /**
      * @var string
      */
-    protected $from;
+    private $from;
 
     /**
      * @var ConditionBuilder
      */
-    protected $where;
+    private $where;
 
     public static function create(ConnectionInterface $connection): DeleteQueryBuilderInterface
     {

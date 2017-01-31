@@ -14,67 +14,67 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     /**
      * @var \WoohooLabs\Larva\Connection\ConnectionInterface
      */
-    protected $connection;
+    private $connection;
 
     /**
      * @var bool
      */
-    protected $distinct = false;
+    private $distinct = false;
 
     /**
      * @var array
      */
-    protected $fields = [];
+    private $select = [];
 
     /**
      * @var array
      */
-    protected $from = [];
+    private $from = [];
 
     /**
      * @var array
      */
-    protected $aggregate = [];
+    private $aggregate = [];
 
     /**
      * @var array
      */
-    protected $join = [];
+    private $join = [];
 
     /**
      * @var ConditionBuilder
      */
-    protected $where;
+    private $where;
 
     /**
      * @var array
      */
-    protected $groupBy = [];
+    private $groupBy = [];
 
     /**
      * @var ConditionBuilder
      */
-    protected $having;
+    private $having;
 
     /**
      * @var array
      */
-    protected $orderBy = [];
+    private $orderBy = [];
 
     /**
      * @var int|null
      */
-    protected $limit;
+    private $limit;
 
     /**
      * @var int|null
      */
-    protected $offset;
+    private $offset;
 
     /**
      * @var array
      */
-    protected $union = [];
+    private $union = [];
 
     /**
      * @var string
@@ -84,7 +84,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     /**
      * @var array
      */
-    protected $params = [];
+    private $params = [];
 
     public static function create(ConnectionInterface $connection): SelectQueryBuilderInterface
     {
@@ -98,9 +98,35 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         $this->having = new ConditionBuilder($this->connection);
     }
 
-    public function fields(array $fields): SelectQueryBuilderInterface
+    public function select(array $expressions): SelectQueryBuilderInterface
     {
-        $this->fields = $fields;
+        foreach ($expressions as $field) {
+            $this->selectExpression($field);
+        }
+
+        return $this;
+    }
+
+    public function selectExpression(string $expression, string $alias = ""): SelectQueryBuilderInterface
+    {
+        $this->select[] = [
+            "type" => "expression",
+            "prefix" => "",
+            "expression" => $expression,
+            "alias" => $alias,
+        ];
+
+        return $this;
+    }
+
+    public function selectColumn(string $column, string $prefix = "", string $alias = ""): SelectQueryBuilderInterface
+    {
+        $this->select[] = [
+            "type" => "column",
+            "prefix" => $prefix,
+            "expression" => $column,
+            "alias" => $alias,
+        ];
 
         return $this;
     }
@@ -258,9 +284,9 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->connection->getDriver()->translateSelectQuery($this)->getParams();
     }
 
-    public function getFields(): array
+    public function getSelectExpressions(): array
     {
-        return $this->fields;
+        return $this->select;
     }
 
     public function isDistinct(): bool
