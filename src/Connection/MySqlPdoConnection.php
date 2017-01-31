@@ -25,7 +25,7 @@ class MySqlPdoConnection extends AbstractPdoConnection
         string $collation = "utf8mb4_unicode_ci",
         array $modes = [],
         array $options = [],
-        bool $isLogging
+        bool $isLogging = false
     ): ConnectionInterface {
         $dsn = "$driver:host=$host;dbname=$database;port=$port;charset=$charset";
         $options[PDO::MYSQL_ATTR_INIT_COMMAND] = self::getInitCommand($charset, $collation, $modes);
@@ -44,9 +44,8 @@ class MySqlPdoConnection extends AbstractPdoConnection
         return new Driver($selectTranslator, $insertTranslator, $updateTranslator, $deleteTranslator);
     }
 
-    private static function getInitCommand(string $charset, string $collation, array $modes)
+    private static function getInitCommand(string $charset, string $collation, array $modes): string
     {
-        // Setup modes
         $defaultModes = [
             "ONLY_FULL_GROUP_BY",
             "STRICT_TRANS_TABLES",
