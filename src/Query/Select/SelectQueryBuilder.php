@@ -77,6 +77,11 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     protected $union = [];
 
     /**
+     * @var string
+     */
+    private $lock = "";
+
+    /**
      * @var array
      */
     protected $params = [];
@@ -217,6 +222,11 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
+    public function lock(string $mode)
+    {
+        $this->lock = $mode;
+    }
+
     public function fetchAll(): array
     {
         $query = $this->connection->getDriver()->translateSelectQuery($this);
@@ -312,6 +322,11 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     public function getUnion(): array
     {
         return $this->union;
+    }
+
+    public function getLock(): string
+    {
+        return $this->lock;
     }
 
     public function getConnection(): ConnectionInterface

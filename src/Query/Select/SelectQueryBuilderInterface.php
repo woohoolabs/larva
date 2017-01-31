@@ -35,6 +35,8 @@ interface SelectQueryBuilderInterface
 
     public function orderBy(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface;
 
+    public function lock(string $mode);
+
     /**
      * @param int|null $limit
      */

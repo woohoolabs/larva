@@ -33,6 +33,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
                 $this->translateOrderBy($query),
                 $this->translateLimit($query),
                 $this->translateOffset($query),
+                $this->translateLock($query),
             ]
         );
     }
@@ -188,6 +189,17 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
         return [
             $this->createTranslatedClause("OFFSET", "?", [$query->getOffset()])
+        ];
+    }
+
+    private function translateLock(SelectQueryInterface $query): array
+    {
+        if ($query->getLock() === "") {
+            return [];
+        }
+
+        return [
+            new TranslatedQuerySegment($query->getLock())
         ];
     }
 }

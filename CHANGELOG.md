@@ -3,6 +3,7 @@
 ADDED:
 
 - Possibility to retrieve the connection from query builders
+- Support for locking in `SELECT` statement
 
 CHANGED:
 
