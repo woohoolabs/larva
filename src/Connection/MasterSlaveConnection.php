@@ -19,10 +19,10 @@ class MasterSlaveConnection implements ConnectionInterface
      */
     private $slaveConnection;
 
-    public static function createMasterSlave(
+    public static function create(
         ConnectionInterface $masterConnection,
         ConnectionInterface $slaveConnection
-    ): ConnectionInterface {
+    ): MasterSlaveConnection {
         return new MasterSlaveConnection($masterConnection, $slaveConnection);
     }
 

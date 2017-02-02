@@ -15,7 +15,6 @@ use WoohooLabs\Larva\Driver\Mysql\MySqlUpdateTranslator;
 class MySqlPdoConnection extends AbstractPdoConnection
 {
     public static function create(
-        string $driver,
         string $host,
         int $port,
         string $database,
@@ -26,8 +25,8 @@ class MySqlPdoConnection extends AbstractPdoConnection
         array $modes = [],
         array $options = [],
         bool $isLogging = false
-    ): ConnectionInterface {
-        $dsn = "$driver:host=$host;dbname=$database;port=$port;charset=$charset";
+    ): MySqlPdoConnection {
+        $dsn = "mysql:host=$host;dbname=$database;port=$port;charset=$charset";
         $options[PDO::MYSQL_ATTR_INIT_COMMAND] = self::getInitCommand($charset, $collation, $modes);
 
         return new MySqlPdoConnection($dsn, $username, $password, $options, $isLogging);

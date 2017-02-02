@@ -7,26 +7,15 @@ mb_http_output('UTF-8');
 
 require __DIR__ . "/../vendor/autoload.php";
 
-use WoohooLabs\Larva\Connection\MySqlPdoConnection;
+use WoohooLabs\Larva\Connection\ConnectionFactory;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\Delete\DeleteQueryBuilder;
 use WoohooLabs\Larva\Query\Insert\InsertQueryBuilder;
 use WoohooLabs\Larva\Query\Select\SelectQueryBuilder;
 use WoohooLabs\Larva\Query\Update\UpdateQueryBuilder;
 
-$connection = MySqlPdoConnection::create(
-    "mysql",
-    "mysql",
-    (int) getenv("MYSQL_PORT"),
-    getenv("MYSQL_DATABASE"),
-    getenv("MYSQL_USER"),
-    getenv("MYSQL_PASSWORD"),
-    "utf8mb4",
-    "utf8mb4_unicode_ci",
-    [],
-    [],
-    true
-);
+$connectionFactory = ConnectionFactory::createFromFile("config.php");
+$connection = $connectionFactory->createConnection("default");
 
 $result1 = SelectQueryBuilder::create($connection)
     ->selectColumn("*", "s")

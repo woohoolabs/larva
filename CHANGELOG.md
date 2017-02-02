@@ -2,6 +2,7 @@
 
 ADDED:
 
+- Support for using configuration file/array for connections via the `ConnectionFactory`
 - Support for master/slave connections
 - Possibility to retrieve the connection from query builders
 - Support for locking in `SELECT` statement
@@ -13,8 +14,9 @@ CHANGED:
 
 FIXED:
 
-- Parentheses are added for the ON clause
-- Backtick `JOIN` aliases
+- `MySqlPdoConnection` doesn't expect the `$driver` constructor parameter anymore
+- Parentheses are added when using the `ON` clause with the MySQL driver
+- Backtick `JOIN` aliases when using the MySQL driver
 
 ## 0.1.0 - 2017-01-29
 
