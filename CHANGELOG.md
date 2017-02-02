@@ -1,4 +1,12 @@
-## 0.2.0 - unreleased
+## 0.3.0 - unreleased
+
+ADDED:
+
+CHANGED:
+
+FIXED:
+
+## 0.2.0 - 2017-02-03
 
 ADDED:
 
