@@ -2,6 +2,7 @@
 
 ADDED:
 
+- Support for master/slave connections
 - Possibility to retrieve the connection from query builders
 - Support for locking in `SELECT` statement
 - `selectExpression()` and `selectColumn()` to `SelectQueryBuilder` to make it easier to build `SELECT` expressions
