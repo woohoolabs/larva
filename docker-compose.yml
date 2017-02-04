@@ -1,51 +1,51 @@
 version: '2'
 
 services:
-  nginx:
-    image: nginx:1.11-alpine
-    container_name: larva-nginx
-    networks:
-      - larva
-    volumes:
-      - .:/code
-    ports:
-      - "$HOST_WEB_PORT:80"
-    env_file:
-      - .env
-    command: /code/build/container/nginx/run.sh
-    env_file:
-      - .env
-    depends_on:
-      - php-fpm
+    nginx:
+        image: nginx:1.11-alpine
+        container_name: larva-nginx
+        networks:
+            - larva
+        volumes:
+            - .:/code
+        ports:
+            - "$HOST_WEB_PORT:80"
+        env_file:
+            - .env
+        command: /code/build/container/nginx/run.sh
+        env_file:
+            - .env
+        depends_on:
+            - php-fpm
 
-  php-fpm:
-    image: woohoolabs/php:3.1
-    container_name: larva-php-fpm
-    networks:
-      - larva
-    volumes:
-      - .:/code
-    env_file:
-      - .env
-    command: /code/build/container/php-fpm/run.sh
-    depends_on:
-      - mysql
+    php-fpm:
+        image: woohoolabs/php:3.1
+        container_name: larva-php-fpm
+        networks:
+            - larva
+        volumes:
+            - .:/code
+        env_file:
+            - .env
+        command: /code/build/container/php-fpm/run.sh
+        depends_on:
+            - mysql
 
-  mysql:
-    image: mysql:5.7
-    container_name: larva-mysql
-    ports:
-      - "$HOST_MYSQL_PORT:3306"
-    networks:
-      - larva
-    volumes:
-      - mysql-data:/var/lib/mysql
-    env_file:
-      - .env
+    mysql:
+        image: mysql:5.7
+        container_name: larva-mysql
+        ports:
+            - "$HOST_MYSQL_PORT:3306"
+        networks:
+            - larva
+        volumes:
+            - mysql-data:/var/lib/mysql
+        env_file:
+            - .env
 
 networks:
-  larva:
+    larva:
 
 volumes:
-  mysql-data:
-    driver: local
+    mysql-data:
+        driver: local
