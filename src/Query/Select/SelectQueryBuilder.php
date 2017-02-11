@@ -12,7 +12,7 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInterface
 {
     /**
-     * @var \WoohooLabs\Larva\Connection\ConnectionInterface
+     * @var ConnectionInterface
      */
     private $connection;
 
@@ -77,9 +77,9 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     private $union = [];
 
     /**
-     * @var string
+     * @var array
      */
-    private $lock = "";
+    private $lock = [];
 
     public static function create(ConnectionInterface $connection): SelectQueryBuilderInterface
     {
@@ -243,9 +243,30 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
+    public function lockForShare(): SelectQueryBuilderInterface
+    {
+        $this->lock = [
+            "type" => "share",
+        ];
+
+        return $this;
+    }
+
+    public function lockForUpdate(): SelectQueryBuilderInterface
+    {
+        $this->lock = [
+            "type" => "update",
+        ];
+
+        return $this;
+    }
+
     public function lock(string $mode): SelectQueryBuilderInterface
     {
-        $this->lock = $mode;
+        $this->lock = [
+            "type" => "custom",
+            "mode" => $mode
+        ];
 
         return $this;
     }
@@ -347,7 +368,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->union;
     }
 
-    public function getLock(): string
+    public function getLock(): array
     {
         return $this->lock;
     }

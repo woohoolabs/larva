@@ -217,12 +217,27 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
     private function translateLock(SelectQueryInterface $query): array
     {
-        if ($query->getLock() === "") {
+        $lock = $query->getLock();
+
+        if (empty($lock)) {
             return [];
         }
 
+        $mode = "";
+        switch ($lock["type"]) {
+            case "share":
+                $mode = "LOCK IN SHARE MODE";
+                break;
+            case "update":
+                $mode = "FOR UPDATE";
+                break;
+            case "custom":
+                $mode = $lock["mode"];
+                break;
+        }
+
         return [
-            new TranslatedQuerySegment($query->getLock())
+            new TranslatedQuerySegment($mode)
         ];
     }
 }

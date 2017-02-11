@@ -24,7 +24,7 @@ interface SelectQueryInterface extends QueryInterface
 
     public function getOrderBy(): array;
 
-    public function getLock(): string;
+    public function getLock(): array;
 
     /**
      * @return int|null

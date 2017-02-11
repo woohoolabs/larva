@@ -37,6 +37,7 @@ $result1 = SelectQueryBuilder::create($connection)
     )
     ->limit(10)
     ->offset(0)
+    ->lockForShare()
     ->fetchAll();
 
 $result2 = SelectQueryBuilder::create($connection)

@@ -39,6 +39,10 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function orderBy(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface;
 
+    public function lockForShare(): SelectQueryBuilderInterface;
+
+    public function lockForUpdate(): SelectQueryBuilderInterface;
+
     public function lock(string $mode): SelectQueryBuilderInterface;
 
     /**

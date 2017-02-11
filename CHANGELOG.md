@@ -2,6 +2,8 @@
 
 ADDED:
 
+- `SelectQueryBuilder::lockForShare()` and `SelectQueryBuilder::lockForUpdate()`  
+
 CHANGED:
 
 FIXED:
