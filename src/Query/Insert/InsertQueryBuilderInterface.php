@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Insert;
 
 use Closure;
-use WoohooLabs\Larva\Connection\ConnectionInterface;
+use WoohooLabs\Larva\Query\QueryBuilderInterface;
 
-interface InsertQueryBuilderInterface
+interface InsertQueryBuilderInterface extends QueryBuilderInterface
 {
     public function into(string $table): InsertQueryBuilderInterface;
 
@@ -19,10 +19,4 @@ interface InsertQueryBuilderInterface
     public function select(Closure $select): InsertQueryBuilderInterface;
 
     public function execute(): bool;
-
-    public function getSql(): string;
-
-    public function getParams(): array;
-
-    public function getConnection(): ConnectionInterface;
 }

@@ -11,7 +11,7 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInterface
 {
     /**
-     * @var \WoohooLabs\Larva\Connection\ConnectionInterface
+     * @var ConnectionInterface
      */
     private $connection;
 

@@ -11,7 +11,7 @@ use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
 class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInterface
 {
     /**
-     * @var \WoohooLabs\Larva\Connection\ConnectionInterface
+     * @var ConnectionInterface
      */
     private $connection;
 

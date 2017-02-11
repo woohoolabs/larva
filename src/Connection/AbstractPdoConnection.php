@@ -17,7 +17,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
     protected $settings;
 
     /**
-     * @var \PDO
+     * @var PDO
      */
     private $pdo;
 

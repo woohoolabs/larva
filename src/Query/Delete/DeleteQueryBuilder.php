@@ -11,7 +11,7 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInterface
 {
     /**
-     * @var \WoohooLabs\Larva\Connection\ConnectionInterface
+     * @var ConnectionInterface
      */
     private $connection;
 
