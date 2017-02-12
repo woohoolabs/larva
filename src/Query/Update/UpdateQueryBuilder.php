@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Update;
 
-use Closure;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilder;
+use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
 class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInterface
@@ -21,7 +21,7 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
     private $values = [];
 
     /**
-     * @var ConditionBuilder
+     * @var ConditionsInterface|null
      */
     private $where;
 
@@ -86,11 +86,9 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
         return $this;
     }
 
-    public function where(Closure $where): UpdateQueryBuilderInterface
+    public function where(ConditionBuilderInterface $where): UpdateQueryBuilderInterface
     {
-        $this->where = new ConditionBuilder();
-
-        $where($this->where);
+        $this->where = $where->getQueryConditions();
 
         return $this;
     }
@@ -112,6 +110,11 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
         return $connection->getDriver()->translateUpdateQuery($this)->getParams();
     }
 
+    public function getQuery(): UpdateQueryInterface
+    {
+        return $this;
+    }
+
     public function getTable(): array
     {
         return $this->table;
@@ -122,7 +125,10 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
         return $this->values;
     }
 
-    public function getWhere(): ConditionsInterface
+    /**
+     * @return ConditionsInterface|null
+     */
+    public function getWhere()
     {
         return $this->where;
     }

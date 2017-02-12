@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Select;
 
-use Closure;
 use Traversable;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
-use WoohooLabs\Larva\Query\Condition\ConditionBuilder;
+use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
 class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInterface
@@ -37,7 +36,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     private $join = [];
 
     /**
-     * @var ConditionBuilder
+     * @var ConditionsInterface|null
      */
     private $where;
 
@@ -47,7 +46,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     private $groupBy = [];
 
     /**
-     * @var ConditionBuilder
+     * @var ConditionsInterface|null
      */
     private $having;
 
@@ -79,12 +78,6 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     public static function create(): SelectQueryBuilderInterface
     {
         return new SelectQueryBuilder();
-    }
-
-    public function __construct()
-    {
-        $this->where = new ConditionBuilder();
-        $this->having = new ConditionBuilder();
     }
 
     public function select(array $expressions): SelectQueryBuilderInterface
@@ -138,14 +131,11 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function fromSubquery(Closure $subquery, string $alias): SelectQueryBuilderInterface
+    public function fromSubquery(SelectQueryBuilderInterface $subquery, string $alias): SelectQueryBuilderInterface
     {
-        $queryBuilder = new SelectQueryBuilder();
-        $subquery($queryBuilder);
-
         $this->from = [
             "type" => "subquery",
-            "table" => $queryBuilder,
+            "table" => $subquery->getQuery(),
             "alias" => $alias,
         ];
 
@@ -173,22 +163,19 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function on(Closure $on): SelectQueryBuilderInterface
+    public function on(ConditionBuilderInterface $on): SelectQueryBuilderInterface
     {
-        $queryBuilder = new ConditionBuilder();
-        $on($queryBuilder);
-
         $this->join[] = [
             "type" => "on",
-            "on" => $queryBuilder,
+            "on" => $on->getQueryConditions(),
         ];
 
         return $this;
     }
 
-    public function where(Closure $where): SelectQueryBuilderInterface
+    public function where(ConditionBuilderInterface $where): SelectQueryBuilderInterface
     {
-        $where($this->where);
+        $this->where = $where->getQueryConditions();
 
         return $this;
     }
@@ -209,9 +196,9 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function having(Closure $having): SelectQueryBuilderInterface
+    public function having(ConditionBuilderInterface $having): SelectQueryBuilderInterface
     {
-        $having($this->having);
+        $this->having = $having->getQueryConditions();
 
         return $this;
     }
@@ -296,6 +283,11 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $connection->getDriver()->translateSelectQuery($this)->getParams();
     }
 
+    public function getQuery(): SelectQueryInterface
+    {
+        return $this;
+    }
+
     public function getSelectExpressions(): array
     {
         return $this->select;
@@ -321,7 +313,10 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->join;
     }
 
-    public function getWhere(): ConditionsInterface
+    /**
+     * @return ConditionsInterface|null
+     */
+    public function getWhere()
     {
         return $this->where;
     }
@@ -331,7 +326,10 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->groupBy;
     }
 
-    public function getHaving(): ConditionsInterface
+    /**
+     * @return ConditionsInterface|null
+     */
+    public function getHaving()
     {
         return $this->having;
     }

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Update;
 
-use Closure;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
+use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\QueryBuilderInterface;
 
 interface UpdateQueryBuilderInterface extends QueryBuilderInterface
@@ -19,7 +19,9 @@ interface UpdateQueryBuilderInterface extends QueryBuilderInterface
 
     public function setRawValues(array $values, array $params = []): UpdateQueryBuilderInterface;
 
-    public function where(Closure $where): UpdateQueryBuilderInterface;
+    public function where(ConditionBuilderInterface $where): UpdateQueryBuilderInterface;
 
     public function execute(ConnectionInterface $connection): bool;
+
+    public function getQuery(): UpdateQueryInterface;
 }

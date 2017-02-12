@@ -11,5 +11,8 @@ interface UpdateQueryInterface
 
     public function getValues(): array;
 
-    public function getWhere(): ConditionsInterface;
+    /**
+     * @return ConditionsInterface|null
+     */
+    public function getWhere();
 }

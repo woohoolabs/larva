@@ -15,11 +15,17 @@ interface SelectQueryInterface
 
     public function getJoins(): array;
 
-    public function getWhere(): ConditionsInterface;
+    /**
+     * @return ConditionsInterface|null
+     */
+    public function getWhere();
 
     public function getGroupBy(): array;
 
-    public function getHaving(): ConditionsInterface;
+    /**
+     * @return ConditionsInterface|null
+     */
+    public function getHaving();
 
     public function getOrderBy(): array;
 

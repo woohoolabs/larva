@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Condition;
 
-use Closure;
+use WoohooLabs\Larva\Query\Select\SelectQueryBuilderInterface;
 
 interface ConditionBuilderInterface
 {
@@ -45,42 +45,44 @@ interface ConditionBuilderInterface
 
     public function notInValues(string $column, array $value, string $columnPrefix = ""): ConditionBuilderInterface;
 
-    public function inSubselect(string $column, Closure $subselect): ConditionBuilderInterface;
+    public function inSubselect(string $column, SelectQueryBuilderInterface $subselect): ConditionBuilderInterface;
 
-    public function notInSubselect(string $column, Closure $subselect): ConditionBuilderInterface;
+    public function notInSubselect(string $column, SelectQueryBuilderInterface $subselect): ConditionBuilderInterface;
 
-    public function exists(Closure $subselect): ConditionBuilderInterface;
+    public function exists(SelectQueryBuilderInterface $subselect): ConditionBuilderInterface;
 
-    public function notExists(Closure $subselect): ConditionBuilderInterface;
+    public function notExists(SelectQueryBuilderInterface $subselect): ConditionBuilderInterface;
 
     public function some(
         string $column,
         string $operator,
-        Closure $subselect,
+        SelectQueryBuilderInterface $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface;
 
     public function any(
         string $column,
         string $operator,
-        Closure $subselect,
+        SelectQueryBuilderInterface $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface;
 
     public function all(
         string $column,
         string $operator,
-        Closure $subselect,
+        SelectQueryBuilderInterface $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface;
 
     public function raw(string $condition, array $params = []): ConditionBuilderInterface;
 
-    public function nested(Closure $condition): ConditionBuilderInterface;
+    public function nested(ConditionBuilderInterface $condition): ConditionBuilderInterface;
 
     public function and(): ConditionBuilderInterface;
 
     public function or(): ConditionBuilderInterface;
 
     public function operator(string $operator): ConditionBuilderInterface;
+
+    public function getQueryConditions(): ConditionsInterface;
 }

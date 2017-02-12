@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Delete;
 
-use Closure;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
-use WoohooLabs\Larva\Query\Condition\ConditionBuilder;
+use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
 class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInterface
@@ -16,18 +15,13 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
     private $from = "";
 
     /**
-     * @var ConditionBuilder
+     * @var ConditionsInterface|null
      */
     private $where;
 
     public static function create(): DeleteQueryBuilderInterface
     {
         return new DeleteQueryBuilder();
-    }
-
-    public function __construct()
-    {
-        $this->where = new ConditionBuilder();
     }
 
     public function from(string $table): DeleteQueryBuilderInterface
@@ -37,11 +31,9 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
         return $this;
     }
 
-    public function where(Closure $where): DeleteQueryBuilderInterface
+    public function where(ConditionBuilderInterface $where): DeleteQueryBuilderInterface
     {
-        $this->where = new ConditionBuilder();
-
-        $where($this->where);
+        $this->where = $where->getQueryConditions();
 
         return $this;
     }
@@ -63,12 +55,20 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
         return $connection->getDriver()->translateDeleteQuery($this)->getParams();
     }
 
+    public function getQuery(): DeleteQueryInterface
+    {
+        return $this;
+    }
+
     public function getFrom(): string
     {
         return $this->from;
     }
 
-    public function getWhere(): ConditionsInterface
+    /**
+     * @return ConditionsInterface|null
+     */
+    public function getWhere()
     {
         return $this->where;
     }

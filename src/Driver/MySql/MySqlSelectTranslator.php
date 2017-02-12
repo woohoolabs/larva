@@ -174,11 +174,13 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
     private function translateWhere(SelectQueryInterface $query): array
     {
-        if (empty($query->getWhere()->getConditions())) {
+        $where = $query->getWhere();
+
+        if ($where === null) {
             return [];
         }
 
-        $result = $this->translateConditions($query->getWhere());
+        $result = $this->translateConditions($where);
 
         return [
             $this->createTranslatedClause("WHERE", $result->getSql(), $result->getParams())
@@ -198,11 +200,13 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
     private function translateHaving(SelectQueryInterface $query): array
     {
-        if (empty($query->getHaving()->getConditions())) {
+        $having = $query->getHaving();
+
+        if ($having === null) {
             return [];
         }
 
-        $result = $this->translateConditions($query->getHaving());
+        $result = $this->translateConditions($having);
 
         return [
             $this->createTranslatedClause("HAVING", $result->getSql(), $result->getParams())

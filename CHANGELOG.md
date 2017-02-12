@@ -7,6 +7,8 @@ ADDED:
 
 CHANGED:
 
+- Conditions can be specified via `ConditionBuilder` instances instead of Closures
+
 REMOVED:
 
 - `ConditionBuilder::subselect()` method

@@ -8,7 +8,7 @@ mb_http_output('UTF-8');
 require __DIR__ . "/../vendor/autoload.php";
 
 use WoohooLabs\Larva\Connection\ConnectionFactory;
-use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
+use WoohooLabs\Larva\Query\Condition\ConditionBuilder;
 use WoohooLabs\Larva\Query\Delete\DeleteQueryBuilder;
 use WoohooLabs\Larva\Query\Insert\InsertQueryBuilder;
 use WoohooLabs\Larva\Query\Select\SelectQueryBuilder;
@@ -21,19 +21,15 @@ $result1 = SelectQueryBuilder::create()
     ->selectColumn("*", "s")
     ->from("students", "s")
     ->where(
-        function (ConditionBuilderInterface $where) {
-            $where
-                ->raw("`last_name` LIKE ?", ["%a%"])
-                ->and()
-                ->nested(
-                    function (ConditionBuilderInterface $where) {
-                        $where
-                            ->is("birthday", null, "s")
-                            ->or()
-                            ->is("gender", null, "s");
-                    }
-                );
-        }
+        ConditionBuilder::create()
+            ->raw("`last_name` LIKE ?", ["%a%"])
+            ->and()
+            ->nested(
+                ConditionBuilder::create()
+                    ->is("birthday", null, "s")
+                    ->or()
+                    ->is("gender", null, "s")
+            )
     )
     ->limit(10)
     ->offset(0)
@@ -46,26 +42,22 @@ $result2 = SelectQueryBuilder::create()
     ->from("courses", "c")
     ->join("classes", "cl")
     ->on(
-        function (ConditionBuilderInterface $on) {
-            $on->raw("c.id = cl.course_id");
-        }
+        ConditionBuilder::create()
+            ->raw("c.id = cl.course_id")
     )
     ->join("classes_students", "cs")
     ->on(
-        function (ConditionBuilderInterface $on) {
-            $on->raw("cl.id = cs.class_id");
-        }
+        ConditionBuilder::create()
+            ->raw("cl.id = cs.class_id")
     )
     ->join("students", "s")
     ->on(
-        function (ConditionBuilderInterface $on) {
-            $on->raw("s.id = cs.student_id");
-        }
+        ConditionBuilder::create()
+            ->raw("s.id = cs.student_id")
     )
     ->where(
-        function (ConditionBuilderInterface $on) {
-            $on->raw("c.id = ?", [2]);
-        }
+        ConditionBuilder::create()
+            ->raw("c.id = ?", [2])
     )
     ->orderBy("s.id", "ASC")
     ->fetchAll($connection);
@@ -86,16 +78,18 @@ UpdateQueryBuilder::create()
             "birthday" => "1970-01-01",
         ]
     )
-    ->where(function (ConditionBuilderInterface $where) {
-        $where->raw("id = ?", [1]);
-    })
+    ->where(
+        ConditionBuilder::create()
+            ->raw("id = ?", [1])
+    )
     ->execute($connection);
 
 DeleteQueryBuilder::create()
     ->from("students")
-    ->where(function (ConditionBuilderInterface $where) {
-        $where->raw("id = 1");
-    })
+    ->where(
+        ConditionBuilder::create()
+            ->raw("id = 1")
+    )
     ->execute($connection);
 
 echo "<h1>LOG:</h1>";

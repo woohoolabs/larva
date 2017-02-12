@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Insert;
 
-use Closure;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
-use WoohooLabs\Larva\Query\Select\SelectQueryBuilder;
+use WoohooLabs\Larva\Query\Select\SelectQueryBuilderInterface;
 use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
 
 class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInterface
@@ -63,11 +62,9 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
         return $this;
     }
 
-    public function select(Closure $select): InsertQueryBuilderInterface
+    public function select(SelectQueryBuilderInterface $select): InsertQueryBuilderInterface
     {
-        $this->select = new SelectQueryBuilder();
-
-        $select($this->select);
+        $this->select = $select->getQuery();
 
         return $this;
     }
@@ -87,6 +84,11 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
     public function getParams(ConnectionInterface $connection): array
     {
         return $connection->getDriver()->translateInsertQuery($this)->getParams();
+    }
+
+    public function getQuery(): InsertQueryInterface
+    {
+        return $this;
     }
 
     public function getInto(): string
