@@ -5,6 +5,7 @@ namespace WoohooLabs\Larva\Query\Select;
 
 use Closure;
 use Traversable;
+use WoohooLabs\Larva\Connection\ConnectionInterface;
 use WoohooLabs\Larva\Query\QueryBuilderInterface;
 
 interface SelectQueryBuilderInterface extends QueryBuilderInterface
@@ -55,9 +56,9 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
      */
     public function offset($offset): SelectQueryBuilderInterface;
 
-    public function fetchAll(): array;
+    public function fetchAll(ConnectionInterface $connection): array;
 
-    public function fetch(): Traversable;
+    public function fetch(ConnectionInterface $connection): Traversable;
 
-    public function fetchColumn(): string;
+    public function fetchColumn(ConnectionInterface $connection): string;
 }

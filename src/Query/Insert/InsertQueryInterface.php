@@ -6,7 +6,7 @@ namespace WoohooLabs\Larva\Query\Insert;
 use WoohooLabs\Larva\Query\QueryInterface;
 use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
 
-interface InsertQueryInterface extends QueryInterface
+interface InsertQueryInterface
 {
     public function getInto(): string;
 

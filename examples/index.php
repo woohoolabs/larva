@@ -17,7 +17,7 @@ use WoohooLabs\Larva\Query\Update\UpdateQueryBuilder;
 $connectionFactory = ConnectionFactory::createFromFile("config.php");
 $connection = $connectionFactory->createConnection("default");
 
-$result1 = SelectQueryBuilder::create($connection)
+$result1 = SelectQueryBuilder::create()
     ->selectColumn("*", "s")
     ->from("students", "s")
     ->where(
@@ -38,9 +38,9 @@ $result1 = SelectQueryBuilder::create($connection)
     ->limit(10)
     ->offset(0)
     ->lockForShare()
-    ->fetchAll();
+    ->fetchAll($connection);
 
-$result2 = SelectQueryBuilder::create($connection)
+$result2 = SelectQueryBuilder::create()
     ->select(["s.*"])
     ->distinct()
     ->from("courses", "c")
@@ -68,16 +68,16 @@ $result2 = SelectQueryBuilder::create($connection)
         }
     )
     ->orderBy("s.id", "ASC")
-    ->fetchAll();
+    ->fetchAll($connection);
 
-InsertQueryBuilder::create($connection)
+InsertQueryBuilder::create()
     ->into("students")
     ->columns(["first_name", "last_name", "birthday", "gender", "introduction"])
     ->values(["John", "Snow", "1970-01-01", "MALE", ""])
     ->values(["John", "Connor", "1971-01-01", "MALE", ""])
-    ->execute();
+    ->execute($connection);
 
-UpdateQueryBuilder::create($connection)
+UpdateQueryBuilder::create()
     ->table("students")
     ->setValues(
         [
@@ -89,14 +89,14 @@ UpdateQueryBuilder::create($connection)
     ->where(function (ConditionBuilderInterface $where) {
         $where->raw("id = ?", [1]);
     })
-    ->execute();
+    ->execute($connection);
 
-DeleteQueryBuilder::create($connection)
+DeleteQueryBuilder::create()
     ->from("students")
     ->where(function (ConditionBuilderInterface $where) {
         $where->raw("id = 1");
     })
-    ->execute();
+    ->execute($connection);
 
 echo "<h1>LOG:</h1>";
 echo "<pre>";

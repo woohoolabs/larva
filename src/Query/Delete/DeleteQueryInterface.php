@@ -6,7 +6,7 @@ namespace WoohooLabs\Larva\Query\Delete;
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 use WoohooLabs\Larva\Query\QueryInterface;
 
-interface DeleteQueryInterface extends QueryInterface
+interface DeleteQueryInterface
 {
     public function getFrom(): string;
 

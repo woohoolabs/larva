@@ -11,41 +11,28 @@ use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
 class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInterface
 {
     /**
-     * @var ConnectionInterface
-     */
-    private $connection;
-
-    /**
      * @var string
      */
-    private $into;
+    private $into = "";
 
     /**
      * @var array
      */
-    private $columns;
+    private $columns = [];
 
     /**
      * @var array
      */
-    private $values;
+    private $values = [];
 
     /**
      * @var SelectQueryInterface
      */
     private $select;
 
-    public static function create(ConnectionInterface $connection): InsertQueryBuilderInterface
+    public static function create(): InsertQueryBuilderInterface
     {
-        return new InsertQueryBuilder($connection);
-    }
-
-    public function __construct(ConnectionInterface $connection)
-    {
-        $this->connection = $connection;
-        $this->into = "";
-        $this->columns = [];
-        $this->values = [];
+        return new InsertQueryBuilder();
     }
 
     public function into(string $table): InsertQueryBuilderInterface
@@ -78,33 +65,28 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
 
     public function select(Closure $select): InsertQueryBuilderInterface
     {
-        $this->select = new SelectQueryBuilder($this->connection);
+        $this->select = new SelectQueryBuilder();
 
         $select($this->select);
 
         return $this;
     }
 
-    public function execute(): bool
+    public function execute(ConnectionInterface $connection): bool
     {
-        $sql = $this->connection->getDriver()->translateInsertQuery($this);
+        $sql = $connection->getDriver()->translateInsertQuery($this);
 
-        return $this->connection->execute($sql->getSql(), $sql->getParams());
+        return $connection->execute($sql->getSql(), $sql->getParams());
     }
 
-    public function getSql(): string
+    public function getSql(ConnectionInterface $connection): string
     {
-        return $this->connection->getDriver()->translateInsertQuery($this)->getSql();
+        return $connection->getDriver()->translateInsertQuery($this)->getSql();
     }
 
-    public function getParams(): array
+    public function getParams(ConnectionInterface $connection): array
     {
-        return $this->connection->getDriver()->translateInsertQuery($this)->getParams();
-    }
-
-    public function getConnection(): ConnectionInterface
-    {
-        return $this->connection;
+        return $connection->getDriver()->translateInsertQuery($this)->getParams();
     }
 
     public function getInto(): string

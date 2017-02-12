@@ -11,30 +11,23 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInterface
 {
     /**
-     * @var ConnectionInterface
-     */
-    private $connection;
-
-    /**
      * @var string
      */
-    private $from;
+    private $from = "";
 
     /**
      * @var ConditionBuilder
      */
     private $where;
 
-    public static function create(ConnectionInterface $connection): DeleteQueryBuilderInterface
+    public static function create(): DeleteQueryBuilderInterface
     {
-        return new DeleteQueryBuilder($connection);
+        return new DeleteQueryBuilder();
     }
 
-    public function __construct(ConnectionInterface $connection)
+    public function __construct()
     {
-        $this->connection = $connection;
-        $this->from = "";
-        $this->where = new ConditionBuilder($connection);
+        $this->where = new ConditionBuilder();
     }
 
     public function from(string $table): DeleteQueryBuilderInterface
@@ -46,28 +39,28 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
 
     public function where(Closure $where): DeleteQueryBuilderInterface
     {
-        $this->where = new ConditionBuilder($this->connection);
+        $this->where = new ConditionBuilder();
 
         $where($this->where);
 
         return $this;
     }
 
-    public function execute(): bool
+    public function execute(ConnectionInterface $connection): bool
     {
-        $sql = $this->connection->getDriver()->translateDeleteQuery($this);
+        $sql = $connection->getDriver()->translateDeleteQuery($this);
 
-        return $this->connection->execute($sql->getSql(), $sql->getParams());
+        return $connection->execute($sql->getSql(), $sql->getParams());
     }
 
-    public function getSql(): string
+    public function getSql(ConnectionInterface $connection): string
     {
-        return $this->connection->getDriver()->translateDeleteQuery($this)->getSql();
+        return $connection->getDriver()->translateDeleteQuery($this)->getSql();
     }
 
-    public function getParams(): array
+    public function getParams(ConnectionInterface $connection): array
     {
-        return $this->connection->getDriver()->translateDeleteQuery($this)->getParams();
+        return $connection->getDriver()->translateDeleteQuery($this)->getParams();
     }
 
     public function getFrom(): string
@@ -78,10 +71,5 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
     public function getWhere(): ConditionsInterface
     {
         return $this->where;
-    }
-
-    public function getConnection(): ConnectionInterface
-    {
-        return $this->connection;
     }
 }

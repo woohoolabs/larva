@@ -4,9 +4,8 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Select;
 
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
-use WoohooLabs\Larva\Query\QueryInterface;
 
-interface SelectQueryInterface extends QueryInterface
+interface SelectQueryInterface
 {
     public function getSelectExpressions(): array;
 

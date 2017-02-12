@@ -7,9 +7,7 @@ use WoohooLabs\Larva\Connection\ConnectionInterface;
 
 interface QueryBuilderInterface
 {
-    public function getSql(): string;
+    public function getSql(ConnectionInterface $connection): string;
 
-    public function getParams(): array;
-
-    public function getConnection(): ConnectionInterface;
+    public function getParams(ConnectionInterface $connection): array;
 }

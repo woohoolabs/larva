@@ -11,36 +11,28 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInterface
 {
     /**
-     * @var ConnectionInterface
+     * @var array
      */
-    private $connection;
+    private $table = [];
 
     /**
      * @var array
      */
-    private $table;
-
-    /**
-     * @var array
-     */
-    private $values;
+    private $values = [];
 
     /**
      * @var ConditionBuilder
      */
     private $where;
 
-    public static function create(ConnectionInterface $connection): UpdateQueryBuilderInterface
+    public static function create(): UpdateQueryBuilderInterface
     {
-        return new UpdateQueryBuilder($connection);
+        return new UpdateQueryBuilder();
     }
 
-    public function __construct(ConnectionInterface $connection)
+    public function __construct()
     {
-        $this->connection = $connection;
-        $this->table = [];
-        $this->values = [];
-        $this->where = new ConditionBuilder($connection);
+        $this->where = new ConditionBuilder();
     }
 
     public function table(string $table, string $alias = ""): UpdateQueryBuilderInterface
@@ -96,28 +88,28 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
 
     public function where(Closure $where): UpdateQueryBuilderInterface
     {
-        $this->where = new ConditionBuilder($this->connection);
+        $this->where = new ConditionBuilder();
 
         $where($this->where);
 
         return $this;
     }
 
-    public function execute(): bool
+    public function execute(ConnectionInterface $connection): bool
     {
-        $sql = $this->connection->getDriver()->translateUpdateQuery($this);
+        $sql = $connection->getDriver()->translateUpdateQuery($this);
 
-        return $this->connection->execute($sql->getSql(), $sql->getParams());
+        return $connection->execute($sql->getSql(), $sql->getParams());
     }
 
-    public function getSql(): string
+    public function getSql(ConnectionInterface $connection): string
     {
-        return $this->connection->getDriver()->translateUpdateQuery($this)->getSql();
+        return $connection->getDriver()->translateUpdateQuery($this)->getSql();
     }
 
-    public function getParams(): array
+    public function getParams(ConnectionInterface $connection): array
     {
-        return $this->connection->getDriver()->translateUpdateQuery($this)->getParams();
+        return $connection->getDriver()->translateUpdateQuery($this)->getParams();
     }
 
     public function getTable(): array
@@ -133,10 +125,5 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
     public function getWhere(): ConditionsInterface
     {
         return $this->where;
-    }
-
-    public function getConnection(): ConnectionInterface
-    {
-        return $this->connection;
     }
 }

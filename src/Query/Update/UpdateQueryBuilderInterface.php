@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Update;
 
 use Closure;
+use WoohooLabs\Larva\Connection\ConnectionInterface;
 use WoohooLabs\Larva\Query\QueryBuilderInterface;
 
 interface UpdateQueryBuilderInterface extends QueryBuilderInterface
@@ -20,5 +21,5 @@ interface UpdateQueryBuilderInterface extends QueryBuilderInterface
 
     public function where(Closure $where): UpdateQueryBuilderInterface;
 
-    public function execute(): bool;
+    public function execute(ConnectionInterface $connection): bool;
 }

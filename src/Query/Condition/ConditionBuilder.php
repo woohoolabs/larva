@@ -4,25 +4,14 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Condition;
 
 use Closure;
-use WoohooLabs\Larva\Connection\ConnectionInterface;
 use WoohooLabs\Larva\Query\Select\SelectQueryBuilder;
 
 class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
 {
     /**
-     * @var ConnectionInterface
-     */
-    private $connection;
-
-    /**
      * @var array
      */
     private $conditions = [];
-
-    public function __construct(ConnectionInterface $connection)
-    {
-        $this->connection = $connection;
-    }
 
     public function columnToValue(
         string $column,
@@ -153,7 +142,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         Closure $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface {
-        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $selectBuilder = new SelectQueryBuilder();
         $subselect($selectBuilder);
 
         $this->conditions[] = [
@@ -172,7 +161,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         Closure $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface {
-        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $selectBuilder = new SelectQueryBuilder();
         $subselect($selectBuilder);
 
         $this->conditions[] = [
@@ -187,7 +176,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
 
     public function exists(Closure $subselect): ConditionBuilderInterface
     {
-        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $selectBuilder = new SelectQueryBuilder();
         $subselect($selectBuilder);
 
         $this->conditions[] = [
@@ -201,7 +190,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
 
     public function notExists(Closure $subselect): ConditionBuilderInterface
     {
-        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $selectBuilder = new SelectQueryBuilder();
         $subselect($selectBuilder);
 
         $this->conditions[] = [
@@ -247,7 +236,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         Closure $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface {
-        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $selectBuilder = new SelectQueryBuilder();
         $subselect($selectBuilder);
 
         $this->conditions[] = [
@@ -275,7 +264,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
 
     public function nested(Closure $condition): ConditionBuilderInterface
     {
-        $conditionBuilder = new ConditionBuilder($this->connection);
+        $conditionBuilder = new ConditionBuilder();
         $condition($conditionBuilder);
 
         $this->conditions[] = [

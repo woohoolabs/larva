@@ -12,11 +12,6 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInterface
 {
     /**
-     * @var ConnectionInterface
-     */
-    private $connection;
-
-    /**
      * @var bool
      */
     private $distinct = false;
@@ -81,16 +76,15 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
      */
     private $lock = [];
 
-    public static function create(ConnectionInterface $connection): SelectQueryBuilderInterface
+    public static function create(): SelectQueryBuilderInterface
     {
-        return new SelectQueryBuilder($connection);
+        return new SelectQueryBuilder();
     }
 
-    public function __construct(ConnectionInterface $connection)
+    public function __construct()
     {
-        $this->connection = $connection;
-        $this->where = new ConditionBuilder($this->connection);
-        $this->having = new ConditionBuilder($this->connection);
+        $this->where = new ConditionBuilder();
+        $this->having = new ConditionBuilder();
     }
 
     public function select(array $expressions): SelectQueryBuilderInterface
@@ -146,7 +140,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
 
     public function fromSubquery(Closure $subquery, string $alias): SelectQueryBuilderInterface
     {
-        $queryBuilder = new SelectQueryBuilder($this->connection);
+        $queryBuilder = new SelectQueryBuilder();
         $subquery($queryBuilder);
 
         $this->from = [
@@ -181,7 +175,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
 
     public function on(Closure $on): SelectQueryBuilderInterface
     {
-        $queryBuilder = new ConditionBuilder($this->connection);
+        $queryBuilder = new ConditionBuilder();
         $on($queryBuilder);
 
         $this->join[] = [
@@ -271,35 +265,35 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function fetchAll(): array
+    public function fetchAll(ConnectionInterface $connection): array
     {
-        $query = $this->connection->getDriver()->translateSelectQuery($this);
+        $query = $connection->getDriver()->translateSelectQuery($this);
 
-        return $this->connection->fetchAll($query->getSql(), $query->getParams());
+        return $connection->fetchAll($query->getSql(), $query->getParams());
     }
 
-    public function fetch(): Traversable
+    public function fetch(ConnectionInterface $connection): Traversable
     {
-        $query = $this->connection->getDriver()->translateSelectQuery($this);
+        $query = $connection->getDriver()->translateSelectQuery($this);
 
-        return $this->connection->fetch($query->getSql(), $query->getParams());
+        return $connection->fetch($query->getSql(), $query->getParams());
     }
 
-    public function fetchColumn(): string
+    public function fetchColumn(ConnectionInterface $connection): string
     {
-        $query = $this->connection->getDriver()->translateSelectQuery($this);
+        $query = $connection->getDriver()->translateSelectQuery($this);
 
-        return $this->connection->fetchColumn($query->getSql(), $query->getParams());
+        return $connection->fetchColumn($query->getSql(), $query->getParams());
     }
 
-    public function getSql(): string
+    public function getSql(ConnectionInterface $connection): string
     {
-        return $this->connection->getDriver()->translateSelectQuery($this)->getSql();
+        return $connection->getDriver()->translateSelectQuery($this)->getSql();
     }
 
-    public function getParams(): array
+    public function getParams(ConnectionInterface $connection): array
     {
-        return $this->connection->getDriver()->translateSelectQuery($this)->getParams();
+        return $connection->getDriver()->translateSelectQuery($this)->getParams();
     }
 
     public function getSelectExpressions(): array
@@ -371,10 +365,5 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     public function getLock(): array
     {
         return $this->lock;
-    }
-
-    public function getConnection(): ConnectionInterface
-    {
-        return $this->connection;
     }
 }
