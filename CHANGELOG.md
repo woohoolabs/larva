@@ -2,11 +2,19 @@
 
 ADDED:
 
-- `SelectQueryBuilder::lockForShare()` and `SelectQueryBuilder::lockForUpdate()`  
+- `SelectQueryBuilder::lockForShare()` and `SelectQueryBuilder::lockForUpdate()`
+- Support for exists/any/some/all conditions
 
 CHANGED:
 
+REMOVED:
+
+- `ConditionBuilder::subselect()` method
+- `MySqlConditionsTranslator` class
+
 FIXED:
+
+- Many conditions didn't get translated by the MySQL driver
 
 ## 0.2.0 - 2017-02-03
 

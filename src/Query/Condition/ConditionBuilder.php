@@ -60,35 +60,36 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         return $this;
     }
 
-    public function columnToFunction(
+    public function columnToExpression(
         string $column,
         string $operator,
-        string $function,
+        string $expression,
         array $params = [],
         string $columnPrefix = ""
     ): ConditionBuilderInterface {
         $this->conditions[] = [
-            "type" => "column-function",
+            "type" => "column-expression",
             "prefix" => $columnPrefix,
             "column" => $column,
             "operator" => $operator,
-            "function" => $function
+            "expression" => $expression,
+            "params" => $params,
         ];
 
         return $this;
     }
 
-    public function functionToFunction(
-        string $function1,
+    public function expressionToExpression(
+        string $expression1,
         string $operator,
-        string $function2,
+        string $expression2,
         array $params = []
     ): ConditionBuilderInterface {
         $this->conditions[] = [
-            "type" => "function-function",
-            "function1" => $function1,
+            "type" => "expression-expression",
+            "expression1" => $expression1,
             "operator" => $operator,
-            "function2" => $function2,
+            "expression2" => $expression2,
             "params" => $params,
         ];
 
@@ -152,13 +153,18 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         Closure $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface {
+        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $subselect($selectBuilder);
+
         $this->conditions[] = [
             "type" => "in-subselect",
             "prefix" => $columnPrefix,
             "column" => $column,
-            "subselect" => $subselect,
+            "subselect" => $selectBuilder,
             "not" => false,
         ];
+
+        return $this;
     }
 
     public function notInSubselect(
@@ -166,12 +172,94 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         Closure $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface {
+        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $subselect($selectBuilder);
+
         $this->conditions[] = [
             "type" => "in-subselect",
             "column" => $column,
-            "subselect" => $subselect,
+            "subselect" => $selectBuilder,
             "not" => true,
         ];
+
+        return $this;
+    }
+
+    public function exists(Closure $subselect): ConditionBuilderInterface
+    {
+        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $subselect($selectBuilder);
+
+        $this->conditions[] = [
+            "type" => "exists",
+            "subselect" => $subselect,
+            "not" => false,
+        ];
+
+        return $this;
+    }
+
+    public function notExists(Closure $subselect): ConditionBuilderInterface
+    {
+        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $subselect($selectBuilder);
+
+        $this->conditions[] = [
+            "type" => "exists",
+            "subselect" => $selectBuilder,
+            "not" => true,
+        ];
+
+        return $this;
+    }
+
+    public function some(
+        string $column,
+        string $operator,
+        Closure $subselect,
+        string $columnPrefix = ""
+    ): ConditionBuilderInterface {
+        return $this->quantify("SOME", $column, $operator, $subselect, $columnPrefix);
+    }
+
+    public function any(
+        string $column,
+        string $operator,
+        Closure $subselect,
+        string $columnPrefix = ""
+    ): ConditionBuilderInterface {
+        return $this->quantify("ANY", $column, $operator, $subselect, $columnPrefix);
+    }
+
+    public function all(
+        string $column,
+        string $operator,
+        Closure $subselect,
+        string $columnPrefix = ""
+    ): ConditionBuilderInterface {
+        return $this->quantify("ALL", $column, $operator, $subselect, $columnPrefix);
+    }
+
+    private function quantify(
+        string $mode,
+        string $column,
+        string $operator,
+        Closure $subselect,
+        string $columnPrefix = ""
+    ): ConditionBuilderInterface {
+        $selectBuilder = new SelectQueryBuilder($this->connection);
+        $subselect($selectBuilder);
+
+        $this->conditions[] = [
+            "type" => "quantification",
+            "mode" => $mode,
+            "prefix" => $columnPrefix,
+            "column" => $column,
+            "operator" => $operator,
+            "subselect" => $selectBuilder,
+        ];
+
+        return $this;
     }
 
     public function raw(string $condition, array $params = []): ConditionBuilderInterface
@@ -193,21 +281,6 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         $this->conditions[] = [
             "type" => "nested",
             "condition" => $conditionBuilder,
-        ];
-
-        return $this;
-    }
-
-    public function subselect(string $operator, Closure $subselect): ConditionBuilderInterface
-    {
-        $subselectBuilder = new SelectQueryBuilder($this->connection);
-
-        $subselect($subselectBuilder);
-
-        $this->conditions[] = [
-            "type" => "subselect",
-            "condition" => $subselectBuilder,
-            "operator" => $operator,
         ];
 
         return $this;

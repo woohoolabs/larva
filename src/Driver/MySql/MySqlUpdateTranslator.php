@@ -11,13 +11,13 @@ use WoohooLabs\Larva\Query\Update\UpdateQueryInterface;
 class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTranslatorInterface
 {
     /**
-     * @var MySqlConditionsTranslator
+     * @var MySqlSelectTranslator
      */
-    private $conditionsTranslator;
+    private $selectTranslator;
 
-    public function __construct(MySqlConditionsTranslator $conditionsTranslator)
+    public function __construct(MySqlSelectTranslator $conditionsTranslator)
     {
-        $this->conditionsTranslator = $conditionsTranslator;
+        $this->selectTranslator = $conditionsTranslator;
     }
 
     public function translateUpdateQuery(UpdateQueryInterface $query): TranslatedQuerySegment
@@ -74,7 +74,7 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
             return [];
         }
 
-        $querySegment = $this->conditionsTranslator->translateConditions($where);
+        $querySegment = $this->selectTranslator->translateConditions($where);
 
         return [
             $this->createTranslatedClause("WHERE", $querySegment->getSql(), $querySegment->getParams())

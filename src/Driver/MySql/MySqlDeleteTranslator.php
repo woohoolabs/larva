@@ -11,13 +11,13 @@ use WoohooLabs\Larva\Query\Delete\DeleteQueryInterface;
 class MySqlDeleteTranslator extends AbstractQueryTranslator implements DeleteTranslatorInterface
 {
     /**
-     * @var MySqlConditionsTranslator
+     * @var MySqlSelectTranslator
      */
-    private $conditionsTranslator;
+    private $selectTranslator;
 
-    public function __construct(MySqlConditionsTranslator $conditionsTranslator)
+    public function __construct(MySqlSelectTranslator $conditionsTranslator)
     {
-        $this->conditionsTranslator = $conditionsTranslator;
+        $this->selectTranslator = $conditionsTranslator;
     }
 
     public function translateDeleteQuery(DeleteQueryInterface $query): TranslatedQuerySegment
@@ -47,7 +47,7 @@ class MySqlDeleteTranslator extends AbstractQueryTranslator implements DeleteTra
             return [];
         }
 
-        $querySegment = $this->conditionsTranslator->translateConditions($where);
+        $querySegment = $this->selectTranslator->translateConditions($where);
 
         return [
             $this->createTranslatedClause("WHERE", $querySegment->getSql(), $querySegment->getParams())

@@ -22,18 +22,18 @@ interface ConditionBuilderInterface
         string $column2Prefix = ""
     ): ConditionBuilderInterface;
 
-    public function columnToFunction(
+    public function columnToExpression(
         string $column,
         string $operator,
-        string $function,
+        string $expression,
         array $params = [],
         string $columnPrefix = ""
     ): ConditionBuilderInterface;
 
-    public function functionToFunction(
-        string $function1,
+    public function expressionToExpression(
+        string $expression1,
         string $operator,
-        string $function2,
+        string $expression2,
         array $params = []
     ): ConditionBuilderInterface;
 
@@ -45,14 +45,31 @@ interface ConditionBuilderInterface
 
     public function notInValues(string $column, array $value, string $columnPrefix = ""): ConditionBuilderInterface;
 
-    public function inSubselect(
+    public function inSubselect(string $column, Closure $subselect): ConditionBuilderInterface;
+
+    public function notInSubselect(string $column, Closure $subselect): ConditionBuilderInterface;
+
+    public function exists(Closure $subselect): ConditionBuilderInterface;
+
+    public function notExists(Closure $subselect): ConditionBuilderInterface;
+
+    public function some(
         string $column,
+        string $operator,
         Closure $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface;
 
-    public function notInSubselect(
+    public function any(
         string $column,
+        string $operator,
+        Closure $subselect,
+        string $columnPrefix = ""
+    ): ConditionBuilderInterface;
+
+    public function all(
+        string $column,
+        string $operator,
         Closure $subselect,
         string $columnPrefix = ""
     ): ConditionBuilderInterface;
@@ -60,8 +77,6 @@ interface ConditionBuilderInterface
     public function raw(string $condition, array $params = []): ConditionBuilderInterface;
 
     public function nested(Closure $condition): ConditionBuilderInterface;
-
-    public function subselect(string $operator, Closure $subselect): ConditionBuilderInterface;
 
     public function and(): ConditionBuilderInterface;
 

@@ -6,20 +6,11 @@ namespace WoohooLabs\Larva\Driver\Mysql;
 use WoohooLabs\Larva\Driver\AbstractQueryTranslator;
 use WoohooLabs\Larva\Driver\SelectTranslatorInterface;
 use WoohooLabs\Larva\Driver\TranslatedQuerySegment;
+use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
 
 class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTranslatorInterface
 {
-    /**
-     * @var MySqlConditionsTranslator;
-     */
-    private $conditionsTranslator;
-
-    public function __construct(MySqlConditionsTranslator $conditionsTranslator)
-    {
-        $this->conditionsTranslator = $conditionsTranslator;
-    }
-
     public function translateSelectQuery(SelectQueryInterface $query): TranslatedQuerySegment
     {
         return $this->compileTranslatedClauses(
@@ -36,6 +27,55 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
                 $this->translateLock($query),
             ]
         );
+    }
+
+    public function translateConditions(ConditionsInterface $conditions): TranslatedQuerySegment
+    {
+        $querySegment = new TranslatedQuerySegment();
+
+        $conditionArray = $conditions->getConditions();
+        foreach ($conditionArray as $condition) {
+            switch ($condition["type"]) {
+                case "column-value":
+                    $this->translateColumnToValueCondition($querySegment, $condition);
+                    break;
+                case "column-column":
+                    $this->translateColumnToColumnCondition($querySegment, $condition);
+                    break;
+                case "column-expression":
+                    $this->translateColumnToExpressionCondition($querySegment, $condition);
+                    break;
+                case "expression-expression":
+                    $this->translateExpressionToExpressionCondition($querySegment, $condition);
+                    break;
+                case "is":
+                    $this->translateIsCondition($querySegment, $condition);
+                    break;
+                case "in-values":
+                    $this->translateInValues($querySegment, $condition);
+                    break;
+                case "in-subselect":
+                    $this->translateInSubselect($querySegment, $condition);
+                    break;
+                case "exists":
+                    $this->translateExists($querySegment, $condition);
+                    break;
+                case "quantification":
+                    $this->translateQuantification($querySegment, $condition);
+                    break;
+                case "raw":
+                    $this->translateRawCondition($querySegment, $condition);
+                    break;
+                case "nested":
+                    $this->translateNestedCondition($querySegment, $condition);
+                    break;
+                case "operator":
+                    $this->translateOperator($querySegment, $condition);
+                    break;
+            }
+        }
+
+        return $querySegment;
     }
 
     private function translateSelect(SelectQueryInterface $query): TranslatedQuerySegment
@@ -114,7 +154,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $params = [];
         foreach ($joins as $join) {
             if (isset($join["on"])) {
-                $conditionSegment = $this->conditionsTranslator->translateConditions($join["on"]);
+                $conditionSegment = $this->translateConditions($join["on"]);
                 $params = $conditionSegment->getParams();
 
                 $on = $conditionSegment->getSql();
@@ -138,7 +178,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
             return [];
         }
 
-        $result = $this->conditionsTranslator->translateConditions($query->getWhere());
+        $result = $this->translateConditions($query->getWhere());
 
         return [
             $this->createTranslatedClause("WHERE", $result->getSql(), $result->getParams())
@@ -162,7 +202,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
             return [];
         }
 
-        $result = $this->conditionsTranslator->translateConditions($query->getHaving());
+        $result = $this->translateConditions($query->getHaving());
 
         return [
             $this->createTranslatedClause("HAVING", $result->getSql(), $result->getParams())
@@ -239,5 +279,118 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         return [
             new TranslatedQuerySegment($mode)
         ];
+    }
+
+    private function translateColumnToValueCondition(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
+        $column = $condition["column"];
+        $operator = $condition["operator"];
+        $value = $condition["value"];
+
+        $querySegment->add("$prefix`$column` $operator ?", [$value]);
+    }
+
+    private function translateColumnToColumnCondition(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $prefix1 = $condition["prefix1"] ? "`" . $condition["prefix1"] . "`." : "";
+        $column1 = $condition["column1"];
+        $operator = $condition["operator"];
+        $prefix2 = $condition["prefix2"] ? "`" . $condition["prefix2"] . "`." : "";
+        $column2 = $condition["column2"];
+
+        $querySegment->add("$prefix1`$column1` $operator $prefix2`$column2`");
+    }
+
+    private function translateColumnToExpressionCondition(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
+        $column = $condition["column"];
+        $operator = $condition["operator"];
+        $expression = $condition["expression"];
+
+        $querySegment->add("$prefix`$column` $operator $expression", $condition["params"]);
+    }
+
+    private function translateExpressionToExpressionCondition(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $expression1 = $condition["expression1"];
+        $operator = $condition["operator"];
+        $expression2 = $condition["expression2"];
+
+        $querySegment->add("$expression1 $operator $expression2", $condition["params"]);
+    }
+
+    private function translateIsCondition(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
+        $column = $condition["column"];
+        $negation = $condition["not"] ? " NOT" : "";
+        $value = isset($condition["value"]) ? $condition["value"] : "NULL";
+
+        $querySegment->add("$prefix`$column` IS$negation $value");
+    }
+
+    private function translateInValues(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
+        $column = $condition["column"];
+        $negation = $condition["not"] ? "NOT " : "";
+        $values = $condition["values"];
+        $valuePattern = implode(",", array_fill(0, count($values), "?"));
+
+        $querySegment->add("$prefix`$column` ${negation}IN ($valuePattern)", $values);
+    }
+
+    private function translateInSubselect(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
+        $column = $condition["column"];
+        $negation = $condition["not"] ? "NOT " : "";
+
+        $subselect = $this->translateSelect($condition["subselect"]);
+        $subselectSql = $subselect->getSql();
+
+        $querySegment->add("$prefix`$column` ${negation}IN ($subselectSql)", $subselect->getParams());
+    }
+
+    private function translateExists(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $negation = $condition["not"] ? "NOT " : "";
+
+        $subselect = $this->translateSelect($condition["subselect"]);
+        $subselectSql = $subselect->getSql();
+
+        $querySegment->add("${negation}EXISTS ($subselectSql)", $subselect->getParams());
+    }
+
+    private function translateQuantification(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
+        $column = $condition["column"];
+        $operator = $condition["operator"];
+        $mode = $condition["mode"];
+
+        $subselect = $this->translateSelect($condition["subselect"]);
+        $subselectSql = $subselect->getSql();
+
+        $querySegment->add("$prefix`$column` $operator $mode ($subselectSql)", $subselect->getParams());
+    }
+
+    private function translateRawCondition(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $querySegment->add($condition["condition"], $condition["params"]);
+    }
+
+    private function translateNestedCondition(TranslatedQuerySegment $querySegment, array $condition)
+    {
+        $nestedSegment = $this->translateConditions($condition["condition"]);
+
+        $querySegment->add("(" . $nestedSegment->getSql() . ")", $nestedSegment->getParams());
+    }
+
+    private function translateOperator(TranslatedQuerySegment $querySegment, array $operator)
+    {
+        $querySegment->add(" " . $operator["operator"] . " ");
     }
 }

@@ -34,11 +34,10 @@ class MySqlPdoConnection extends AbstractPdoConnection
 
     protected function createDriver(): DriverInterface
     {
-        $conditionsTranslator = new MySqlConditionsTranslator();
-        $selectTranslator = new MySqlSelectTranslator($conditionsTranslator);
+        $selectTranslator = new MySqlSelectTranslator();
         $insertTranslator = new MySqlInsertTranslator($selectTranslator);
-        $updateTranslator = new MySqlUpdateTranslator($conditionsTranslator);
-        $deleteTranslator = new MySqlDeleteTranslator($conditionsTranslator);
+        $updateTranslator = new MySqlUpdateTranslator($selectTranslator);
+        $deleteTranslator = new MySqlDeleteTranslator($selectTranslator);
 
         return new Driver($selectTranslator, $insertTranslator, $updateTranslator, $deleteTranslator);
     }
