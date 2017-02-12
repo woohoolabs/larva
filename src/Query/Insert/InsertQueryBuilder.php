@@ -64,7 +64,7 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
 
     public function select(SelectQueryBuilderInterface $select): InsertQueryBuilderInterface
     {
-        $this->select = $select->getQuery();
+        $this->select = $select->toQuery();
 
         return $this;
     }
@@ -86,7 +86,7 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
         return $connection->getDriver()->translateInsertQuery($this)->getParams();
     }
 
-    public function getQuery(): InsertQueryInterface
+    public function toQuery(): InsertQueryInterface
     {
         return $this;
     }

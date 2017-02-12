@@ -84,5 +84,5 @@ interface ConditionBuilderInterface
 
     public function operator(string $operator): ConditionBuilderInterface;
 
-    public function getQueryConditions(): ConditionsInterface;
+    public function toConditions(): ConditionsInterface;
 }

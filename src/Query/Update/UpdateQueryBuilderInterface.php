@@ -21,7 +21,9 @@ interface UpdateQueryBuilderInterface extends QueryBuilderInterface
 
     public function where(ConditionBuilderInterface $where): UpdateQueryBuilderInterface;
 
+    public function addWhereGroup(ConditionBuilderInterface $where, string $operator = "AND"): UpdateQueryBuilderInterface;
+
     public function execute(ConnectionInterface $connection): bool;
 
-    public function getQuery(): UpdateQueryInterface;
+    public function toQuery(): UpdateQueryInterface;
 }

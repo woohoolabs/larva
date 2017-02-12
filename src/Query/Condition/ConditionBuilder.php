@@ -150,7 +150,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
             "type" => "in-subselect",
             "prefix" => $columnPrefix,
             "column" => $column,
-            "subselect" => $subselect,
+            "subselect" => $subselect->toQuery(),
             "not" => false,
         ];
 
@@ -165,7 +165,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         $this->conditions[] = [
             "type" => "in-subselect",
             "column" => $column,
-            "subselect" => $subselect,
+            "subselect" => $subselect->toQuery(),
             "not" => true,
         ];
 
@@ -176,7 +176,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
     {
         $this->conditions[] = [
             "type" => "exists",
-            "subselect" => $subselect,
+            "subselect" => $subselect->toQuery(),
             "not" => false,
         ];
 
@@ -187,7 +187,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
     {
         $this->conditions[] = [
             "type" => "exists",
-            "subselect" => $subselect,
+            "subselect" => $subselect->toQuery(),
             "not" => true,
         ];
 
@@ -234,7 +234,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
             "prefix" => $columnPrefix,
             "column" => $column,
             "operator" => $operator,
-            "subselect" => $subselect,
+            "subselect" => $subselect->toQuery(),
         ];
 
         return $this;
@@ -255,7 +255,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
     {
         $this->conditions[] = [
             "type" => "nested",
-            "condition" => $condition,
+            "condition" => $condition->toConditions(),
         ];
 
         return $this;
@@ -281,7 +281,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         return $this;
     }
 
-    public function getQueryConditions(): ConditionsInterface
+    public function toConditions(): ConditionsInterface
     {
         return $this;
     }
@@ -289,5 +289,31 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
     public function getConditions(): array
     {
         return $this->conditions;
+    }
+
+    public function addConditionGroup(ConditionBuilderInterface $conditions, string $operator = "AND")
+    {
+        $this->groupConditions();
+
+        if (empty($this->conditions) === false) {
+            $this->operator($operator);
+        }
+
+        $this->nested($conditions);
+    }
+
+    private function groupConditions()
+    {
+        if (count($this->conditions) === 1 && $this->conditions[0]["type"] === "nested") {
+            return;
+        }
+
+        $conditionBuilder = clone $this;
+        $this->conditions = [
+            [
+                "type" => "nested",
+                "condition" => $conditionBuilder,
+            ]
+        ];
     }
 }

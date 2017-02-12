@@ -13,7 +13,9 @@ interface DeleteQueryBuilderInterface extends QueryBuilderInterface
 
     public function where(ConditionBuilderInterface $where): DeleteQueryBuilderInterface;
 
+    public function addWhereGroup(ConditionBuilderInterface $where, string $operator = "AND"): DeleteQueryBuilderInterface;
+
     public function execute(ConnectionInterface $connection): bool;
 
-    public function getQuery(): DeleteQueryInterface;
+    public function toQuery(): DeleteQueryInterface;
 }

@@ -7,7 +7,8 @@ ADDED:
 
 CHANGED:
 
-- Conditions can be specified via `ConditionBuilder` instances instead of Closures
+- Conditions can be specified via `ConditionBuilder` instances instead of `Closure`s
+- Additional conditions can now be specified via `ConditionBuilder::addConditionGroup()`
 
 REMOVED:
 

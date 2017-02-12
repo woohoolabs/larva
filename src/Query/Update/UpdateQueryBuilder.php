@@ -88,7 +88,18 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
 
     public function where(ConditionBuilderInterface $where): UpdateQueryBuilderInterface
     {
-        $this->where = $where->getQueryConditions();
+        $this->where = $where->toConditions();
+
+        return $this;
+    }
+
+    public function addWhereGroup(ConditionBuilderInterface $where, string $operator = "AND"): UpdateQueryBuilderInterface
+    {
+        if ($this->where === null) {
+            $this->where = new ConditionBuilder();
+        }
+
+        $this->where->addConditionGroup($where, $operator);
 
         return $this;
     }
@@ -110,7 +121,7 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
         return $connection->getDriver()->translateUpdateQuery($this)->getParams();
     }
 
-    public function getQuery(): UpdateQueryInterface
+    public function toQuery(): UpdateQueryInterface
     {
         return $this;
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Delete;
 
 use WoohooLabs\Larva\Connection\ConnectionInterface;
+use WoohooLabs\Larva\Query\Condition\ConditionBuilder;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
@@ -33,7 +34,18 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
 
     public function where(ConditionBuilderInterface $where): DeleteQueryBuilderInterface
     {
-        $this->where = $where->getQueryConditions();
+        $this->where = $where->toConditions();
+
+        return $this;
+    }
+
+    public function addWhereGroup(ConditionBuilderInterface $where, string $operator = "AND"): DeleteQueryBuilderInterface
+    {
+        if ($this->where === null) {
+            $this->where = new ConditionBuilder();
+        }
+
+        $this->where->addConditionGroup($where, $operator);
 
         return $this;
     }
@@ -55,7 +67,7 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
         return $connection->getDriver()->translateDeleteQuery($this)->getParams();
     }
 
-    public function getQuery(): DeleteQueryInterface
+    public function toQuery(): DeleteQueryInterface
     {
         return $this;
     }

@@ -21,5 +21,5 @@ interface InsertQueryBuilderInterface extends QueryBuilderInterface
 
     public function execute(ConnectionInterface $connection): bool;
 
-    public function getQuery(): InsertQueryInterface;
+    public function toQuery(): InsertQueryInterface;
 }

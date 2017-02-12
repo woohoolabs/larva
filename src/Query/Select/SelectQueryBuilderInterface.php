@@ -32,11 +32,15 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function where(ConditionBuilderInterface $where): SelectQueryBuilderInterface;
 
+    public function addWhereGroup(ConditionBuilderInterface $where, string $operator = "AND"): SelectQueryBuilderInterface;
+
     public function groupBy(string $attribute): SelectQueryBuilderInterface;
 
     public function groupByAttributes(array $attributes): SelectQueryBuilderInterface;
 
     public function having(ConditionBuilderInterface $having): SelectQueryBuilderInterface;
+
+    public function addHavingGroup(ConditionBuilderInterface $having, string $operator = "AND"): SelectQueryBuilderInterface;
 
     public function orderBy(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface;
 
@@ -62,5 +66,5 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function fetchColumn(ConnectionInterface $connection): string;
 
-    public function getQuery(): SelectQueryInterface;
+    public function toQuery(): SelectQueryInterface;
 }

@@ -5,6 +5,7 @@ namespace WoohooLabs\Larva\Query\Select;
 
 use Traversable;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
+use WoohooLabs\Larva\Query\Condition\ConditionBuilder;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
@@ -135,7 +136,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     {
         $this->from = [
             "type" => "subquery",
-            "table" => $subquery->getQuery(),
+            "table" => $subquery->toQuery(),
             "alias" => $alias,
         ];
 
@@ -167,7 +168,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     {
         $this->join[] = [
             "type" => "on",
-            "on" => $on->getQueryConditions(),
+            "on" => $on->toConditions(),
         ];
 
         return $this;
@@ -175,7 +176,18 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
 
     public function where(ConditionBuilderInterface $where): SelectQueryBuilderInterface
     {
-        $this->where = $where->getQueryConditions();
+        $this->where = $where->toConditions();
+
+        return $this;
+    }
+
+    public function addWhereGroup(ConditionBuilderInterface $where, string $operator = "AND"): SelectQueryBuilderInterface
+    {
+        if ($this->where === null) {
+            $this->where = new ConditionBuilder();
+        }
+
+        $this->where->addConditionGroup($where, $operator);
 
         return $this;
     }
@@ -198,7 +210,18 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
 
     public function having(ConditionBuilderInterface $having): SelectQueryBuilderInterface
     {
-        $this->having = $having->getQueryConditions();
+        $this->having = $having->toConditions();
+
+        return $this;
+    }
+
+    public function addHavingGroup(ConditionBuilderInterface $having, string $operator = "AND"): SelectQueryBuilderInterface
+    {
+        if ($this->having === null) {
+            $this->having = new ConditionBuilder();
+        }
+
+        $this->having->addConditionGroup($having, $operator);
 
         return $this;
     }
@@ -283,7 +306,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $connection->getDriver()->translateSelectQuery($this)->getParams();
     }
 
-    public function getQuery(): SelectQueryInterface
+    public function toQuery(): SelectQueryInterface
     {
         return $this;
     }
