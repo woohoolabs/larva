@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Insert;
 
-use WoohooLabs\Larva\Query\QueryInterface;
 use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
 
 interface InsertQueryInterface

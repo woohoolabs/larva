@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Update;
 
-use WoohooLabs\Larva\Connection\ConnectionInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
-use WoohooLabs\Larva\Query\QueryBuilderInterface;
+use WoohooLabs\Larva\Query\DmlCommandBuilderInterface;
 
-interface UpdateQueryBuilderInterface extends QueryBuilderInterface
+interface UpdateQueryBuilderInterface extends DmlCommandBuilderInterface
 {
     public function table(string $table, string $alias = ""): UpdateQueryBuilderInterface;
 
@@ -22,8 +21,6 @@ interface UpdateQueryBuilderInterface extends QueryBuilderInterface
     public function where(ConditionBuilderInterface $where): UpdateQueryBuilderInterface;
 
     public function addWhereGroup(ConditionBuilderInterface $where, string $operator = "AND"): UpdateQueryBuilderInterface;
-
-    public function execute(ConnectionInterface $connection): bool;
 
     public function toQuery(): UpdateQueryInterface;
 }
