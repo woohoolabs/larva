@@ -8,6 +8,8 @@ REMOVED:
 
 FIXED:
 
+- Transaction handling
+
 ## 0.3.0 - 2017-02-12
 
 ADDED:

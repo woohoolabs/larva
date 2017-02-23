@@ -100,7 +100,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
             "COMMIT",
             [],
             function () {
-                return $this->getPdo()->beginTransaction();
+                return $this->getPdo()->commit();
             }
         );
     }
@@ -111,7 +111,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
             "ROLLBACK",
             [],
             function () {
-                return $this->getPdo()->beginTransaction();
+                return $this->getPdo()->rollBack();
             }
         );
     }
