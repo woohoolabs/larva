@@ -61,7 +61,7 @@ class ConnectionFactory
             throw new DomainException("Slave connection names aren't supplied!");
         }
 
-        if (isset($array["master"]) === $name || in_array($name, $array["slaves"])) {
+        if (isset($array["master"]) === $name || in_array($name, $array["slaves"], true)) {
             throw new DomainException("Master and slave connections can't be the same as the parent connection!");
         }
 
@@ -75,7 +75,7 @@ class ConnectionFactory
 
     private function createMySqlConnectionFromArray(array $array): MySqlPdoConnection
     {
-        return MySqlPdoConnection::create(
+        return new MySqlPdoConnection(
             $array["host"] ?? "",
             $array["port"] ?? 3306,
             $array["database"] ?? "",

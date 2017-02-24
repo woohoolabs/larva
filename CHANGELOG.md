@@ -4,6 +4,8 @@ ADDED:
 
 CHANGED:
 
+- Connection instantiation became more straightforward
+
 REMOVED:
 
 FIXED:
