@@ -10,6 +10,8 @@ REMOVED:
 
 FIXED:
 
+- `Bool` values are now casted to `int`
+
 ## 0.3.1 - 2017-02-24
 
 FIXED:
