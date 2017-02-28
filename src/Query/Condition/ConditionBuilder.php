@@ -293,9 +293,8 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
 
     public function addConditionGroup(ConditionBuilderInterface $conditions, string $operator = "AND")
     {
-        $this->groupConditions();
-
         if (empty($this->conditions) === false) {
+            $this->groupConditions();
             $this->operator($operator);
         }
 

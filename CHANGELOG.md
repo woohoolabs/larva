@@ -15,6 +15,7 @@ FIXED:
 
 - `Bool` values are now casted to `int` when using prepared statements
 - Return type of `SelectQueryBuilder::fetchColumn()` became `mixed` so that it can now be used to also retrieve numbers
+- Adding condition groups via `ConditionBuilder::addConditionGroup()` when originally there was no condition
 
 ## 0.3.1 - 2017-02-24
 

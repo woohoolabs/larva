@@ -18,7 +18,12 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function selectExpression(string $expression, string $alias = ""): SelectQueryBuilderInterface;
 
-    public function selectCount(string $column = "*", string $prefix = "", string $alias = "", bool $isDistinct = false): SelectQueryBuilderInterface;
+    public function selectCount(
+        string $column = "*",
+        string $prefix = "",
+        string $alias = "",
+        bool $isDistinct = false
+    ): SelectQueryBuilderInterface;
 
     public function distinct(bool $isDistinct = true): SelectQueryBuilderInterface;
 
