@@ -81,10 +81,31 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return new SelectQueryBuilder();
     }
 
-    public function select(array $expressions): SelectQueryBuilderInterface
+    public function selectColumns(array $columns, string $prefix = ""): SelectQueryBuilderInterface
     {
-        foreach ($expressions as $field) {
-            $this->selectExpression($field);
+        foreach ($columns as $field) {
+            $this->selectColumn($field, $prefix);
+        }
+
+        return $this;
+    }
+
+    public function selectColumn(string $column, string $prefix = "", string $alias = ""): SelectQueryBuilderInterface
+    {
+        $this->select[] = [
+            "type" => "column",
+            "prefix" => $prefix,
+            "expression" => $column,
+            "alias" => $alias,
+        ];
+
+        return $this;
+    }
+
+    public function selectExpressions(array $expressions): SelectQueryBuilderInterface
+    {
+        foreach ($expressions as $expression) {
+            $this->selectExpression($expression);
         }
 
         return $this;
@@ -102,12 +123,17 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function selectColumn(string $column, string $prefix = "", string $alias = ""): SelectQueryBuilderInterface
-    {
+    public function selectCount(
+        string $column = "*",
+        string $prefix = "",
+        string $alias = "",
+        bool $isDistinct = false
+    ): SelectQueryBuilderInterface {
         $this->select[] = [
-            "type" => "column",
+            "type" => "count",
             "prefix" => $prefix,
             "expression" => $column,
+            "distinct" => $isDistinct,
             "alias" => $alias,
         ];
 
@@ -289,7 +315,10 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $connection->fetch($query->getSql(), $query->getParams());
     }
 
-    public function fetchColumn(ConnectionInterface $connection): string
+    /**
+     * @return mixed
+     */
+    public function fetchColumn(ConnectionInterface $connection)
     {
         $query = $connection->getDriver()->translateSelectQuery($this);
 

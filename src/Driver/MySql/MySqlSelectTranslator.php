@@ -98,7 +98,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         foreach ($query->getSelectExpressions() as $item) {
             $prefix = $item["prefix"] ? "`" . $item["prefix"] . "`." : "";
 
-            if ($item["type"] === "column" && $item["expression"] !== "*") {
+            if (($item["type"] === "column" || $item["type"] === "count") && $item["expression"] !== "*") {
                 $expression = "`" . $item["column"] . "`";
             } else {
                 $expression = $item["expression"];
@@ -106,7 +106,14 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
             $alias = $item["alias"] ? " AS `" . $item["alias"] . "`" : "";
 
-            $expressions[] = "$prefix$expression$alias";
+            if ($item["type"] === "count") {
+                $distinct = $item["distinct"] ? "DISTINCT " : "";
+                $select = "COUNT($distinct$prefix$expression)$alias";
+            } else {
+                $select = "$prefix$expression$alias";
+            }
+
+            $expressions[] = $select;
         }
 
         return $expressions;

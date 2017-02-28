@@ -12,7 +12,10 @@ interface ConnectionInterface
 
     public function fetch(string $sql, array $params = []): Traversable;
 
-    public function fetchColumn(string $sql, array $params = []): string;
+    /**
+     * @return mixed
+     */
+    public function fetchColumn(string $sql, array $params = []);
 
     public function execute(string $sql, array $params = []): bool;
 

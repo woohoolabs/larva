@@ -78,7 +78,10 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         }
     }
 
-    public function fetchColumn(string $sql, array $params = []): string
+    /**
+     * @return mixed
+     */
+    public function fetchColumn(string $sql, array $params = [])
     {
         $statement = $this->getPdo()->prepare($sql);
         $this->executePreparedStatement($statement, $sql, $params);

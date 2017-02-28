@@ -41,7 +41,7 @@ $result1 = SelectQueryBuilder::create()
     ->fetchAll($connection);
 
 $result2 = SelectQueryBuilder::create()
-    ->select(["s.*"])
+    ->selectColumns(["s.*"])
     ->distinct()
     ->from("courses", "c")
     ->join("classes", "cl")

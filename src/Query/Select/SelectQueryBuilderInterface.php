@@ -10,11 +10,15 @@ use WoohooLabs\Larva\Query\QueryBuilderInterface;
 
 interface SelectQueryBuilderInterface extends QueryBuilderInterface
 {
-    public function select(array $expressions): SelectQueryBuilderInterface;
+    public function selectColumns(array $columns, string $prefix = ""): SelectQueryBuilderInterface;
+
+    public function selectColumn(string $column, string $prefix = "", string $alias = ""): SelectQueryBuilderInterface;
+
+    public function selectExpressions(array $expressions): SelectQueryBuilderInterface;
 
     public function selectExpression(string $expression, string $alias = ""): SelectQueryBuilderInterface;
 
-    public function selectColumn(string $column, string $prefix = "", string $alias = ""): SelectQueryBuilderInterface;
+    public function selectCount(string $column = "*", string $prefix = "", string $alias = "", bool $isDistinct = false): SelectQueryBuilderInterface;
 
     public function distinct(bool $isDistinct = true): SelectQueryBuilderInterface;
 
@@ -64,7 +68,10 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function fetch(ConnectionInterface $connection): Traversable;
 
-    public function fetchColumn(ConnectionInterface $connection): string;
+    /**
+     * @return mixed
+     */
+    public function fetchColumn(ConnectionInterface $connection);
 
     public function toQuery(): SelectQueryInterface;
 }

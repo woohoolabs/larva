@@ -2,15 +2,19 @@
 
 ADDED:
 
+- `SelectQueryBuilder::selectExpressions()` and `SelectQueryBuilder::selectCount()` methods
+
 CHANGED:
 
+- `SelectQueryBuilder::select()` was renamed to `SelectQueryBuilder::selectColumns()`
 - Connection instantiation became more straightforward
 
 REMOVED:
 
 FIXED:
 
-- `Bool` values are now casted to `int`
+- `Bool` values are now casted to `int` when using prepared statements
+- Return type of `SelectQueryBuilder::fetchColumn()` became `mixed` so that it can now be used to also retrieve numbers
 
 ## 0.3.1 - 2017-02-24
 
