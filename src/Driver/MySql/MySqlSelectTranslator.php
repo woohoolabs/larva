@@ -359,7 +359,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $column = $condition["column"];
         $negation = $condition["not"] ? "NOT " : "";
 
-        $subselect = $this->translateSelect($condition["subselect"]);
+        $subselect = $this->translateSelectQuery($condition["subselect"]);
         $subselectSql = $subselect->getSql();
 
         $querySegment->add("$prefix`$column` ${negation}IN ($subselectSql)", $subselect->getParams());
@@ -369,7 +369,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
     {
         $negation = $condition["not"] ? "NOT " : "";
 
-        $subselect = $this->translateSelect($condition["subselect"]);
+        $subselect = $this->translateSelectQuery($condition["subselect"]);
         $subselectSql = $subselect->getSql();
 
         $querySegment->add("${negation}EXISTS ($subselectSql)", $subselect->getParams());
@@ -382,7 +382,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $operator = $condition["operator"];
         $mode = $condition["mode"];
 
-        $subselect = $this->translateSelect($condition["subselect"]);
+        $subselect = $this->translateSelectQuery($condition["subselect"]);
         $subselectSql = $subselect->getSql();
 
         $querySegment->add("$prefix`$column` $operator $mode ($subselectSql)", $subselect->getParams());
