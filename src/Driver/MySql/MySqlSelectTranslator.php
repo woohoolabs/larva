@@ -99,7 +99,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
             $prefix = $item["prefix"] ? "`" . $item["prefix"] . "`." : "";
 
             if (($item["type"] === "column" || $item["type"] === "count") && $item["expression"] !== "*") {
-                $expression = "`" . $item["column"] . "`";
+                $expression = "`" . $item["expression"] . "`";
             } else {
                 $expression = $item["expression"];
             }
