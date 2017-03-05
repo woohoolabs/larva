@@ -2,6 +2,8 @@
 
 ADDED:
 
+- Support for `TRRUNCATE`
+
 CHANGED:
 
 REMOVED:

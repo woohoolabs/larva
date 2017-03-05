@@ -6,6 +6,7 @@ namespace WoohooLabs\Larva\Driver;
 use WoohooLabs\Larva\Query\Delete\DeleteQueryInterface;
 use WoohooLabs\Larva\Query\Insert\InsertQueryInterface;
 use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
+use WoohooLabs\Larva\Query\Truncate\TruncateQueryInterface;
 use WoohooLabs\Larva\Query\Update\UpdateQueryInterface;
 
 class MasterSlaveDriver implements DriverInterface
@@ -44,5 +45,10 @@ class MasterSlaveDriver implements DriverInterface
     public function translateDeleteQuery(DeleteQueryInterface $query): TranslatedQuerySegment
     {
         return $this->masterDriver->translateDeleteQuery($query);
+    }
+
+    public function translateTruncateQuery(TruncateQueryInterface $query): TranslatedQuerySegment
+    {
+        return $this->masterDriver->translateTruncateQuery($query);
     }
 }
