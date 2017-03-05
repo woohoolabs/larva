@@ -6,6 +6,8 @@ ADDED:
 
 CHANGED:
 
+- Translator objects are loaded lazily
+
 REMOVED:
 
 FIXED:

@@ -4,12 +4,8 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Connection;
 
 use PDO;
-use WoohooLabs\Larva\Driver\Driver;
 use WoohooLabs\Larva\Driver\DriverInterface;
-use WoohooLabs\Larva\Driver\Mysql\MySqlDeleteTranslator;
-use WoohooLabs\Larva\Driver\Mysql\MySqlInsertTranslator;
-use WoohooLabs\Larva\Driver\Mysql\MySqlSelectTranslator;
-use WoohooLabs\Larva\Driver\Mysql\MySqlUpdateTranslator;
+use WoohooLabs\Larva\Driver\MySqlDriver;
 
 class MySqlPdoConnection extends AbstractPdoConnection
 {
@@ -33,12 +29,7 @@ class MySqlPdoConnection extends AbstractPdoConnection
 
     protected function createDriver(): DriverInterface
     {
-        $selectTranslator = new MySqlSelectTranslator();
-        $insertTranslator = new MySqlInsertTranslator($selectTranslator);
-        $updateTranslator = new MySqlUpdateTranslator($selectTranslator);
-        $deleteTranslator = new MySqlDeleteTranslator($selectTranslator);
-
-        return new Driver($selectTranslator, $insertTranslator, $updateTranslator, $deleteTranslator);
+        return new MySqlDriver();
     }
 
     private static function getInitCommand(string $charset, string $collation, array $modes): string
