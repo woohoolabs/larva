@@ -1,4 +1,14 @@
-## 0.4.0 - unreleased
+## 0.5.0 - unreleased
+
+ADDED:
+
+CHANGED:
+
+REMOVED:
+
+FIXED:
+
+## 0.4.0 - 2017-03-05
 
 ADDED:
 
@@ -8,8 +18,6 @@ CHANGED:
 
 - `SelectQueryBuilder::select()` was renamed to `SelectQueryBuilder::selectColumns()`
 - Connection instantiation became more straightforward
-
-REMOVED:
 
 FIXED:
 
