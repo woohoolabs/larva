@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabs\Larva\Driver\Mysql;
+namespace WoohooLabs\Larva\Driver\MySql;
 
 use WoohooLabs\Larva\Driver\AbstractDriver;
 use WoohooLabs\Larva\Driver\DeleteTranslatorInterface;
