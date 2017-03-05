@@ -1,13 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace WoohooLabs\Larva\Driver;
+namespace WoohooLabs\Larva\Driver\Mysql;
 
-use WoohooLabs\Larva\Driver\Mysql\MySqlDeleteTranslator;
-use WoohooLabs\Larva\Driver\Mysql\MySqlInsertTranslator;
-use WoohooLabs\Larva\Driver\Mysql\MySqlSelectTranslator;
-use WoohooLabs\Larva\Driver\Mysql\MySqlTruncateTranslator;
-use WoohooLabs\Larva\Driver\Mysql\MySqlUpdateTranslator;
+use WoohooLabs\Larva\Driver\AbstractDriver;
+use WoohooLabs\Larva\Driver\DeleteTranslatorInterface;
+use WoohooLabs\Larva\Driver\InsertTranslatorInterface;
+use WoohooLabs\Larva\Driver\SelectTranslatorInterface;
+use WoohooLabs\Larva\Driver\TruncateTranslatorInterface;
+use WoohooLabs\Larva\Driver\UpdateTranslatorInterface;
 
 class MySqlDriver extends AbstractDriver
 {
