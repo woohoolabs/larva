@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-    nginx:
+    larva-nginx:
         image: nginx:1.11-alpine
         container_name: larva-nginx
         networks:
@@ -18,7 +18,7 @@ services:
         depends_on:
             - php-fpm
 
-    php-fpm:
+    larva-php-fpm:
         image: woohoolabs/php:3.1
         container_name: larva-php-fpm
         networks:
@@ -31,7 +31,7 @@ services:
         depends_on:
             - mysql
 
-    mysql:
+    larva-mysql:
         image: mysql:5.7
         container_name: larva-mysql
         ports:

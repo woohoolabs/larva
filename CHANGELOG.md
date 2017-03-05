@@ -2,7 +2,7 @@
 
 ADDED:
 
-- Support for `TRRUNCATE`
+- Support for `TRUNCATE`
 
 CHANGED:
 
@@ -11,6 +11,8 @@ CHANGED:
 REMOVED:
 
 FIXED:
+
+- Renamed `WoohooLabs\Larva\Driver\Mysql` namespace to `WoohooLabs\Larva\Driver\MySql` to match its filesystem path 
 
 ## 0.4.0 - 2017-03-05
 
