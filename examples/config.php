@@ -4,7 +4,7 @@ declare(strict_types=1);
 return [
     "default" => [
         "driver" => "mysql",
-        "host" => "mysql",
+        "host" => "larva-mysql",
         "port" => (int) getenv("MYSQL_PORT"),
         "database" => getenv("MYSQL_DATABASE"),
         "user" => getenv("MYSQL_USER"),
