@@ -40,4 +40,6 @@ interface SelectQueryInterface
      * @return int|null
      */
     public function getOffset();
+
+    public function getUnions(): array;
 }

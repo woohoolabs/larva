@@ -69,7 +69,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     /**
      * @var array
      */
-    private $union = [];
+    private $unions = [];
 
     /**
      * @var array
@@ -301,6 +301,16 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
+    public function union(SelectQueryBuilderInterface $query, bool $distinct = true): SelectQueryBuilderInterface
+    {
+        $this->unions[] = [
+            "query" => $query->toQuery(),
+            "distinct" => $distinct,
+        ];
+
+        return $this;
+    }
+
     public function fetchAll(ConnectionInterface $connection): array
     {
         $query = $connection->getDriver()->translateSelectQuery($this);
@@ -407,9 +417,9 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->offset;
     }
 
-    public function getUnion(): array
+    public function getUnions(): array
     {
-        return $this->union;
+        return $this->unions;
     }
 
     public function getLock(): array

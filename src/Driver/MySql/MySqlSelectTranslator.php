@@ -25,6 +25,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
                 $this->translateLimit($query),
                 $this->translateOffset($query),
                 $this->translateLock($query),
+                $this->translateUnions($query),
             ]
         );
     }
@@ -80,15 +81,16 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
     private function translateSelect(SelectQueryInterface $query): TranslatedQuerySegment
     {
+        $union = empty($query->getUnions()) ? "" : "(";
         $distinct = $query->isDistinct() ? " DISTINCT" : "";
 
         $selectExpressions = $this->getSelectExpressions($query);
 
         if (empty($selectExpressions)) {
-            return $this->createTranslatedClause("SELECT$distinct", "*");
+            return $this->createTranslatedClause("${union}SELECT$distinct", "*");
         }
 
-        return $this->createTranslatedClause("SELECT$distinct", implode(",", $selectExpressions));
+        return $this->createTranslatedClause("${union}SELECT$distinct", implode(",", $selectExpressions));
     }
 
     private function getSelectExpressions(SelectQueryInterface $query): array
@@ -290,6 +292,21 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         return [
             new TranslatedQuerySegment($mode)
         ];
+    }
+
+    private function translateUnions(SelectQueryInterface $query): array
+    {
+        $result = [];
+
+        foreach ($query->getUnions() as $union) {
+            $unionSegment = $this->translateSelectQuery($union["query"]);
+            $all = $union["distinct"] ? "" : "ALL ";
+            $select = $unionSegment->getSql();
+
+            $result[] = $this->createTranslatedClause(") UNION", "($all$select)", $unionSegment->getParams());
+        }
+
+        return $result;
     }
 
     private function translateColumnToValueCondition(TranslatedQuerySegment $querySegment, array $condition)

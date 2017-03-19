@@ -59,6 +59,8 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function lock(string $mode): SelectQueryBuilderInterface;
 
+    public function union(SelectQueryBuilderInterface $query, bool $distinct = true): SelectQueryBuilderInterface;
+
     /**
      * @param int|null $limit
      */

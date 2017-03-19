@@ -3,6 +3,7 @@
 ADDED:
 
 - Support for `TRUNCATE`
+- Support for `UNION` in `SELECT` queries
 
 CHANGED:
 
