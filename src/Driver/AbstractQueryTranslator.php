@@ -16,7 +16,7 @@ abstract class AbstractQueryTranslator
                     continue;
                 }
 
-                $query->add($segment->getSql() . "\n", $segment->getParams());
+                $query->add($segment->getSql(), $segment->getParams());
             }
         }
 
@@ -25,6 +25,6 @@ abstract class AbstractQueryTranslator
 
     protected function createTranslatedClause(string $name = "", string $sql = "", array $params = []): TranslatedQuerySegment
     {
-        return new TranslatedQuerySegment($name . "\n\t" . $sql, $params);
+        return new TranslatedQuerySegment($name . " " . $sql, $params);
     }
 }

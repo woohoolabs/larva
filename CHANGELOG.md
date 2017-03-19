@@ -8,6 +8,7 @@ ADDED:
 CHANGED:
 
 - Translator objects are loaded lazily
+- SQL statements aren't pretty printed
 
 REMOVED:
 

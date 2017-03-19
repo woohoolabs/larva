@@ -23,7 +23,7 @@ class TranslatedQuerySegment
 
     public function add(string $sql, array $params = [])
     {
-        $this->sql .= $sql;
+        $this->sql .= " " . $sql;
         $this->addParams($params);
     }
 

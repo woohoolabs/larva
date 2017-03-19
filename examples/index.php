@@ -38,10 +38,6 @@ $result1 = SelectQueryBuilder::create()
     ->limit(10)
     ->offset(0)
     ->lockForShare()
-    ->union(
-        SelectQueryBuilder::create()
-            ->from("students", "s2")
-    )
     ->fetchAll($connection);
 
 $result2 = SelectQueryBuilder::create()
