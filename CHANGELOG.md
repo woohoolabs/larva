@@ -13,6 +13,7 @@ REMOVED:
 
 FIXED:
 
+- Subqueries in `FROM` clauses will be translated properly when using the MySQL driver
 - Renamed `WoohooLabs\Larva\Driver\Mysql` namespace to `WoohooLabs\Larva\Driver\MySql` to match its filesystem path 
 
 ## 0.4.0 - 2017-03-05

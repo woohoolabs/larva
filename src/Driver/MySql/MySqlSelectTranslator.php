@@ -132,7 +132,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $alias = empty($from["alias"]) ? "" : " AS `" . $from["alias"] . "`";
 
         if ($from["type"] === "subquery") {
-            $subselectSegment = $this->translateSelect($from["from"]);
+            $subselectSegment = $this->translateSelectQuery($from["from"]);
             $subselect = $subselectSegment->getSql();
 
             return [
