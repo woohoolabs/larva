@@ -2,7 +2,7 @@ version: '2'
 
 services:
     larva-nginx:
-        image: nginx:1.11-alpine
+        image: nginx:1.13-alpine
         container_name: larva-nginx
         networks:
             - larva
@@ -19,7 +19,7 @@ services:
             - larva-php-fpm
 
     larva-php-fpm:
-        image: woohoolabs/php:3.1
+        image: woohoolabs/php:3.2
         container_name: larva-php-fpm
         networks:
             - larva

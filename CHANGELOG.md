@@ -9,6 +9,7 @@ CHANGED:
 
 - Translator objects are loaded lazily
 - SQL statements aren't pretty printed
+- Updated development docker images
 
 REMOVED:
 
