@@ -1,4 +1,14 @@
-## 0.5.0 - unreleased
+## 0.6.0 - unreleased
+
+ADDED:
+
+CHANGED:
+
+REMOVED:
+
+FIXED:
+
+## 0.5.0 - 2017-09-12
 
 ADDED:
 
@@ -12,8 +22,6 @@ CHANGED:
 - Translator objects are loaded lazily
 - SQL statements aren't pretty printed
 - Updated development docker images
-
-REMOVED:
 
 FIXED:
 
