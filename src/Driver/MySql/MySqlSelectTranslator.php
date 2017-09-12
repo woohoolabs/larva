@@ -121,6 +121,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         return $expressions;
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateFrom(SelectQueryInterface $query): array
     {
         $from = $query->getFrom();
@@ -148,7 +151,6 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
     }
 
     /**
-     * @param SelectQueryInterface $query
      * @return TranslatedQuerySegment[]
      */
     private function translateJoins(SelectQueryInterface $query): array
@@ -181,6 +183,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         return $segments;
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateWhere(SelectQueryInterface $query): array
     {
         $where = $query->getWhere();
@@ -196,6 +201,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateGroupBy(SelectQueryInterface $query): array
     {
         if (empty($query->getGroupBy())) {
@@ -207,6 +215,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateHaving(SelectQueryInterface $query): array
     {
         $having = $query->getHaving();
@@ -222,6 +233,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateOrderBy(SelectQueryInterface $query): array
     {
         if (empty($query->getOrderBy())) {
@@ -246,6 +260,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateLimit(SelectQueryInterface $query): array
     {
         if ($query->getLimit() === null) {
@@ -257,6 +274,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateOffset(SelectQueryInterface $query): array
     {
         if ($query->getOffset() === null) {
@@ -268,6 +288,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateLock(SelectQueryInterface $query): array
     {
         $lock = $query->getLock();
@@ -294,6 +317,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateUnions(SelectQueryInterface $query): array
     {
         $result = [];
@@ -309,7 +335,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         return $result;
     }
 
-    private function translateColumnToValueCondition(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateColumnToValueCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
         $column = $condition["column"];
@@ -319,7 +345,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix`$column` $operator ?", [$value]);
     }
 
-    private function translateColumnToColumnCondition(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateColumnToColumnCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix1 = $condition["prefix1"] ? "`" . $condition["prefix1"] . "`." : "";
         $column1 = $condition["column1"];
@@ -330,7 +356,8 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix1`$column1` $operator $prefix2`$column2`");
     }
 
-    private function translateColumnToExpressionCondition(TranslatedQuerySegment $querySegment, array $condition)
+
+    private function translateColumnToExpressionCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
         $column = $condition["column"];
@@ -340,7 +367,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix`$column` $operator $expression", $condition["params"]);
     }
 
-    private function translateExpressionToExpressionCondition(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateExpressionToExpressionCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $expression1 = $condition["expression1"];
         $operator = $condition["operator"];
@@ -349,7 +376,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$expression1 $operator $expression2", $condition["params"]);
     }
 
-    private function translateIsCondition(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateIsCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
         $column = $condition["column"];
@@ -359,7 +386,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix`$column` IS$negation $value");
     }
 
-    private function translateInValues(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateInValues(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
         $column = $condition["column"];
@@ -370,7 +397,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix`$column` ${negation}IN ($valuePattern)", $values);
     }
 
-    private function translateInSubselect(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateInSubselect(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
         $column = $condition["column"];
@@ -382,7 +409,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix`$column` ${negation}IN ($subselectSql)", $subselect->getParams());
     }
 
-    private function translateExists(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateExists(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $negation = $condition["not"] ? "NOT " : "";
 
@@ -392,7 +419,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("${negation}EXISTS ($subselectSql)", $subselect->getParams());
     }
 
-    private function translateQuantification(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateQuantification(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
         $column = $condition["column"];
@@ -405,19 +432,19 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix`$column` $operator $mode ($subselectSql)", $subselect->getParams());
     }
 
-    private function translateRawCondition(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateRawCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $querySegment->add($condition["condition"], $condition["params"]);
     }
 
-    private function translateNestedCondition(TranslatedQuerySegment $querySegment, array $condition)
+    private function translateNestedCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $nestedSegment = $this->translateConditions($condition["condition"]);
 
         $querySegment->add("(" . $nestedSegment->getSql() . ")", $nestedSegment->getParams());
     }
 
-    private function translateOperator(TranslatedQuerySegment $querySegment, array $operator)
+    private function translateOperator(TranslatedQuerySegment $querySegment, array $operator): void
     {
         $querySegment->add(" " . $operator["operator"] . " ");
     }

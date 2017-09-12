@@ -375,10 +375,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->join;
     }
 
-    /**
-     * @return ConditionsInterface|null
-     */
-    public function getWhere()
+    public function getWhere(): ?ConditionsInterface
     {
         return $this->where;
     }
@@ -388,10 +385,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->groupBy;
     }
 
-    /**
-     * @return ConditionsInterface|null
-     */
-    public function getHaving()
+    public function getHaving(): ?ConditionsInterface
     {
         return $this->having;
     }
@@ -401,18 +395,12 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this->orderBy;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getOffset()
+    public function getOffset(): ?int
     {
         return $this->offset;
     }

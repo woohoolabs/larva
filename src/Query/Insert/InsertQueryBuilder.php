@@ -106,10 +106,7 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
         return $this->values;
     }
 
-    /**
-     * @return SelectQueryInterface|null
-     */
-    public function getSelect()
+    public function getSelect(): ?SelectQueryInterface
     {
         return $this->select;
     }

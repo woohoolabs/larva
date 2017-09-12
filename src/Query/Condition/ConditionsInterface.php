@@ -7,8 +7,5 @@ interface ConditionsInterface
 {
     public function getConditions(): array;
 
-    /**
-     * @return void
-     */
-    public function addConditionGroup(ConditionBuilderInterface $conditions, string $operator = "AND");
+    public function addConditionGroup(ConditionBuilderInterface $conditions, string $operator = "AND"): void;
 }

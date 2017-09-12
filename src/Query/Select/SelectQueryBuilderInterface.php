@@ -61,15 +61,9 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function union(SelectQueryBuilderInterface $query, bool $distinct = true): SelectQueryBuilderInterface;
 
-    /**
-     * @param int|null $limit
-     */
-    public function limit($limit): SelectQueryBuilderInterface;
+    public function limit(?int $limit): SelectQueryBuilderInterface;
 
-    /**
-     * @param int|null $offset
-     */
-    public function offset($offset): SelectQueryBuilderInterface;
+    public function offset(?int $offset): SelectQueryBuilderInterface;
 
     public function fetchAll(ConnectionInterface $connection): array;
 

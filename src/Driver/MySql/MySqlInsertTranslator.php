@@ -32,7 +32,10 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
         );
     }
 
-    private function translateInto(InsertQueryInterface $query)
+    /**
+     * @return TranslatedQuerySegment[]
+     */
+    private function translateInto(InsertQueryInterface $query): array
     {
         $into = $query->getInto();
         $columns = "";
@@ -49,7 +52,10 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
         ];
     }
 
-    private function translateValues(InsertQueryInterface $query)
+    /**
+     * @return TranslatedQuerySegment[]
+     */
+    private function translateValues(InsertQueryInterface $query): array
     {
         $values = "";
         $params = [];
@@ -65,6 +71,9 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateSelect(InsertQueryInterface $query): array
     {
         $select = $query->getSelect();

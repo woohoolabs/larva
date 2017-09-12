@@ -9,8 +9,5 @@ interface DeleteQueryInterface
 {
     public function getFrom(): string;
 
-    /**
-     * @return ConditionsInterface|null
-     */
-    public function getWhere();
+    public function getWhere(): ?ConditionsInterface;
 }

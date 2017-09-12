@@ -67,9 +67,9 @@ class MasterSlaveConnection implements ConnectionInterface
         return $this->masterConnection->rollback();
     }
 
-    public function getLastInsertedId(string $name = null): string
+    public function getLastInsertedId(?string $name = null): string
     {
-        return $this->masterConnection->getLastInsertedId();
+        return $this->masterConnection->getLastInsertedId($name);
     }
 
     public function getDriver(): DriverInterface

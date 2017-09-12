@@ -21,7 +21,7 @@ class TranslatedQuerySegment
         $this->addParams($params);
     }
 
-    public function add(string $sql, array $params = [])
+    public function add(string $sql, array $params = []): void
     {
         $this->sql .= " " . $sql;
         $this->addParams($params);
@@ -37,7 +37,7 @@ class TranslatedQuerySegment
         return $this->params;
     }
 
-    private function addParams(array $params)
+    private function addParams(array $params): void
     {
         foreach ($params as $param) {
             if (is_bool($param)) {

@@ -7,6 +7,8 @@ ADDED:
 
 CHANGED:
 
+- Increased minimum PHP version requirement to 7.1
+- Added missing type declarations
 - Translator objects are loaded lazily
 - SQL statements aren't pretty printed
 - Updated development docker images

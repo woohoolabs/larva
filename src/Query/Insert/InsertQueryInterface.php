@@ -13,8 +13,5 @@ interface InsertQueryInterface
 
     public function getValues(): array;
 
-    /**
-     * @return SelectQueryInterface|null
-     */
-    public function getSelect();
+    public function getSelect(): ?SelectQueryInterface;
 }

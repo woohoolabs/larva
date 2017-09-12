@@ -77,10 +77,7 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
         return $this->from;
     }
 
-    /**
-     * @return ConditionsInterface|null
-     */
-    public function getWhere()
+    public function getWhere(): ?ConditionsInterface
     {
         return $this->where;
     }

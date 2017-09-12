@@ -15,31 +15,19 @@ interface SelectQueryInterface
 
     public function getJoins(): array;
 
-    /**
-     * @return ConditionsInterface|null
-     */
-    public function getWhere();
+    public function getWhere(): ?ConditionsInterface;
 
     public function getGroupBy(): array;
 
-    /**
-     * @return ConditionsInterface|null
-     */
-    public function getHaving();
+    public function getHaving(): ?ConditionsInterface;
 
     public function getOrderBy(): array;
 
     public function getLock(): array;
 
-    /**
-     * @return int|null
-     */
-    public function getLimit();
+    public function getLimit(): ?int;
 
-    /**
-     * @return int|null
-     */
-    public function getOffset();
+    public function getOffset(): ?int;
 
     public function getUnions(): array;
 }

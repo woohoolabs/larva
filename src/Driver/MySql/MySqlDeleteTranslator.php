@@ -30,7 +30,10 @@ class MySqlDeleteTranslator extends AbstractQueryTranslator implements DeleteTra
         );
     }
 
-    private function translateFrom(DeleteQueryInterface $query)
+    /**
+     * @return TranslatedQuerySegment[]
+     */
+    private function translateFrom(DeleteQueryInterface $query): array
     {
         $from = $query->getFrom();
 
@@ -39,6 +42,9 @@ class MySqlDeleteTranslator extends AbstractQueryTranslator implements DeleteTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateWhere(DeleteQueryInterface $query): array
     {
         $where = $query->getWhere();

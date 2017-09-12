@@ -19,7 +19,10 @@ class MySqlTruncateTranslator extends AbstractQueryTranslator implements Truncat
         );
     }
 
-    private function translateTable(TruncateQueryInterface $query)
+    /**
+     * @return TranslatedQuerySegment[]
+     */
+    private function translateTable(TruncateQueryInterface $query): array
     {
         $table = $query->getTable();
 

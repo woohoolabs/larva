@@ -31,7 +31,10 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
         );
     }
 
-    private function translateTable(UpdateQueryInterface $query)
+    /**
+     * @return TranslatedQuerySegment[]
+     */
+    private function translateTable(UpdateQueryInterface $query): array
     {
         $table = $query->getTable();
         $tableName = $table["table"];
@@ -42,7 +45,10 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
         ];
     }
 
-    private function translateValues(UpdateQueryInterface $query)
+    /**
+     * @return TranslatedQuerySegment[]
+     */
+    private function translateValues(UpdateQueryInterface $query): array
     {
         $values = "";
         $params = [];
@@ -66,6 +72,9 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
         ];
     }
 
+    /**
+     * @return TranslatedQuerySegment[]
+     */
     private function translateWhere(UpdateQueryInterface $query): array
     {
         $where = $query->getWhere();

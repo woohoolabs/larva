@@ -291,7 +291,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         return $this->conditions;
     }
 
-    public function addConditionGroup(ConditionBuilderInterface $conditions, string $operator = "AND")
+    public function addConditionGroup(ConditionBuilderInterface $conditions, string $operator = "AND"): void
     {
         if (empty($this->conditions) === false) {
             $this->groupConditions();
@@ -301,7 +301,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         $this->nested($conditions);
     }
 
-    private function groupConditions()
+    private function groupConditions(): void
     {
         if (count($this->conditions) === 1 && $this->conditions[0]["type"] === "nested") {
             return;

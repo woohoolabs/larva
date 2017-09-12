@@ -20,10 +20,7 @@ class Logger
         $this->isEnabled = $isEnabled;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getTime()
+    public function getTime(): ?float
     {
         if ($this->isEnabled === false) {
             return null;
@@ -32,7 +29,7 @@ class Logger
         return microtime(true);
     }
 
-    public function log(string $sql, bool $result, array $params = [], float $started = null, float $ended = null)
+    public function log(string $sql, bool $result, array $params = [], float $started = null, float $ended = null): void
     {
         if ($this->isEnabled === false) {
             return;

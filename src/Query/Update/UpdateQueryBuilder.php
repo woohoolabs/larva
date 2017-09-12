@@ -136,10 +136,7 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
         return $this->values;
     }
 
-    /**
-     * @return ConditionsInterface|null
-     */
-    public function getWhere()
+    public function getWhere(): ?ConditionsInterface
     {
         return $this->where;
     }
