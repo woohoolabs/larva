@@ -18,7 +18,8 @@ REMOVED:
 FIXED:
 
 - Subqueries in `FROM` clauses will be translated properly when using the MySQL driver
-- Renamed `WoohooLabs\Larva\Driver\Mysql` namespace to `WoohooLabs\Larva\Driver\MySql` to match its filesystem path 
+- Renamed `WoohooLabs\Larva\Driver\Mysql` namespace to `WoohooLabs\Larva\Driver\MySql` to match its filesystem path
+- `MasterSlaveConnection::getLastInsertedId` didn't use the `$name` parameter
 
 ## 0.4.0 - 2017-03-05
 
