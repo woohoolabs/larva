@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Connection;
 
-use Traversable;
 use WoohooLabs\Larva\Driver\DriverInterface;
 
 interface ConnectionInterface
 {
     public function fetchAll(string $sql, array $params = []): array;
 
-    public function fetch(string $sql, array $params = []): Traversable;
+    public function fetch(string $sql, array $params = []): iterable;
 
     /**
      * @return mixed

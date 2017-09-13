@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Select;
 
-use Traversable;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilder;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
@@ -318,7 +317,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $connection->fetchAll($query->getSql(), $query->getParams());
     }
 
-    public function fetch(ConnectionInterface $connection): Traversable
+    public function fetch(ConnectionInterface $connection): iterable
     {
         $query = $connection->getDriver()->translateSelectQuery($this);
 

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Select;
 
-use Traversable;
 use WoohooLabs\Larva\Connection\ConnectionInterface;
 use WoohooLabs\Larva\Query\Condition\ConditionBuilderInterface;
 use WoohooLabs\Larva\Query\QueryBuilderInterface;
@@ -67,7 +66,7 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function fetchAll(ConnectionInterface $connection): array;
 
-    public function fetch(ConnectionInterface $connection): Traversable;
+    public function fetch(ConnectionInterface $connection): iterable;
 
     /**
      * @return mixed

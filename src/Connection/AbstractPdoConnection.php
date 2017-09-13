@@ -6,7 +6,6 @@ namespace WoohooLabs\Larva\Connection;
 use Closure;
 use PDO;
 use PDOStatement;
-use Traversable;
 use WoohooLabs\Larva\Driver\DriverInterface;
 
 abstract class AbstractPdoConnection implements ConnectionInterface
@@ -68,7 +67,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         return $statement->fetchAll();
     }
 
-    public function fetch(string $sql, array $params = []): Traversable
+    public function fetch(string $sql, array $params = []): iterable
     {
         $statement = $this->getPdo()->prepare($sql);
         $this->executePreparedStatement($statement, $sql, $params);
@@ -76,6 +75,8 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         while ($statement->nextRowset()) {
             yield $statement->fetch();
         }
+
+        return [];
     }
 
     /**

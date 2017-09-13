@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Connection;
 
-use Traversable;
 use WoohooLabs\Larva\Driver\DriverInterface;
 use WoohooLabs\Larva\Driver\MasterSlaveDriver;
 
@@ -37,12 +36,15 @@ class MasterSlaveConnection implements ConnectionInterface
         return $this->slaveConnection->fetchAll($sql, $params);
     }
 
-    public function fetch(string $sql, array $params = []): Traversable
+    public function fetch(string $sql, array $params = []): iterable
     {
         return $this->slaveConnection->fetch($sql, $params);
     }
 
-    public function fetchColumn(string $sql, array $params = []): string
+    /**
+     * @return mixed
+     */
+    public function fetchColumn(string $sql, array $params = [])
     {
         return $this->slaveConnection->fetchColumn($sql, $params);
     }

@@ -26,7 +26,7 @@ class Logger
             return null;
         }
 
-        return microtime(true);
+        return (float) microtime(true);
     }
 
     public function log(string $sql, bool $result, array $params = [], float $started = null, float $ended = null): void

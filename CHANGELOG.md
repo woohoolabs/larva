@@ -8,6 +8,8 @@ REMOVED:
 
 FIXED:
 
+- Fatal error when `AbstractPdoConnection::fetch()` returns an empty result set
+
 ## 0.5.0 - 2017-09-12
 
 ADDED:
