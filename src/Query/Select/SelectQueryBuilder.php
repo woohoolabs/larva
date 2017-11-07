@@ -258,14 +258,14 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function limit($limit): SelectQueryBuilderInterface
+    public function limit(?int $limit): SelectQueryBuilderInterface
     {
         $this->limit = $limit;
 
         return $this;
     }
 
-    public function offset($offset): SelectQueryBuilderInterface
+    public function offset(?int $offset): SelectQueryBuilderInterface
     {
         $this->offset = $offset;
 

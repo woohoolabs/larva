@@ -9,6 +9,7 @@ REMOVED:
 FIXED:
 
 - Fatal error when `AbstractPdoConnection::fetch()` returns an empty result set
+- Fatal error on PHP 7.1 because of incompatible declarations
 
 ## 0.5.0 - 2017-09-12
 
