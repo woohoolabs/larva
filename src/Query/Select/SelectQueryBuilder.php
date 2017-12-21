@@ -251,9 +251,16 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
         return $this;
     }
 
-    public function orderBy(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface
+    public function orderByAttribute(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface
     {
-        $this->orderBy[] = ["attribute" => $attribute, "direction" => $direction];
+        $this->orderBy[] = ["type" => "attribute", "attribute" => $attribute, "direction" => $direction];
+
+        return $this;
+    }
+
+    public function orderByExpression(string $expression, string $direction = "ASC"): SelectQueryBuilderInterface
+    {
+        $this->orderBy[] = ["type" => "expression", "expression" => $expression, "direction" => $direction];
 
         return $this;
     }

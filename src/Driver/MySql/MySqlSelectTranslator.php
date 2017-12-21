@@ -245,10 +245,15 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment = new TranslatedQuerySegment();
         $count = count($query->getOrderBy());
         foreach ($query->getOrderBy() as $i => $orderBy) {
-            $attribute = $orderBy["attribute"];
+            if ($orderBy["type"] === "attribute") {
+                $expression = "`" . $orderBy["attribute"] . "`";
+            } else {
+                $expression = $orderBy["expression"];
+            }
+
             $direction = $orderBy["direction"] ? " " . $orderBy["direction"] : "";
 
-            $querySegment->add("${attribute}${direction}");
+            $querySegment->add("${$expression}${direction}");
 
             if ($i < $count - 1) {
                 $querySegment->add(", ");

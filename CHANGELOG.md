@@ -2,9 +2,13 @@
 
 ADDED:
 
+- `SelectQueryBuilderInterface::orderByAttribute` and `SelectQueryBuilderInterface::orderByExpression` methods
+
 CHANGED:
 
 REMOVED:
+
+- `SelectQueryBuilderInterface::orderBy` method
 
 FIXED:
 

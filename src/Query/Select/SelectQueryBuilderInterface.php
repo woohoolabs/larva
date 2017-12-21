@@ -50,7 +50,9 @@ interface SelectQueryBuilderInterface extends QueryBuilderInterface
 
     public function addHavingGroup(ConditionBuilderInterface $having, string $operator = "AND"): SelectQueryBuilderInterface;
 
-    public function orderBy(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface;
+    public function orderByAttribute(string $attribute, string $direction = "ASC"): SelectQueryBuilderInterface;
+
+    public function orderByExpression(string $expression, string $direction = "ASC"): SelectQueryBuilderInterface;
 
     public function lockForShare(): SelectQueryBuilderInterface;
 
