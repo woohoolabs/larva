@@ -253,7 +253,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
             $direction = $orderBy["direction"] ? " " . $orderBy["direction"] : "";
 
-            $querySegment->add("${$expression}${direction}");
+            $querySegment->add("${expression}${direction}");
 
             if ($i < $count - 1) {
                 $querySegment->add(", ");
