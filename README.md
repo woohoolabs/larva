@@ -38,6 +38,9 @@ To install this library, run the command below and you will get the latest versi
 $ composer require woohoolabs/larva
 ```
 
+> Note: The tests and examples won't be downloaded by default. You have to use `composer require woohoolabs/larva --prefer-source`
+or clone the repository if you need them.
+
 ## Basic Usage
 
 ## Advanced Usage
