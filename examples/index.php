@@ -63,7 +63,7 @@ $result2 = SelectQueryBuilder::create()
         ConditionBuilder::create()
             ->raw("c.id = ?", [2])
     )
-    ->orderBy("s.id", "ASC")
+    ->orderByAttribute("s.id", "ASC")
     ->fetchAll($connection);
 
 InsertQueryBuilder::create()
