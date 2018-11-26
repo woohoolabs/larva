@@ -28,7 +28,7 @@
 
 ## Install
 
-The steps of this process are quite straightforward. The only thing you need is [Composer](http://getcomposer.org).
+The steps of this process are quite straightforward. The only thing you need is [Composer](https://getcomposer.org).
 
 #### Add Larva to your composer.json:
 
@@ -52,7 +52,7 @@ example. Don't forget to run `composer install` first in Larva's root directory 
 
 ## Versioning
 
-This library follows [SemVer v2.0.0](http://semver.org/).
+This library follows [SemVer v2.0.0](https://semver.org/).
 
 ## Change Log
 
