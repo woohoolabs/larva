@@ -47,6 +47,9 @@ or clone the repository if you need them.
 
 ## Examples
 
+Have a look at the [examples directory](https://github.com/woohoolabs/larva/blob/master/examples/) for a really basic
+example. Don't forget to run `composer install` first in Larva's root directory if you want to try it out!
+
 ## Versioning
 
 This library follows [SemVer v2.0.0](http://semver.org/).
@@ -54,6 +57,16 @@ This library follows [SemVer v2.0.0](http://semver.org/).
 ## Change Log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Testing
+
+Larva has a PHPUnit test suite. To run the tests, run the following command from the project folder:
+
+``` bash
+$ phpunit
+```
+
+Additionally, you may run `docker-compose up` or `make test` to execute the tests.
 
 ## Contributing
 

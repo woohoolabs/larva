@@ -1,51 +1,9 @@
 version: '2'
 
 services:
-    larva-nginx:
-        image: nginx:1.13-alpine
-        container_name: larva-nginx
-        networks:
-            - larva
-        volumes:
-            - .:/code
-        ports:
-            - "$HOST_WEB_PORT:80"
-        env_file:
-            - .env
-        command: /code/build/container/nginx/run.sh
-        env_file:
-            - .env
-        depends_on:
-            - larva-php-fpm
-
-    larva-php-fpm:
+    larva-php:
         image: woohoolabs/php:3.2
-        container_name: larva-php-fpm
-        networks:
-            - larva
+        container_name: larva-php
         volumes:
             - .:/code
-        env_file:
-            - .env
-        command: /code/build/container/php-fpm/run.sh
-        depends_on:
-            - larva-mysql
-
-    larva-mysql:
-        image: mysql:5.7
-        container_name: larva-mysql
-        ports:
-            - "$HOST_MYSQL_PORT:3306"
-        networks:
-            - larva
-        volumes:
-            - mysql-data:/var/lib/mysql
-        env_file:
-            - .env
-
-networks:
-    larva:
-
-volumes:
-    mysql-data:
-        driver: local
+        command: /bin/bash -c "cd /code; php vendor/bin/phpunit"

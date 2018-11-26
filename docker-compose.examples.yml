@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+    larva-examples-nginx:
+        image: nginx:1.13-alpine
+        container_name: larva-examples-nginx
+        networks:
+            - larva-examples
+        volumes:
+            - .:/code
+        ports:
+            - "$HOST_WEB_PORT:80"
+        env_file:
+            - .env
+        command: /code/build/container/nginx/run.sh
+        depends_on:
+            - larva-examples-php-fpm
+
+    larva-examples-php-fpm:
+        image: woohoolabs/php:3.2
+        container_name: larva-examples-php-fpm
+        networks:
+            - larva-examples
+        volumes:
+            - .:/code
+        env_file:
+            - .env
+        command: /code/build/container/php-fpm/run.sh
+        depends_on:
+            - larva-examples-mysql
+
+    larva-examples-mysql:
+        image: mysql:5.7
+        container_name: larva-examples-mysql
+        ports:
+            - "$HOST_MYSQL_PORT:3306"
+        networks:
+            - larva-examples
+        volumes:
+            - mysql-data:/var/lib/mysql
+        env_file:
+            - .env
+
+networks:
+    larva-examples:
+
+volumes:
+    mysql-data:
+        driver: local
