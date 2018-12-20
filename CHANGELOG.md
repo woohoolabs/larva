@@ -7,7 +7,7 @@ ADDED:
 CHANGED:
 
 - Require PHPUnit 7.0 minimally for running tests
-- Run Travis tests on PHP 7.3 too
+- Do not use the `NO_AUTO_CREATE_USER` mode by default because it was removed in MySQL 8.0
 
 REMOVED:
 
