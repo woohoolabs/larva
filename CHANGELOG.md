@@ -1,4 +1,14 @@
-## 0.6.0 - unreleased
+## 0.7.0 - unreleased
+
+ADDED:
+
+CHANGED:
+
+REMOVED:
+
+FIXED:
+
+## 0.6.0 - 2018-12-21
 
 ADDED:
 
@@ -8,6 +18,7 @@ CHANGED:
 
 - Require PHPUnit 7.0 minimally for running tests
 - Do not use the `NO_AUTO_CREATE_USER` mode by default because it was removed in MySQL 8.0
+- Apply the Woohoo Labs. Coding Standard
 
 REMOVED:
 
