@@ -5,6 +5,7 @@ namespace WoohooLabs\Larva\Connection;
 
 use WoohooLabs\Larva\Driver\DriverInterface;
 use WoohooLabs\Larva\Driver\MasterSlaveDriver;
+use function array_merge;
 
 class MasterSlaveConnection implements ConnectionInterface
 {

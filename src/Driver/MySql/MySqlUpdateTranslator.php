@@ -7,6 +7,8 @@ use WoohooLabs\Larva\Driver\AbstractQueryTranslator;
 use WoohooLabs\Larva\Driver\TranslatedQuerySegment;
 use WoohooLabs\Larva\Driver\UpdateTranslatorInterface;
 use WoohooLabs\Larva\Query\Update\UpdateQueryInterface;
+use function array_merge;
+use function rtrim;
 
 class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTranslatorInterface
 {
@@ -41,7 +43,7 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
         $alias = empty($table["alias"]) ? "" : " AS `" . $table["alias"] . "`";
 
         return [
-            $this->createTranslatedClause("UPDATE", "`$tableName`$alias")
+            $this->createTranslatedClause("UPDATE", "`$tableName`$alias"),
         ];
     }
 
@@ -68,7 +70,7 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
         $values = rtrim($values, ", ");
 
         return [
-            $this->createTranslatedClause("SET", $values, $params)
+            $this->createTranslatedClause("SET", $values, $params),
         ];
     }
 
@@ -86,7 +88,7 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
         $querySegment = $this->selectTranslator->translateConditions($where);
 
         return [
-            $this->createTranslatedClause("WHERE", $querySegment->getSql(), $querySegment->getParams())
+            $this->createTranslatedClause("WHERE", $querySegment->getSql(), $querySegment->getParams()),
         ];
     }
 }

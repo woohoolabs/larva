@@ -38,7 +38,7 @@ class MySqlDeleteTranslator extends AbstractQueryTranslator implements DeleteTra
         $from = $query->getFrom();
 
         return [
-            $this->createTranslatedClause("DELETE FROM", "`$from`")
+            $this->createTranslatedClause("DELETE FROM", "`$from`"),
         ];
     }
 
@@ -56,7 +56,7 @@ class MySqlDeleteTranslator extends AbstractQueryTranslator implements DeleteTra
         $querySegment = $this->selectTranslator->translateConditions($where);
 
         return [
-            $this->createTranslatedClause("WHERE", $querySegment->getSql(), $querySegment->getParams())
+            $this->createTranslatedClause("WHERE", $querySegment->getSql(), $querySegment->getParams()),
         ];
     }
 }

@@ -301,7 +301,7 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     {
         $this->lock = [
             "type" => "custom",
-            "mode" => $mode
+            "mode" => $mode,
         ];
 
         return $this;

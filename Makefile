@@ -27,15 +27,7 @@ test:
 	docker-compose -f docker-compose.yml up
 
 cs:
-	docker-compose -f docker-compose.yml run larva-php /code/vendor/bin/phpcs \
-	    --standard=/code/phpcs.xml \
-	    --encoding=UTF-8 \
-	    --report-full \
-	    --extensions=php \
-	   /code/src/ /code/tests/
+	docker-compose -f docker-compose.yml run --rm larva-php /code/vendor/bin/phpcs --standard=/code/phpcs.xml
 
 cs-fix:
-	docker-compose -f docker-compose.yml run larva-php /code/vendor/bin/phpcbf \
-	    --standard=/code/phpcs.xml \
-	    --extensions=php \
-	   /code/src/ /code/tests/
+	docker-compose -f docker-compose.yml run --rm larva-php /code/vendor/bin/phpcbf --standard=/code/phpcs.xml

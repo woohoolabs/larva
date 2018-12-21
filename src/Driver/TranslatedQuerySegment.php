@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Driver;
 
+use function is_bool;
+
 class TranslatedQuerySegment
 {
     /**

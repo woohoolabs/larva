@@ -27,7 +27,7 @@ class MySqlTruncateTranslator extends AbstractQueryTranslator implements Truncat
         $table = $query->getTable();
 
         return [
-            $this->createTranslatedClause("TRUNCATE ", "`$table`")
+            $this->createTranslatedClause("TRUNCATE ", "`$table`"),
         ];
     }
 }

@@ -6,6 +6,7 @@ namespace WoohooLabs\Larva\Connection;
 use PDO;
 use WoohooLabs\Larva\Driver\DriverInterface;
 use WoohooLabs\Larva\Driver\MySql\MySqlDriver;
+use function implode;
 
 class MySqlPdoConnection extends AbstractPdoConnection
 {

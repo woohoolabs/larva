@@ -7,6 +7,9 @@ use Closure;
 use PDO;
 use PDOStatement;
 use WoohooLabs\Larva\Driver\DriverInterface;
+use function is_float;
+use function is_int;
+use function is_string;
 
 abstract class AbstractPdoConnection implements ConnectionInterface
 {

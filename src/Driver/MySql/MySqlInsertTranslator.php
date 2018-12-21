@@ -8,6 +8,12 @@ use WoohooLabs\Larva\Driver\InsertTranslatorInterface;
 use WoohooLabs\Larva\Driver\SelectTranslatorInterface;
 use WoohooLabs\Larva\Driver\TranslatedQuerySegment;
 use WoohooLabs\Larva\Query\Insert\InsertQueryInterface;
+use function array_fill;
+use function array_merge;
+use function array_values;
+use function count;
+use function implode;
+use function rtrim;
 
 class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTranslatorInterface
 {
@@ -48,7 +54,7 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
         implode(",", $query->getColumns());
 
         return [
-            $this->createTranslatedClause("INSERT INTO", "`$into` ($columns)")
+            $this->createTranslatedClause("INSERT INTO", "`$into` ($columns)"),
         ];
     }
 
@@ -67,7 +73,7 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
         $values = rtrim($values, ",");
 
         return [
-            $this->createTranslatedClause("VALUES", $values, $params)
+            $this->createTranslatedClause("VALUES", $values, $params),
         ];
     }
 
@@ -83,7 +89,7 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
         }
 
         return [
-            $this->selectTranslator->translateSelectQuery($select)
+            $this->selectTranslator->translateSelectQuery($select),
         ];
     }
 }

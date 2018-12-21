@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Connection;
 
+use function date;
+use function microtime;
+
 class Logger
 {
     /**
@@ -29,7 +32,7 @@ class Logger
         return (float) microtime(true);
     }
 
-    public function log(string $sql, bool $result, array $params = [], float $started = null, float $ended = null): void
+    public function log(string $sql, bool $result, array $params = [], ?float $started = null, ?float $ended = null): void
     {
         if ($this->isEnabled === false) {
             return;

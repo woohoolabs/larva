@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WoohooLabs\Larva\Query\Condition;
 
 use WoohooLabs\Larva\Query\Select\SelectQueryBuilderInterface;
+use function count;
 
 class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
 {
@@ -312,7 +313,7 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
             [
                 "type" => "nested",
                 "condition" => $conditionBuilder,
-            ]
+            ],
         ];
     }
 }

@@ -8,6 +8,9 @@ use WoohooLabs\Larva\Driver\SelectTranslatorInterface;
 use WoohooLabs\Larva\Driver\TranslatedQuerySegment;
 use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
+use function array_fill;
+use function count;
+use function implode;
 
 class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTranslatorInterface
 {
@@ -139,14 +142,14 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
             $subselect = $subselectSegment->getSql();
 
             return [
-                $this->createTranslatedClause("FROM", "($subselect)$alias", $subselectSegment->getParams())
+                $this->createTranslatedClause("FROM", "($subselect)$alias", $subselectSegment->getParams()),
             ];
         }
 
         $table = $from["table"];
 
         return [
-            $this->createTranslatedClause("FROM", "`$table`$alias")
+            $this->createTranslatedClause("FROM", "`$table`$alias"),
         ];
     }
 
@@ -197,7 +200,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $result = $this->translateConditions($where);
 
         return [
-            $this->createTranslatedClause("WHERE", $result->getSql(), $result->getParams())
+            $this->createTranslatedClause("WHERE", $result->getSql(), $result->getParams()),
         ];
     }
 
@@ -211,7 +214,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         }
 
         return [
-            $this->createTranslatedClause("GROUP BY", implode(",", $query->getGroupBy()))
+            $this->createTranslatedClause("GROUP BY", implode(",", $query->getGroupBy())),
         ];
     }
 
@@ -229,7 +232,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $result = $this->translateConditions($having);
 
         return [
-            $this->createTranslatedClause("HAVING", $result->getSql(), $result->getParams())
+            $this->createTranslatedClause("HAVING", $result->getSql(), $result->getParams()),
         ];
     }
 
@@ -261,7 +264,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         }
 
         return [
-            $this->createTranslatedClause("ORDER BY", $querySegment->getSql())
+            $this->createTranslatedClause("ORDER BY", $querySegment->getSql()),
         ];
     }
 
@@ -275,7 +278,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         }
 
         return [
-            $this->createTranslatedClause("LIMIT", "?", [$query->getLimit()])
+            $this->createTranslatedClause("LIMIT", "?", [$query->getLimit()]),
         ];
     }
 
@@ -289,7 +292,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         }
 
         return [
-            $this->createTranslatedClause("OFFSET", "?", [$query->getOffset()])
+            $this->createTranslatedClause("OFFSET", "?", [$query->getOffset()]),
         ];
     }
 
@@ -318,7 +321,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         }
 
         return [
-            new TranslatedQuerySegment($mode)
+            new TranslatedQuerySegment($mode),
         ];
     }
 
@@ -361,7 +364,6 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $querySegment->add("$prefix1`$column1` $operator $prefix2`$column2`");
     }
 
-
     private function translateColumnToExpressionCondition(TranslatedQuerySegment $querySegment, array $condition): void
     {
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
@@ -386,7 +388,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
         $prefix = $condition["prefix"] ? "`" . $condition["prefix"] . "`." : "";
         $column = $condition["column"];
         $negation = $condition["not"] ? " NOT" : "";
-        $value = isset($condition["value"]) ? $condition["value"] : "NULL";
+        $value = $condition["value"] ?? "NULL";
 
         $querySegment->add("$prefix`$column` IS$negation $value");
     }
