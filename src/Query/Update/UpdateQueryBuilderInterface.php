@@ -10,6 +10,9 @@ interface UpdateQueryBuilderInterface extends DmlCommandBuilderInterface
 {
     public function table(string $table, string $alias = ""): UpdateQueryBuilderInterface;
 
+    /**
+     * @param mixed $value
+     */
     public function setValue(string $column, $value): UpdateQueryBuilderInterface;
 
     public function setValues(array $values): UpdateQueryBuilderInterface;

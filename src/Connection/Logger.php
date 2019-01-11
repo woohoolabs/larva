@@ -29,7 +29,7 @@ class Logger
             return null;
         }
 
-        return (float) microtime(true);
+        return microtime(true);
     }
 
     public function log(string $sql, bool $result, array $params = [], ?float $started = null, ?float $ended = null): void
@@ -40,7 +40,7 @@ class Logger
 
         $this->log[] = [
             "time" => date("Y-m-d H:i:s"),
-            "duration" => $started && $ended ? ($ended - $started) * 1000 : null,
+            "duration" => $started !== null && $ended !== null ? ($ended - $started) * 1000 : null,
             "result" => $result,
             "sql" => $sql,
             "params" => $params,

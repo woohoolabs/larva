@@ -7,6 +7,9 @@ use WoohooLabs\Larva\Query\Select\SelectQueryBuilderInterface;
 
 interface ConditionBuilderInterface
 {
+    /**
+     * @param mixed $value
+     */
     public function columnToValue(
         string $column,
         string $operator,
@@ -37,8 +40,14 @@ interface ConditionBuilderInterface
         array $params = []
     ): ConditionBuilderInterface;
 
+    /**
+     * @param mixed $value
+     */
     public function is(string $column, $value, string $columnPrefix = ""): ConditionBuilderInterface;
 
+    /**
+     * @param mixed $value
+     */
     public function isNot(string $column, $value, string $columnPrefix = ""): ConditionBuilderInterface;
 
     public function inValues(string $column, array $values, string $columnPrefix = ""): ConditionBuilderInterface;

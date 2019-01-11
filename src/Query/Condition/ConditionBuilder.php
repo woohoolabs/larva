@@ -18,6 +18,9 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         return new ConditionBuilder();
     }
 
+    /**
+     * @param mixed $value
+     */
     public function columnToValue(
         string $column,
         string $operator,
@@ -90,6 +93,9 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         return $this;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function is(string $column, $value, string $columnPrefix = ""): ConditionBuilderInterface
     {
         $this->conditions[] = [
@@ -103,6 +109,9 @@ class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
         return $this;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function isNot(string $column, $value, string $columnPrefix = ""): ConditionBuilderInterface
     {
         $this->conditions[] = [

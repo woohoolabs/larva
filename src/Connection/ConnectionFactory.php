@@ -64,7 +64,7 @@ class ConnectionFactory
             throw new DomainException("Slave connection names aren't supplied!");
         }
 
-        if (isset($array["master"]) === $name || in_array($name, $array["slaves"], true)) {
+        if ($array["master"] === $name || in_array($name, $array["slaves"], true)) {
             throw new DomainException("Master and slave connections can't be the same as the parent connection!");
         }
 

@@ -45,6 +45,9 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
         return $this;
     }
 
+    /**
+     * @param mixed $value
+     */
     public function setValue(string $column, $value): UpdateQueryBuilderInterface
     {
         $this->values[] = [

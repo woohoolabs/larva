@@ -17,7 +17,7 @@ class TranslatedQuerySegment
      */
     private $params = [];
 
-    public function __construct($sql = "", array $params = [])
+    public function __construct(string $sql = "", array $params = [])
     {
         $this->sql = $sql;
         $this->addParams($params);
