@@ -7,10 +7,7 @@ use WoohooLabs\Larva\Connection\ConnectionInterface;
 
 class TruncateQueryBuilder implements TruncateQueryBuilderInterface, TruncateQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $table = "";
+    private string $table = "";
 
     public static function create(): TruncateQueryBuilderInterface
     {

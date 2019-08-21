@@ -9,15 +9,8 @@ use function array_merge;
 
 class MasterSlaveConnection implements ConnectionInterface
 {
-    /**
-     * @var ConnectionInterface
-     */
-    private $masterConnection;
-
-    /**
-     * @var ConnectionInterface
-     */
-    private $slaveConnection;
+    private ConnectionInterface $masterConnection;
+    private ConnectionInterface $slaveConnection;
 
     public static function create(
         ConnectionInterface $masterConnection,

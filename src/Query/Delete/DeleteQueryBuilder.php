@@ -10,10 +10,7 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
 class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $from = "";
+    private string $from = "";
 
     /**
      * @var ConditionsInterface|null

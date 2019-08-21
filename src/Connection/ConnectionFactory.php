@@ -10,10 +10,7 @@ use function random_int;
 
 class ConnectionFactory
 {
-    /**
-     * @var array
-     */
-    private $config;
+    private array $config;
 
     public static function createFromFile(string $path): ConnectionFactory
     {

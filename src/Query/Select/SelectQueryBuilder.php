@@ -10,30 +10,11 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
 class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInterface
 {
-    /**
-     * @var bool
-     */
-    private $distinct = false;
-
-    /**
-     * @var array
-     */
-    private $select = [];
-
-    /**
-     * @var array
-     */
-    private $from = [];
-
-    /**
-     * @var array
-     */
-    private $aggregate = [];
-
-    /**
-     * @var array
-     */
-    private $join = [];
+    private bool $distinct = false;
+    private array $select = [];
+    private array $from = [];
+    private array $aggregate = [];
+    private array $join = [];
 
     /**
      * @var ConditionsInterface|null

@@ -9,25 +9,10 @@ use WoohooLabs\Larva\Query\Select\SelectQueryInterface;
 
 class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $into = "";
-
-    /**
-     * @var array
-     */
-    private $columns = [];
-
-    /**
-     * @var array
-     */
-    private $values = [];
-
-    /**
-     * @var SelectQueryInterface
-     */
-    private $select;
+    private string $into = "";
+    private array $columns = [];
+    private array $values = [];
+    private SelectQueryInterface $select;
 
     public static function create(): InsertQueryBuilderInterface
     {

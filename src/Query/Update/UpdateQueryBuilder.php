@@ -10,15 +10,8 @@ use WoohooLabs\Larva\Query\Condition\ConditionsInterface;
 
 class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInterface
 {
-    /**
-     * @var array
-     */
-    private $table = [];
-
-    /**
-     * @var array
-     */
-    private $values = [];
+    private array $table = [];
+    private array $values = [];
 
     /**
      * @var ConditionsInterface|null

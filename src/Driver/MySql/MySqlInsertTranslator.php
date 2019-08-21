@@ -17,10 +17,7 @@ use function rtrim;
 
 class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTranslatorInterface
 {
-    /**
-     * @var SelectTranslatorInterface
-     */
-    private $selectTranslator;
+    private SelectTranslatorInterface $selectTranslator;
 
     public function __construct(SelectTranslatorInterface $selectTranslator)
     {

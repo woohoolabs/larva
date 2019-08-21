@@ -12,10 +12,7 @@ use function rtrim;
 
 class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTranslatorInterface
 {
-    /**
-     * @var MySqlSelectTranslator
-     */
-    private $selectTranslator;
+    private MySqlSelectTranslator $selectTranslator;
 
     public function __construct(MySqlSelectTranslator $conditionsTranslator)
     {

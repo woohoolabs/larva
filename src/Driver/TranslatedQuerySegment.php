@@ -7,15 +7,8 @@ use function is_bool;
 
 class TranslatedQuerySegment
 {
-    /**
-     * @var string
-     */
-    private $sql;
-
-    /**
-     * @var array
-     */
-    private $params = [];
+    private string $sql;
+    private array $params = [];
 
     public function __construct(string $sql = "", array $params = [])
     {

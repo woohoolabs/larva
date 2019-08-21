@@ -11,15 +11,8 @@ use WoohooLabs\Larva\Query\Update\UpdateQueryInterface;
 
 class MasterSlaveDriver implements DriverInterface
 {
-    /**
-     * @var DriverInterface
-     */
-    private $masterDriver;
-
-    /**
-     * @var DriverInterface
-     */
-    private $slaveDriver;
+    private DriverInterface $masterDriver;
+    private DriverInterface $slaveDriver;
 
     public function __construct(DriverInterface $masterDriver, DriverInterface $slaveDriver)
     {

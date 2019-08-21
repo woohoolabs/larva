@@ -13,25 +13,13 @@ use function is_string;
 
 abstract class AbstractPdoConnection implements ConnectionInterface
 {
+    protected array $settings;
     /**
-     * @var array
-     */
-    protected $settings;
-
-    /**
-     * @var PDO
+     * @var PDO|null
      */
     private $pdo;
-
-    /**
-     * @var DriverInterface
-     */
-    private $driver;
-
-    /**
-     * @var Logger
-     */
-    private $logger;
+    private DriverInterface $driver;
+    private Logger $logger;
 
     abstract protected function createDriver(): DriverInterface;
 

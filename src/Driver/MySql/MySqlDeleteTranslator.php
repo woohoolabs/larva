@@ -10,10 +10,7 @@ use WoohooLabs\Larva\Query\Delete\DeleteQueryInterface;
 
 class MySqlDeleteTranslator extends AbstractQueryTranslator implements DeleteTranslatorInterface
 {
-    /**
-     * @var MySqlSelectTranslator
-     */
-    private $selectTranslator;
+    private MySqlSelectTranslator $selectTranslator;
 
     public function __construct(MySqlSelectTranslator $conditionsTranslator)
     {

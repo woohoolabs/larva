@@ -8,15 +8,8 @@ use function microtime;
 
 class Logger
 {
-    /**
-     * @var array
-     */
-    private $log = [];
-
-    /**
-     * @var bool
-     */
-    private $isEnabled;
+    private array $log = [];
+    private bool $isEnabled;
 
     public function __construct(bool $isEnabled)
     {

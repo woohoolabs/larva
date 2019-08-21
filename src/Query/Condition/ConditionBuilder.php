@@ -8,10 +8,7 @@ use function count;
 
 class ConditionBuilder implements ConditionBuilderInterface, ConditionsInterface
 {
-    /**
-     * @var array
-     */
-    private $conditions = [];
+    private array $conditions = [];
 
     public static function create(): ConditionBuilderInterface
     {
