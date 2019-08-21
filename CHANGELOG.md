@@ -10,6 +10,8 @@ CHANGED:
 
 REMOVED:
 
+- `AbstractPdoConnection::create()`
+
 FIXED:
 
 ## 0.6.0 - 2018-12-21

@@ -23,16 +23,6 @@ abstract class AbstractPdoConnection implements ConnectionInterface
 
     abstract protected function createDriver(): DriverInterface;
 
-    public static function create(
-        string $dsn,
-        string $username,
-        string $password,
-        array $options,
-        bool $isLogging
-    ): ConnectionInterface {
-        return new static($dsn, $username, $password, $options, $isLogging);
-    }
-
     public function __construct(
         string $dsn,
         string $username,
