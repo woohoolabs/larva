@@ -2,8 +2,8 @@ version: '2'
 
 services:
     larva-php:
-        image: woohoolabs/php:3.2
+        image: woohoolabs/php-cli:7.4.0beta2
         container_name: larva-php
         volumes:
             - .:/code
-        command: /bin/bash -c "cd /code; php vendor/bin/phpunit"
+        command: /bin/sh -c "cd /code; php vendor/bin/phpunit"

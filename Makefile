@@ -21,7 +21,7 @@ test:
 	docker-compose up
 
 phpstan:
-	docker-compose run --rm larva-php /bin/bash -c "cd /code && ./vendor/bin/phpstan analyse --level 7 src"
+	docker-compose run --rm larva-php /bin/sh -c "cd /code && ./vendor/bin/phpstan analyse --level 7 src tests"
 
 cs:
 	docker-compose run --rm larva-php /code/vendor/bin/phpcs --standard=/code/phpcs.xml

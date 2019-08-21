@@ -2,7 +2,7 @@ version: '2'
 
 services:
     larva-examples-nginx:
-        image: nginx:1.13-alpine
+        image: nginx:1.17-alpine
         container_name: larva-examples-nginx
         networks:
             - larva-examples
@@ -17,7 +17,7 @@ services:
             - larva-examples-php-fpm
 
     larva-examples-php-fpm:
-        image: woohoolabs/php:3.2
+        image: woohoolabs/php-fpm:7.4.0beta2
         container_name: larva-examples-php-fpm
         networks:
             - larva-examples
@@ -30,7 +30,7 @@ services:
             - larva-examples-mysql
 
     larva-examples-mysql:
-        image: mysql:5.7
+        image: mysql:8.0
         container_name: larva-examples-mysql
         ports:
             - "$HOST_MYSQL_PORT:3306"
