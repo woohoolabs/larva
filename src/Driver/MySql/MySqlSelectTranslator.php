@@ -84,12 +84,12 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
     private function translateSelect(SelectQueryInterface $query): TranslatedQuerySegment
     {
-        $union = empty($query->getUnions()) ? "" : "(";
+        $union = $query->getUnions() === [] ? "" : "(";
         $distinct = $query->isDistinct() ? " DISTINCT" : "";
 
         $selectExpressions = $this->getSelectExpressions($query);
 
-        if (empty($selectExpressions)) {
+        if ($selectExpressions === []) {
             return $this->createTranslatedClause("${union}SELECT$distinct", "*");
         }
 
@@ -131,7 +131,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
     {
         $from = $query->getFrom();
 
-        if (empty($from)) {
+        if ($from === []) {
             return [];
         }
 
@@ -160,7 +160,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
     {
         $joins = $query->getJoins();
 
-        if (empty($joins)) {
+        if ($joins === []) {
             return [];
         }
 
@@ -209,7 +209,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
      */
     private function translateGroupBy(SelectQueryInterface $query): array
     {
-        if (empty($query->getGroupBy())) {
+        if ($query->getGroupBy() === []) {
             return [];
         }
 
@@ -241,7 +241,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
      */
     private function translateOrderBy(SelectQueryInterface $query): array
     {
-        if (empty($query->getOrderBy())) {
+        if ($query->getOrderBy() === []) {
             return [];
         }
 
@@ -303,7 +303,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
     {
         $lock = $query->getLock();
 
-        if (empty($lock)) {
+        if ($lock === []) {
             return [];
         }
 

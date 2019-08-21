@@ -21,20 +21,13 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
      */
     private $where;
 
-    /**
-     * @var array
-     */
-    private $groupBy = [];
+    private array $groupBy = [];
 
     /**
      * @var ConditionsInterface|null
      */
     private $having;
-
-    /**
-     * @var array
-     */
-    private $orderBy = [];
+    private array $orderBy = [];
 
     /**
      * @var int|null
@@ -45,16 +38,8 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
      * @var int|null
      */
     private $offset;
-
-    /**
-     * @var array
-     */
-    private $unions = [];
-
-    /**
-     * @var array
-     */
-    private $lock = [];
+    private array $unions = [];
+    private array $lock = [];
 
     public static function create(): SelectQueryBuilderInterface
     {

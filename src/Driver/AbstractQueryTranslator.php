@@ -12,7 +12,7 @@ abstract class AbstractQueryTranslator
         foreach ($clauses as $name => $segments) {
             foreach ($segments as $segment) {
                 /** @var TranslatedQuerySegment $segment */
-                if (empty($segment->getSql())) {
+                if ($segment->getSql() === "") {
                     continue;
                 }
 

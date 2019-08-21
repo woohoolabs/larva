@@ -12,27 +12,23 @@ use WoohooLabs\Larva\Query\Update\UpdateQueryInterface;
 abstract class AbstractDriver implements DriverInterface
 {
     /**
-     * @var SelectTranslatorInterface
+     * @var SelectTranslatorInterface|null
      */
     private $selectTranslator;
-
     /**
-     * @var InsertTranslatorInterface
+     * @var InsertTranslatorInterface|null
      */
     private $insertTranslator;
-
     /**
-     * @var UpdateTranslatorInterface
+     * @var UpdateTranslatorInterface|null
      */
     private $updateTranslator;
-
     /**
-     * @var DeleteTranslatorInterface
+     * @var DeleteTranslatorInterface|null
      */
     private $deleteTranslator;
-
     /**
-     * @var TruncateTranslatorInterface
+     * @var TruncateTranslatorInterface|null
      */
     private $truncateTranslator;
 

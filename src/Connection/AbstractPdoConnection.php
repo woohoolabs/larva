@@ -55,7 +55,12 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         $statement = $this->getPdo()->prepare($sql);
         $this->executePreparedStatement($statement, $sql, $params);
 
-        return $statement->fetchAll();
+        $result = $statement->fetchAll();
+        if ($result === false) {
+            return [];
+        }
+
+        return $result;
     }
 
     public function fetch(string $sql, array $params = []): iterable
@@ -123,7 +128,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
 
     public function getLastInsertedId(?string $name = null): string
     {
-        return $this->getPdo()->lastInsertId($name);
+        return $this->getPdo()->lastInsertId($name ?? "");
     }
 
     public function getDriver(): DriverInterface
@@ -181,7 +186,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         return $this->executeSql(
             $sql,
             $params,
-            function () use ($statement) {
+            static function () use ($statement) {
                 return $statement->execute();
             }
         );

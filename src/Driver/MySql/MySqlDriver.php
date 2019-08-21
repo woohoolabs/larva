@@ -36,4 +36,9 @@ class MySqlDriver extends AbstractDriver
     {
         return new MySqlTruncateTranslator();
     }
+
+    protected function getSelectTranslator(): MySqlSelectTranslator
+    {
+        return parent::getSelectTranslator();
+    }
 }

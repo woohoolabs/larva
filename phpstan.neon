@@ -1,7 +1,11 @@
 parameters:
     bootstrap: vendor/autoload.php
     ignoreErrors:
-        - '#^Construct empty\(\) is not allowed\. Use more strict comparison\.$#'
+        - '#^Method .*\\MySqlDriver::getSelectTranslator\(\) should return .*\\MySqlSelectTranslator but returns .*\\SelectTranslatorInterface\.$#'
+        - '#^Dynamic call to static method PHPUnit\\Framework\\.*$#'
 
 includes:
-	- vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
