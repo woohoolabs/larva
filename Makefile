@@ -18,10 +18,10 @@ down:
 	docker-compose -f docker-compose.examples.yml stop --timeout=2
 
 test:
-	docker-compose run --rm --no-deps larva-php /bin/sh -c "cd /var/www; php vendor/bin/phpunit"
+	docker-compose run --rm --no-deps larva-php /bin/sh -c "./vendor/bin/phpunit"
 
 phpstan:
-	docker-compose run --rm --no-deps larva-php /bin/sh -c "cd /code && ./vendor/bin/phpstan analyse --level 7 src tests"
+	docker-compose run --rm --no-deps larva-php /bin/sh -c "./vendor/bin/phpstan analyse --level 7 src tests"
 
 cs:
 	docker-compose run --rm --no-deps larva-php /code/vendor/bin/phpcs --standard=/code/phpcs.xml

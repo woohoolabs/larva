@@ -36,8 +36,12 @@ class MySqlUpdateTranslator extends AbstractQueryTranslator implements UpdateTra
     private function translateTable(UpdateQueryInterface $query): array
     {
         $table = $query->getTable();
+        if ($table === []) {
+            return [];
+        }
+
         $tableName = $table["table"];
-        $alias = empty($table["alias"]) ? "" : " AS `" . $table["alias"] . "`";
+        $alias = $table["alias"] === "" ? "" : " AS `" . $table["alias"] . "`";
 
         return [
             $this->createTranslatedClause("UPDATE", "`$tableName`$alias"),

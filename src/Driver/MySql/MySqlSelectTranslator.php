@@ -109,7 +109,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
                 $expression = $item["expression"];
             }
 
-            $alias = $item["alias"] ? " AS `" . $item["alias"] . "`" : "";
+            $alias = $item["alias"] !== "" ? " AS `" . $item["alias"] . "`" : "";
 
             if ($item["type"] === "count") {
                 $distinct = $item["distinct"] ? "DISTINCT " : "";
@@ -135,7 +135,7 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
             return [];
         }
 
-        $alias = empty($from["alias"]) ? "" : " AS `" . $from["alias"] . "`";
+        $alias = $from["alias"] === "" ? "" : " AS `" . $from["alias"] . "`";
 
         if ($from["type"] === "subquery") {
             $subselectSegment = $this->translateSelectQuery($from["from"]);
@@ -175,9 +175,9 @@ class MySqlSelectTranslator extends AbstractQueryTranslator implements SelectTra
 
                 $segments[] = $this->createTranslatedClause("ON", "($on)", $params);
             } else {
-                $type = $join["type"] ? $join["type"] : "";
+                $type = $join["type"];
                 $table = $join["table"];
-                $alias = empty($join["alias"]) ? "" : " AS `" . $join["alias"] . "`";
+                $alias = $join["alias"] === "" ? "" : " AS `" . $join["alias"] . "`";
 
                 $segments[] = $this->createTranslatedClause("${type}JOIN", "`${table}`${alias}", $params);
             }
