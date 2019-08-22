@@ -14,9 +14,7 @@ use function is_string;
 abstract class AbstractPdoConnection implements ConnectionInterface
 {
     protected array $settings;
-    /**
-     * @var PDO|null
-     */
+    /** @var PDO|null */
     private $pdo;
     private DriverInterface $driver;
     private Logger $logger;

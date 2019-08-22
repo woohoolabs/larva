@@ -73,6 +73,9 @@ class ConnectionFactory
         );
     }
 
+    /**
+     * @param array<string, mixed> $array
+     */
     private function createMySqlConnectionFromArray(array $array): MySqlPdoConnection
     {
         return new MySqlPdoConnection(

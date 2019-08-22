@@ -12,9 +12,7 @@ class DeleteQueryBuilder implements DeleteQueryBuilderInterface, DeleteQueryInte
 {
     private string $from = "";
 
-    /**
-     * @var ConditionsInterface|null
-     */
+    /** @var ConditionsInterface|null */
     private $where;
 
     public static function create(): DeleteQueryBuilderInterface

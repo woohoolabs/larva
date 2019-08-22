@@ -13,9 +13,7 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
     private array $table = [];
     private array $values = [];
 
-    /**
-     * @var ConditionsInterface|null
-     */
+    /** @var ConditionsInterface|null */
     private $where;
 
     public static function create(): UpdateQueryBuilderInterface
