@@ -1,6 +1,5 @@
 vendor/
 .phpcs-cache
-composer.lock
 phpunit.xml
 .phpunit.result.cache
 .env

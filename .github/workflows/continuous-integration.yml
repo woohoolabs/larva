@@ -44,7 +44,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install php7.4 php7.4-mbstring php7.4-mysql php7.4-xml
 
-      - name: "Install locked dependencies with composer"
+      - name: "Install dependencies with composer"
         run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
 
       - name: "Run phpstan/phpstan"
@@ -80,7 +80,7 @@ jobs:
 
       - name: "Install highest dependencies with composer"
         if: matrix.dependencies == 'highest'
-        run: ${{ matrix.php-binary }} $(which composer) install --no-interaction --no-progress --no-suggest
+        run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest
 
       - name: "Run unit tests"
         run: ${{ matrix.php-binary }} vendor/bin/phpunit
