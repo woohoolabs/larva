@@ -48,7 +48,7 @@ class ConnectionFactory
             case "mysql":
                 return $this->createMySqlConnectionFromArray($connection);
             default:
-                throw new DomainException("Driver \"{$this->config["driver"]}\" does not exist!");
+                throw new DomainException("Driver \"{$connection["driver"]}\" does not exist!");
         }
     }
 
