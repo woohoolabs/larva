@@ -6,6 +6,7 @@ namespace WoohooLabs\Larva\Connection;
 use DomainException;
 use function count;
 use function in_array;
+use function is_array;
 use function random_int;
 
 class ConnectionFactory
@@ -57,7 +58,7 @@ class ConnectionFactory
             throw new DomainException("Master connection name isn't supplied!");
         }
 
-        if (empty($connection["slaves"])) {
+        if (isset($connection["slaves"]) === false || is_array($connection["slaves"]) === false || $connection["slaves"] === []) {
             throw new DomainException("Slave connection names aren't supplied!");
         }
 
