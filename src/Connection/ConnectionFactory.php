@@ -51,44 +51,44 @@ class ConnectionFactory
         }
     }
 
-    private function createMasterSlaveConnectionFromArray(string $name, array $array): MasterSlaveConnection
+    private function createMasterSlaveConnectionFromArray(string $name, array $connection): MasterSlaveConnection
     {
-        if (isset($array["master"]) === false) {
+        if (isset($connection["master"]) === false) {
             throw new DomainException("Master connection name isn't supplied!");
         }
 
-        if (isset($array["slaves"]) === false) {
+        if (empty($connection["slaves"])) {
             throw new DomainException("Slave connection names aren't supplied!");
         }
 
-        if ($array["master"] === $name || in_array($name, $array["slaves"], true)) {
+        if ($connection["master"] === $name || in_array($name, $connection["slaves"], true)) {
             throw new DomainException("Master and slave connections can't be the same as the parent connection!");
         }
 
-        $slaveNumber = random_int(0, count($array["slaves"]));
+        $slaveNumber = random_int(0, count($connection["slaves"]) - 1);
 
         return MasterSlaveConnection::create(
-            $this->createConnection($array["master"]),
-            $this->createConnection($array["slaves"][$slaveNumber])
+            $this->createConnection($connection["master"]),
+            $this->createConnection($connection["slaves"][$slaveNumber])
         );
     }
 
     /**
-     * @param array<string, mixed> $array
+     * @param array<string, mixed> $connection
      */
-    private function createMySqlConnectionFromArray(array $array): MySqlPdoConnection
+    private function createMySqlConnectionFromArray(array $connection): MySqlPdoConnection
     {
         return new MySqlPdoConnection(
-            $array["host"] ?? "",
-            $array["port"] ?? 3306,
-            $array["database"] ?? "",
-            $array["user"] ?? "",
-            $array["password"] ?? "",
-            $array["charset"] ?? "utf8mb4",
-            $array["collation"] ?? "utf8mb4_unicode_ci",
-            $array["modes"] ?? [],
-            $array["options"] ?? [],
-            $array["log"] ?? false
+            $connection["host"] ?? "",
+            $connection["port"] ?? 3306,
+            $connection["database"] ?? "",
+            $connection["user"] ?? "",
+            $connection["password"] ?? "",
+            $connection["charset"] ?? "utf8mb4",
+            $connection["collation"] ?? "utf8mb4_unicode_ci",
+            $connection["modes"] ?? [],
+            $connection["options"] ?? [],
+            $connection["log"] ?? false
         );
     }
 }
