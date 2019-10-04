@@ -13,7 +13,7 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
     private string $into = "";
     private array $columns = [];
     private array $values = [];
-    private ?SelectQueryInterface $select;
+    private ?SelectQueryInterface $select = null;
 
     public static function create(): InsertQueryBuilderInterface
     {

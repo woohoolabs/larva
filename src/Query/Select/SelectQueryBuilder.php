@@ -16,12 +16,12 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     private array $from = [];
     private array $aggregate = [];
     private array $join = [];
-    private ?ConditionsInterface $where;
+    private ?ConditionsInterface $where = null;
     private array $groupBy = [];
-    private ?ConditionsInterface $having;
+    private ?ConditionsInterface $having = null;
     private array $orderBy = [];
-    private ?int $limit;
-    private ?int $offset;
+    private ?int $limit = null;
+    private ?int $offset = null;
     private array $unions = [];
     private array $lock = [];
 

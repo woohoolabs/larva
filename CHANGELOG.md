@@ -8,6 +8,12 @@ REMOVED:
 
 FIXED:
 
+## 0.7.2 - 2019-10-04
+
+FIXED:
+
+- Lazy initialization of some object properties
+
 ## 0.7.1 - 2019-10-04
 
 CHANGED:
