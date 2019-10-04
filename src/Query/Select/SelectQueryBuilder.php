@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Select;
@@ -15,21 +16,12 @@ class SelectQueryBuilder implements SelectQueryBuilderInterface, SelectQueryInte
     private array $from = [];
     private array $aggregate = [];
     private array $join = [];
-
-    /** @var ConditionsInterface|null */
-    private $where;
-
+    private ?ConditionsInterface $where;
     private array $groupBy = [];
-
-    /** @var ConditionsInterface|null */
-    private $having;
+    private ?ConditionsInterface $having;
     private array $orderBy = [];
-
-    /** @var int|null */
-    private $limit;
-
-    /** @var int|null */
-    private $offset;
+    private ?int $limit;
+    private ?int $offset;
     private array $unions = [];
     private array $lock = [];
 

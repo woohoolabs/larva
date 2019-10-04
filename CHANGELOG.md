@@ -8,6 +8,13 @@ REMOVED:
 
 FIXED:
 
+## 0.7.1 - 2019-10-04
+
+CHANGED:
+
+- Improved PSR-12 conformance
+- Added more type declarations
+
 ## 0.7.0 - 2019-08-21
 
 CHANGED:

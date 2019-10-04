@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Update;
@@ -12,9 +13,7 @@ class UpdateQueryBuilder implements UpdateQueryBuilderInterface, UpdateQueryInte
 {
     private array $table = [];
     private array $values = [];
-
-    /** @var ConditionsInterface|null */
-    private $where;
+    private ?ConditionsInterface $where;
 
     public static function create(): UpdateQueryBuilderInterface
     {

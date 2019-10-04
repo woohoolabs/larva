@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Connection;
@@ -7,6 +8,7 @@ use Closure;
 use PDO;
 use PDOStatement;
 use WoohooLabs\Larva\Driver\DriverInterface;
+
 use function is_float;
 use function is_int;
 use function is_string;
@@ -14,8 +16,7 @@ use function is_string;
 abstract class AbstractPdoConnection implements ConnectionInterface
 {
     protected array $settings;
-    /** @var PDO|null */
-    private $pdo;
+    private ?PDO $pdo;
     private DriverInterface $driver;
     private Logger $logger;
 

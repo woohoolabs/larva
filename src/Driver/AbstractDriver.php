@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Driver;
@@ -11,16 +12,11 @@ use WoohooLabs\Larva\Query\Update\UpdateQueryInterface;
 
 abstract class AbstractDriver implements DriverInterface
 {
-    /** @var SelectTranslatorInterface|null */
-    private $selectTranslator;
-    /** @var InsertTranslatorInterface|null */
-    private $insertTranslator;
-    /** @var UpdateTranslatorInterface|null */
-    private $updateTranslator;
-    /** @var DeleteTranslatorInterface|null */
-    private $deleteTranslator;
-    /** @var TruncateTranslatorInterface|null */
-    private $truncateTranslator;
+    private ?SelectTranslatorInterface $selectTranslator;
+    private ?InsertTranslatorInterface $insertTranslator;
+    private ?UpdateTranslatorInterface $updateTranslator;
+    private ?DeleteTranslatorInterface $deleteTranslator;
+    private ?TruncateTranslatorInterface $truncateTranslator;
 
     abstract protected function createSelectTranslator(): SelectTranslatorInterface;
 

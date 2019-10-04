@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Query\Insert;
@@ -12,8 +13,7 @@ class InsertQueryBuilder implements InsertQueryBuilderInterface, InsertQueryInte
     private string $into = "";
     private array $columns = [];
     private array $values = [];
-    /** @var SelectQueryInterface|null */
-    private $select;
+    private ?SelectQueryInterface $select;
 
     public static function create(): InsertQueryBuilderInterface
     {

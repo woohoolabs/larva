@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Driver\MySql;
@@ -8,6 +9,7 @@ use WoohooLabs\Larva\Driver\InsertTranslatorInterface;
 use WoohooLabs\Larva\Driver\SelectTranslatorInterface;
 use WoohooLabs\Larva\Driver\TranslatedQuerySegment;
 use WoohooLabs\Larva\Query\Insert\InsertQueryInterface;
+
 use function array_fill;
 use function array_merge;
 use function array_values;

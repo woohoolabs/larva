@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace WoohooLabs\Larva\Connection;
 
 use DomainException;
+
 use function count;
 use function in_array;
 use function is_array;
