@@ -23,6 +23,15 @@ jobs:
       - name: "Validate composer.json"
         run: php7.4 $(which composer) validate --strict
 
+      - name: "Caching"
+        uses: actions/cache@master
+        with:
+          path: vendor/
+          key: vendor-${{ checksum "composer.lock" }}
+          restore-keys: |
+            vendor-${{ branch }}-
+            vendor-
+
       - name: "Install dependencies with composer"
         run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
 
