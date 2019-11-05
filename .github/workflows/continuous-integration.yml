@@ -23,17 +23,15 @@ jobs:
       - name: "Validate composer.json"
         run: php7.4 $(which composer) validate --strict
 
-      - name: "Caching"
+      - name: "Cache dependencies"
         uses: actions/cache@master
         with:
           path: vendor/
-          key: vendor-${{ checksum "composer.lock" }}
-          restore-keys: |
-            vendor-${{ branch }}-
-            vendor-
+          key: vendor-${{ hashFiles("composer.lock")}}
 
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+        if: steps.cache.outputs.cache-hit != "true"
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
 
       - name: "Run PHP CodeSniffer"
         run: php7.4 vendor/bin/phpcs --standard=phpcs.xml
@@ -53,8 +51,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install php7.4 php7.4-mbstring php7.4-mysql php7.4-xml
 
+      - name: "Cache dependencies"
+        uses: actions/cache@master
+        with:
+          path: vendor/
+          key: vendor-${{ hashFiles("composer.lock")}}
+
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+        if: steps.cache.outputs.cache-hit != "true"
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
 
       - name: "Run phpstan/phpstan"
         run: php7.4 vendor/bin/phpstan analyse --level 7 src tests
@@ -83,6 +88,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install php7.4 php7.4-mbstring php7.4-mysql php7.4-xml
 
+      - name: "Cache dependencies"
+        uses: actions/cache@master
+        with:
+          path: vendor/
+          key: vendor-testing-${{ hashFiles("composer.lock")}}
+          restore-keys: |
+            vendor-${{ hashFiles("composer.lock")}}
+
       - name: "Install lowest dependencies with composer"
         if: matrix.dependencies == 'lowest'
         run: ${{ matrix.php-binary }} $(which composer) update --no-interaction --no-progress --no-suggest --prefer-lowest
@@ -109,8 +122,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install php7.4 php7.4-mbstring php7.4-mysql php7.4-xml
 
+      - name: "Cache dependencies"
+        uses: actions/cache@master
+        with:
+          path: vendor/
+          key: vendor-${{ hashFiles("composer.lock")}}
+
       - name: "Install dependencies with composer"
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
+        if: steps.cache.outputs.cache-hit != "true"
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
 
       - name: "Dump Xdebug filter with phpunit/phpunit"
         run: php7.4 vendor/bin/phpunit --dump-xdebug-filter=.build/phpunit/xdebug-filter.php
