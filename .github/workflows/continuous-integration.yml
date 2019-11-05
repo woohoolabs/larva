@@ -27,10 +27,10 @@ jobs:
         uses: actions/cache@master
         with:
           path: vendor/
-          key: vendor-${{ hashFiles("composer.lock")}}
+          key: vendor-${{ hashFiles('composer.lock')}}
 
       - name: "Install dependencies with composer"
-        if: steps.cache.outputs.cache-hit != "true"
+        if: steps.cache.outputs.cache-hit != 'true'
         run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
 
       - name: "Run PHP CodeSniffer"
@@ -55,10 +55,10 @@ jobs:
         uses: actions/cache@master
         with:
           path: vendor/
-          key: vendor-${{ hashFiles("composer.lock")}}
+          key: vendor-${{ hashFiles('composer.lock')}}
 
       - name: "Install dependencies with composer"
-        if: steps.cache.outputs.cache-hit != "true"
+        if: steps.cache.outputs.cache-hit != 'true'
         run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
 
       - name: "Run phpstan/phpstan"
@@ -92,9 +92,9 @@ jobs:
         uses: actions/cache@master
         with:
           path: vendor/
-          key: vendor-testing-${{ hashFiles("composer.lock")}}
+          key: vendor-testing-${{ hashFiles('composer.lock')}}
           restore-keys: |
-            vendor-${{ hashFiles("composer.lock")}}
+            vendor-${{ hashFiles('composer.lock')}}
 
       - name: "Install lowest dependencies with composer"
         if: matrix.dependencies == 'lowest'
@@ -126,10 +126,10 @@ jobs:
         uses: actions/cache@master
         with:
           path: vendor/
-          key: vendor-${{ hashFiles("composer.lock")}}
+          key: vendor-${{ hashFiles('composer.lock')}}
 
       - name: "Install dependencies with composer"
-        if: steps.cache.outputs.cache-hit != "true"
+        if: steps.cache.outputs.cache-hit != 'true'
         run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
 
       - name: "Dump Xdebug filter with phpunit/phpunit"
