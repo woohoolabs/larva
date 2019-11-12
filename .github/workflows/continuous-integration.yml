@@ -27,12 +27,13 @@ jobs:
         id: cache
         uses: actions/cache@v1
         with:
-          path: vendor/
-          key: vendor-${{ hashFiles('**/composer.lock')}}
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
 
       - name: "Run PHP CodeSniffer"
         run: php7.4 vendor/bin/phpcs --standard=phpcs.xml
@@ -56,12 +57,13 @@ jobs:
         uses: actions/cache@v1
         id: cache
         with:
-          path: vendor/
-          key: vendor-${{ hashFiles('**/composer.lock')}}
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
 
       - name: "Run phpstan/phpstan"
         run: php7.4 vendor/bin/phpstan analyse --level 7 src tests
@@ -94,10 +96,10 @@ jobs:
         id: cache
         uses: actions/cache@v1
         with:
-          path: vendor/
-          key: vendor-testing-${{ hashFiles('**/composer.lock')}}
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            vendor-${{ hashFiles('**/composer.lock')}}
+            ${{ runner.os }}-composer-
 
       - name: "Install lowest dependencies with composer"
         if: matrix.dependencies == 'lowest'
@@ -129,12 +131,13 @@ jobs:
         id: cache
         uses: actions/cache@v1
         with:
-          path: vendor/
-          key: vendor-${{ hashFiles('**/composer.lock')}}
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - name: "Install dependencies with composer"
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest --optimize-autoloader
+        run: php7.4 $(which composer) install --no-interaction --no-progress --no-suggest
 
       - name: "Dump Xdebug filter with phpunit/phpunit"
         run: php7.4 vendor/bin/phpunit --dump-xdebug-filter=.build/phpunit/xdebug-filter.php
