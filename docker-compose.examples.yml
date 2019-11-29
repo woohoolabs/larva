@@ -17,7 +17,7 @@ services:
             - larva-examples-php-fpm
 
     larva-examples-php-fpm:
-        image: woohoolabs/php-fpm:7.4.0beta2
+        image: woohoolabs/php-fpm:7.4.0
         container_name: larva-examples-php-fpm
         networks:
             - larva-examples
