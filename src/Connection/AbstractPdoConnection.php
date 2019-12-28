@@ -87,7 +87,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         return $this->executeSql(
             "BEGIN",
             [],
-            function () {
+            function (): bool {
                 return $this->getPdo()->beginTransaction();
             }
         );
@@ -98,7 +98,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         return $this->executeSql(
             "COMMIT",
             [],
-            function () {
+            function (): bool {
                 return $this->getPdo()->commit();
             }
         );
@@ -109,7 +109,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         return $this->executeSql(
             "ROLLBACK",
             [],
-            function () {
+            function (): bool {
                 return $this->getPdo()->rollBack();
             }
         );
@@ -175,7 +175,7 @@ abstract class AbstractPdoConnection implements ConnectionInterface
         return $this->executeSql(
             $sql,
             $params,
-            static function () use ($statement) {
+            static function () use ($statement): bool {
                 return $statement->execute();
             }
         );
