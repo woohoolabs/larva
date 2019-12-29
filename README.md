@@ -1,6 +1,6 @@
 # Woohoo Labs. Larva
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Latest Version on Packagist][ico-version]][link-version]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-build]][link-build]
 [![Coverage Status][ico-coverage]][link-coverage]
@@ -93,9 +93,9 @@ The MIT License (MIT). Please see the [License File](LICENSE.md) for more inform
 [ico-downloads]: https://img.shields.io/packagist/dt/woohoolabs/larva.svg
 [ico-support]: https://badges.gitter.im/woohoolabs/larva.svg
 
-[link-packagist]: https://packagist.org/packages/woohoolabs/larva
+[link-version]: https://packagist.org/packages/woohoolabs/larva
 [link-build]: https://github.com/woohoolabs/larva/actions
-[link-coverage]: https://scrutinizer-ci.com/g/woohoolabs/larva/code-structure
+[link-coverage]: https://codecov.io/gh/woohoolabs/larva
 [link-code-quality]: https://scrutinizer-ci.com/g/woohoolabs/larva
 [link-downloads]: https://packagist.org/packages/woohoolabs/larva
 [link-author]: https://github.com/kocsismate
