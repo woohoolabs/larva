@@ -87,7 +87,7 @@ The MIT License (MIT). Please see the [License File](LICENSE.md) for more inform
 
 [ico-version]: https://img.shields.io/packagist/v/woohoolabs/larva.svg
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
-[ico-build]: https://img.shields.io/github/workflow/status/woohoolabs/larva/Continuous Integration
+[ico-build]: https://img.shields.io/github/workflow/status/woohoolabs/larva/Continuous%20Integration
 [ico-coverage]: https://img.shields.io/codecov/c/github/woohoolabs/larva
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/woohoolabs/larva.svg
 [ico-downloads]: https://img.shields.io/packagist/dt/woohoolabs/larva.svg
