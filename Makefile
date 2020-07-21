@@ -21,7 +21,7 @@ test: ## Run PHPUnit for the unit tests
 	docker-compose run --rm --no-deps larva-php /bin/sh -c "./vendor/bin/phpunit"
 
 phpstan: ## Run PHPStan to perform static analysis
-	docker-compose run --rm --no-deps larva-php /bin/sh -c "./vendor/bin/phpstan analyse --level 7 src tests"
+	docker-compose run --rm --no-deps larva-php /bin/sh -c "./vendor/bin/phpstan analyse --level 8 src tests"
 
 cs: ## Run PHP CodeSniffer to detect issues with coding style
 	docker-compose run --rm --no-deps larva-php /code/vendor/bin/phpcs --standard=/code/phpcs.xml
