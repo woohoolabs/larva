@@ -29,5 +29,7 @@ cs: ## Run PHP CodeSniffer to detect issues with coding style
 cs-fix: ## Run PHPCBF to automatically fix issues with coding style
 	docker-compose run --rm --no-deps larva-php /code/vendor/bin/phpcbf --standard=/code/phpcs.xml
 
-release: test phpstan cs ## Release a new version of the library
+qa: test phpstan cs ## Test code quality
+
+release: qa ## Release a new version of the library
 	./vendor/bin/releaser release
