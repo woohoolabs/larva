@@ -50,8 +50,6 @@ class MySqlInsertTranslator extends AbstractQueryTranslator implements InsertTra
         }
         $columns = rtrim($columns, ", ");
 
-        implode(",", $query->getColumns());
-
         return [
             $this->createTranslatedClause("INSERT INTO", "`$into` ($columns)"),
         ];
