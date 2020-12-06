@@ -2,7 +2,7 @@ version: '2'
 
 services:
     larva-php:
-        image: woohoolabs/php-cli:7.4.0
+        image: woohoolabs/php-cli:7.4
         container_name: larva-php
         volumes:
             - .:/code
